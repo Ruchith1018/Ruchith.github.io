@@ -1,0 +1,470 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    line-height: 1.6;
+    background: #000; /* Black background */
+}
+
+/* Container */
+.container {
+    width: 85%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header Styles */
+header {
+    background: rgba(0, 0, 0, 0.8); /* Darker black background with opacity */
+    color: #fff;
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Sticky Header Styles */
+header.sticky {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* Animation for Header */
+header.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 20px;
+    color: #fff; /* White color for logo */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 15px;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: calc(0.1s * var(--i));
+}
+
+.nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #ff4d4d; /* Red color on hover */
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.hamburger .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px 0;
+    animation: slideIn 0.5s ease;
+}
+
+.hamburger.active .bar {
+    background-color: #ff4d4d; /* Change color when active */
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 60px 20px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)); /* Dark gradient */
+    color: #fff;
+    animation: fadeIn 1s ease-in-out;
+    flex-wrap: wrap;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    flex-wrap: wrap;
+}
+
+.hero-text {
+    flex: 1;
+    margin-right: 20px;
+    max-width: 600px;
+    animation: slideInFromLeft 1s ease-in-out;
+}
+
+.hero-text h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.hero-text h1 span {
+    color: #ff4d4d; /* Red highlight */
+    animation: fadeIn 2s ease-in-out;
+}
+
+.hero-text p {
+    font-size: 20px;
+    margin-bottom: 30px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.hero-buttons .btn {
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-size: 18px;
+    transition: background 0.3s ease;
+    display: inline-block;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.primary-btn {
+    background-color: #ff4d4d; /* Red button */
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: #e03a3a; /* Darker red */
+}
+
+.secondary-btn {
+    background-color: transparent;
+    color: #ff4d4d;
+    border: 2px solid #ff4d4d;
+}
+
+.secondary-btn:hover {
+    background-color: rgba(255, 77, 77, 0.2); /* Light red on hover */
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    max-width: 400px;
+    margin: 20px 0;
+    animation: zoomIn 1s ease-in-out;
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Contact Form Styles */
+.contact-form {
+    padding: 50px 0;
+    text-align: center;
+    opacity: 0; /* Start hidden */
+    transform: translateY(20px); /* Start slightly below */
+    animation: fadeInUp 1s ease-in-out forwards; /* Animation */
+}
+
+.contact-form .container {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Apply blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Apply blur for Safari */
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    margin: 40px auto; /* Add margin for spacing */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Slight shadow */
+}
+
+.contact-form h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #fff; /* White text */
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff; /* White label text */
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent input fields */
+    color: #fff; /* White text in input fields */
+}
+
+.contact-form textarea {
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.contact-form button {
+    display: inline-block;
+    padding: 10px 30px;
+    border: none;
+    background-color: #ff4d4d;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-align: center;
+    width: auto; /* Reduce button width */
+}
+
+.contact-form button:hover {
+    background-color: #e03a3a;
+}
+
+/* Footer Styles */
+footer {
+    background: rgba(0, 0, 0, 0.8); /* Darker black background with opacity */
+    color: #fff;
+    padding: 30px 0;
+    text-align: center;
+    animation: fadeInUp 1s ease-in-out;
+    margin-top: 0; /* Remove gap between body and footer */
+}
+
+footer a {
+    color: #ff4d4d; /* Red color for links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #e03a3a; /* Darker red on hover */
+}
+
+/* Keyframes for Animations */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text {
+        margin-right: 0;
+        margin-bottom: 20px; /* Add margin below text */
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 15px; /* Increase spacing between buttons */
+    }
+
+    .hero-image {
+        margin-top: 20px;
+        max-width: 250px; /* Reduce image size on small screens */
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: -100%;
+        background: rgba(0, 0, 0, 0.9); /* Darker black background with opacity */
+        width: 100%;
+        transition: left 0.3s ease;
+        padding-top: 20px;
+        align-items: center; /* Center the items horizontally */
+    }
+
+    .nav-links li {
+        margin: 15px 0;
+        opacity: 1; /* Make sure the items are visible */
+        animation: none; /* Remove animation for the active state */
+    }
+
+    .nav-links.active {
+        left: 0;
+    }
+
+    footer a {
+        font-size: 16px;
+    }
+
+    .icon-link i {
+        font-size: 20px;
+    }
+
+    .contact-form {
+        padding: 30px 0;
+    }
+
+    .contact-form .container {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .contact-form h2 {
+        font-size: 24px;
+    }
+
+    .contact-form button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Background Strings */
+.background-strings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.background-strings::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    background-image: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+    animation: moveBackground 10s linear infinite;
+}
+
+@keyframes moveBackground {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+/* Ensure the background-strings container is positioned correctly */
+body {
+    position: relative;
+}
+
+/* Hero Section Adjustments */
+.hero {
+    position: relative;
+    z-index: 1;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)); /* Maintain existing gradient */
+}
+
+/* Responsive Styles for the Background Strings */
+@media (max-width: 768px) {
+    .background-strings::before {
+        animation: moveBackground 15s linear infinite; /* Slower animation on smaller screens */
+    }
+}

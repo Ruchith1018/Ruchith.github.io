@@ -1,0 +1,95 @@
+/* Academics Section Styles */
+.academics {
+    padding: 80px 20px 40px; /* Increased top padding to create space from the header */
+    background-color: rgba(0, 0, 0, 0.9); /* Darker black background */
+    color: #fff;
+    text-align: center;
+}
+
+.academics h2 {
+    margin-bottom: 30px;
+    font-size: 32px;
+    color: #ff4d4d; /* Red title color */
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.education-entry {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+    backdrop-filter: blur(5px); /* Apply reduced blur effect */
+    -webkit-backdrop-filter: blur(5px); /* Apply blur for Safari */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Slight shadow */
+    gap: 20px; /* Ensure gap between image and text */
+    animation: fadeIn 1s ease-in-out;
+    flex-wrap: wrap; /* Allow wrapping for better responsiveness */
+}
+
+.education-image {
+    flex: 1;
+    max-width: 120px; /* Ensure image doesn't dominate small screens */
+    margin: 0 auto; /* Center image on small screens */
+}
+
+.education-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.education-text {
+    flex: 2;
+    text-align: left;
+    max-width: 100%; /* Ensure full-width text on small screens */
+}
+
+.education-text h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.education-text p {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* Keyframes for Animations */
+@keyframes slideIn {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.education-entry {
+    animation: slideIn 1s ease-in-out; /* Apply the same animation for all entries */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .education-entry {
+        flex-direction: column; /* Stack elements vertically on small screens */
+        text-align: center;
+    }
+
+    .education-image {
+        max-width: 150px; /* Slightly larger image for medium screens */
+        margin-bottom: 15px;
+    }
+
+    .education-text h3 {
+        font-size: 22px;
+    }
+
+    .education-text p {
+        font-size: 14px;
+    }
+}
