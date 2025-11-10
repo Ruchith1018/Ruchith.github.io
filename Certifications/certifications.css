@@ -1,0 +1,165 @@
+.certifications {
+  padding: 140px 20px 80px;
+  text-align: center;
+}
+
+.certifications h2 {
+  color: #ff4d4d;
+  font-size: 36px;
+  margin-bottom: 40px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.cert-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  margin: 25px auto;
+  max-width: 850px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, background 0.3s ease;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+.cert-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.cert-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.cert-header img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-right: 15px;
+  background: #fff;
+}
+
+.cert-info {
+  flex: 1;
+  text-align: left;
+}
+
+.cert-info h3 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+  color: #ff4d4d;
+}
+
+.cert-details {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 20px;
+  transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.3s ease;
+  text-align: left;
+}
+
+.cert-card.active .cert-details {
+  max-height: 600px;
+  opacity: 1;
+  padding-bottom: 15px;
+}
+
+.cert-card.active .toggle-icon {
+  transform: rotate(180deg);
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+
+.hamburger .bar {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  margin: 5px 0;
+  transition: 0.3s ease;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: -100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    transition: left 0.3s ease;
+    padding: 20px 0;
+  }
+
+  .nav-links.active {
+    left: 0;
+  }
+
+  .hamburger.active .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .cert-header {
+    flex-direction: column;        /* Stack vertically */
+    align-items: center;           /* Center everything */
+    text-align: center;            /* Center text */
+  }
+
+  .cert-header img {
+    margin-bottom: 10px;
+  }
+
+  .cert-info {
+    text-align: center;            /* Keep text centered under image */
+    margin-bottom: 8px;
+  }
+
+  .toggle-icon {
+    margin-top: 5px;
+    color: #ff4d4d;                /* Optional: make it red on mobile for clarity */
+  }
+}
+
+
+
