@@ -64,3 +64,54 @@
     padding: 20px;
   }
 }
+
+/* ===== SKILL CARD GLOW + BREATHING EFFECT ===== */
+.skill-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  width: 180px;
+  text-align: center;
+  transition: all 0.4s ease-in-out;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 15px rgba(255, 77, 77, 0.15);
+  cursor: pointer;
+}
+
+/* 🔥 Hover: Glow + Breathing Neon Effect (same as profile pic) */
+.skill-card:hover {
+  transform: scale(1.08);
+  animation: glowPulse 1.5s infinite alternate;
+  box-shadow:
+    0 0 20px rgba(255, 77, 77, 0.6),
+    0 0 40px rgba(255, 0, 0, 0.3),
+    0 0 60px rgba(255, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ✨ Hover Image Animation */
+.skill-card:hover img {
+  transform: rotate(5deg) scale(1.1);
+}
+
+/* 🔁 Breathing Neon Animation (same shared keyframe across site) */
+@keyframes glowPulse {
+  from {
+    box-shadow:
+      0 0 20px rgba(255, 77, 77, 0.6),
+      0 0 40px rgba(255, 0, 0, 0.3);
+  }
+  to {
+    box-shadow:
+      0 0 40px rgba(255, 77, 77, 0.9),
+      0 0 80px rgba(255, 0, 0, 0.6);
+  }
+}
+
+/* 🧊 Remove flicker or lingering after unhover */
+.skill-card:active,
+.skill-card:focus,
+.skill-card {
+  animation: none;
+}
+

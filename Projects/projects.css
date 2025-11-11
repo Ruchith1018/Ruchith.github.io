@@ -214,3 +214,47 @@
   }
 }
 
+/* ===== PROJECT CARD GLOW + BREATHING EFFECT ===== */
+.project-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  margin: 25px auto;
+  max-width: 850px;
+  box-shadow: 0 0 15px rgba(255, 77, 77, 0.15);
+  transition: all 0.4s ease-in-out;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease-in-out;
+  cursor: pointer;
+}
+
+/* 🔥 Hover: Neon Glow + Zoom + Breathing Pulse (Same as All Other Sections) */
+.project-card:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.12);
+  animation: glowPulse 1.5s infinite alternate;
+  box-shadow:
+    0 0 20px rgba(255, 77, 77, 0.6),
+    0 0 40px rgba(255, 0, 0, 0.3),
+    0 0 60px rgba(255, 0, 0, 0.2);
+}
+
+/* 🧊 Clean Unhover (no lingering glow/flicker) */
+.project-card:active,
+.project-card:focus,
+.project-card {
+  animation: none;
+}
+
+/* ✨ Shared Red Neon Breathing Animation */
+@keyframes glowPulse {
+  from {
+    box-shadow:
+      0 0 20px rgba(255, 77, 77, 0.6),
+      0 0 40px rgba(255, 0, 0, 0.3);
+  }
+  to {
+    box-shadow:
+      0 0 40px rgba(255, 77, 77, 0.9),
+      0 0 80px rgba(255, 0, 0, 0.6);
+  }
+}

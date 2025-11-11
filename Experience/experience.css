@@ -100,3 +100,49 @@
     height: 80px;
   }
 }
+
+
+/* ===== EXPERIENCE CARD GLOW + BREATHING EFFECT ===== */
+.experience-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+  box-shadow: 0 0 15px rgba(255, 77, 77, 0.15);
+  transition: all 0.4s ease-in-out;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* 🔥 Hover: Neon Glow + Zoom + Breathing Pulse */
+.experience-card:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.12);
+  animation: glowPulse 1.5s infinite alternate;
+  box-shadow:
+    0 0 20px rgba(255, 77, 77, 0.6),
+    0 0 40px rgba(255, 0, 0, 0.3),
+    0 0 60px rgba(255, 0, 0, 0.2);
+}
+
+/* 🧊 Prevent lingering animation after unhover */
+.experience-card:active,
+.experience-card:focus,
+.experience-card {
+  animation: none;
+}
+
+/* ✨ Shared Breathing Glow Animation (same across site) */
+@keyframes glowPulse {
+  from {
+    box-shadow:
+      0 0 20px rgba(255, 77, 77, 0.6),
+      0 0 40px rgba(255, 0, 0, 0.3);
+  }
+  to {
+    box-shadow:
+      0 0 40px rgba(255, 77, 77, 0.9),
+      0 0 80px rgba(255, 0, 0, 0.6);
+  }
+}
+

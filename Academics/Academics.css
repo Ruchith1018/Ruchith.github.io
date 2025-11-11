@@ -123,3 +123,54 @@
     font-size: 14px;
   }
 }
+
+/* ===== ACADEMIC CARD GLOW + BREATHING EFFECT ===== */
+.education-entry {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  margin: 25px auto;
+  padding: 20px;
+  max-width: 850px;
+  box-shadow: 0 3px 10px rgba(255, 77, 77, 0.15);
+  transition: all 0.4s ease-in-out;
+  animation: fadeInUp 0.8s ease-in-out;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* 🔥 Hover: Zoom + Red Neon Glow (same as profile pic & skills) */
+.education-entry:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.12);
+  animation: glowPulse 1.5s infinite alternate;
+  box-shadow:
+    0 0 20px rgba(255, 77, 77, 0.6),
+    0 0 40px rgba(255, 0, 0, 0.3),
+    0 0 60px rgba(255, 0, 0, 0.2);
+}
+
+/* 🧊 Remove flicker after unhover */
+.education-entry:active,
+.education-entry:focus,
+.education-entry {
+  animation: none;
+}
+
+/* ✨ Shared glowing pulse animation */
+@keyframes glowPulse {
+  from {
+    box-shadow:
+      0 0 20px rgba(255, 77, 77, 0.6),
+      0 0 40px rgba(255, 0, 0, 0.3);
+  }
+  to {
+    box-shadow:
+      0 0 40px rgba(255, 77, 77, 0.9),
+      0 0 80px rgba(255, 0, 0, 0.6);
+  }
+}
+
