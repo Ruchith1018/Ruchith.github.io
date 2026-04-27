@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Experience</title>
+  <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="experience.css" />
   <link rel="stylesheet"
@@ -12,45 +13,56 @@
 </head>
 
 <body>
+  <canvas id="neural-canvas"></canvas>
   <!-- Header -->
   <header>
     <nav>
-      <div class="logo">
-        <a href="../index.html" style="color: white; text-decoration: none;">Balam Ruchith Balaji</a>
-      </div>
+      <div class="logo"><a href="../index.html">Ruchith Balam</a></div>
       <ul class="nav-links">
         <li><a href="../index.html">Home</a></li>
         <li><a href="../Academics/Academics.html">Academics</a></li>
         <li><a href="../Skills/skills.html">Skills</a></li>
         <li><a href="../Projects/projects.html">Projects</a></li>
         <li><a href="../Certifications/certifications.html">Certifications</a></li>
-        <li><a href="#contact">Contact Me</a></li>
       </ul>
-      <div class="hamburger">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
     </nav>
   </header>
 
-  <!-- Experience Section -->
-  <section id="experience" class="experience">
-    <div class="container">
+  <div class="container experience-container">
+    <section id="experience" class="experience">
       <h2>Experience</h2>
       <div class="experience-grid">
 
-        <!-- SG Analytics -->
-        <div class="experience-card">
+        <!-- SG Analytics Data Scientist -->
+        <div id="exp-sg-ds" class="experience-card">
           <div class="experience-header">
-            <img src="sganalytics.png" alt="SG Analytics" />
+            <img src="sganalytics.png" alt="SG Analytics" class="experience-logo" />
+            <div class="experience-info">
+              <h3>SG Analytics</h3>
+              <p>Data Scientist | Jan 2026 - Present</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="experience-details">
+            <ul>
+              <li>Engineered and own a production-grade LLM pipeline on <strong>AWS Bedrock (Claude)</strong> monitoring 200+ global companies across 91 locations, ingesting 800–1,000 articles/day via EventRegistry API with full audit logging.</li>
+              <li>Built structured classification and QC tagging workflows achieving <strong>96% decision accuracy</strong> (manually validated), using prompt engineering and automated quality checks.</li>
+              <li>Implemented semantic deduplication using <strong>Amazon Titan Embeddings</strong> and cosine similarity, eliminating cross-company and cross-day duplicate articles at scale.</li>
+              <li>Delivered concurrent LLM processing, ad-free semantic HTML content generation, and <strong>PostgreSQL</strong> batch ingestion pipeline supporting reliable daily production delivery.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SG Analytics Intern -->
+        <div id="exp-sg-intern" class="experience-card">
+          <div class="experience-header">
+            <img src="sganalytics.png" alt="SG Analytics" class="experience-logo" />
             <div class="experience-info">
               <h3>SG Analytics</h3>
               <p>Data Science Intern | Jan 2025 - July 2025</p>
             </div>
             <i class="fas fa-chevron-down toggle-icon"></i>
           </div>
-
           <div class="experience-details">
             <ul>
               <li>Developed a smart web crawler and data pipeline using <strong>Python, Scrapy, FastAPI, and AWS S3</strong>, automating the extraction of 500+ URLs/minute with 95% accuracy and visualizing results via an interactive <strong>Streamlit dashboard</strong>.</li>
@@ -61,16 +73,16 @@
           </div>
         </div>
 
-        <div class="experience-card">
+        <!-- Chegg -->
+        <div id="exp-chegg" class="experience-card">
           <div class="experience-header">
-            <img src="chegg.jpg" alt="Chegg" />
+            <img src="chegg.jpg" alt="Chegg" class="experience-logo" />
             <div class="experience-info">
               <h3>Chegg</h3>
-              <p>Subject Matter Expert | Nov 2023 - Present</p>
+              <p>Subject Matter Expert | Nov 2023 - Sep 2025</p>
             </div>
             <i class="fas fa-chevron-down toggle-icon"></i>
           </div>
-
           <div class="experience-details">
             <ul>
               <li>Delivered 400+ optimized solutions in <strong>C++, Python, Data Structures, Algorithms, and Optimization.</strong></li>
@@ -80,44 +92,53 @@
         </div>
 
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <!-- Contact Form -->
-  <section id="contact" class="contact-form">
-    <div class="container">
-      <h2>Contact Me</h2>
-      <form action="https://formspree.io/f/mqazjpee" method="post">
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required />
+  <!-- Contact Section -->
+  <div class="container contact-container">
+    <div class="contact-wrapper">
+      <div class="contact-left">
+        <section id="contact" class="contact-form">
+          <h2>Get in touch</h2>
+          <form action="https://formspree.io/f/mqazjpee" method="post">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your Name" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="your@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required placeholder="How can I help?"></textarea>
+            </div>
+            <button type="submit" class="btn primary-btn">Send Message</button>
+          </form>
+        </section>
+      </div>
+      <div class="contact-right">
+        <div class="quote-container">
+          <i class="fas fa-quote-left quote-icon"></i>
+          <p class="quote-text">It's easy to lie with statistics. It's hard to tell the truth without statistics.</p>
+          <i class="fas fa-quote-right quote-icon" style="float: right;"></i>
+          <p class="quote-author">— Andrejs Dunkels</p>
         </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required />
-        </div>
-        <div class="form-group">
-          <label for="message">Message:</label>
-          <textarea id="message" name="message" required></textarea>
-        </div>
-        <button type="submit" class="btn primary-btn">Send Message</button>
-      </form>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Footer -->
+  <!-- Minimal Footer -->
   <footer>
-    <div class="container">
-      <p>Get in touch:</p>
-      <p>Email: <a href="mailto:bl.ruchith@gmail.com">bl.ruchith@gmail.com</a></p>
-      <p>Connect with me:
-        <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i
-            class="fab fa-linkedin"></i></a> |
-        <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i
-            class="fab fa-github"></i></a>
-        <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i
-            class="fab fa-instagram"></i></a>
-      </p>
+    <div class="footer-left">
+      <p>© 2026 Ruchith Balam • Data Scientist</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:bl.ruchith@gmail.com" class="icon-link"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i class="fab fa-instagram"></i></a>
     </div>
   </footer>
 

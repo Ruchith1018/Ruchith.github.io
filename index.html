@@ -4,91 +4,168 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Balam Ruchith Balaji</title>
+  <title>Ruchith Balam | Data Scientist</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="styles.css" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body>
+  <canvas id="neural-canvas"></canvas>
   <!-- Header -->
   <header>
     <nav>
-      <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">Balam Ruchith Balaji</a></div>
+      <div class="logo"><a href="index.html">Ruchith Balam</a></div>
       <ul class="nav-links">
         <li><a href="Academics/Academics.html">Academics</a></li>
         <li><a href="Experience/experience.html">Experience</a></li>
         <li><a href="Skills/skills.html">Skills</a></li>
         <li><a href="Projects/projects.html">Projects</a></li>
         <li><a href="Certifications/certifications.html">Certifications</a></li>
-        <li><a href="#contact">Contact Me</a></li>
       </ul>
-      <div class="hamburger">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
     </nav>
   </header>
 
   <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-text">
-          <h1>Hello, I'm <span>Ruchith Balaji</span></h1>
-          <p>Hello! I’m Balam Ruchith Balaji, a passionate developer who loves building impactful and
-            innovative solutions in the tech world.</p>
-          <div class="hero-buttons">
-            <a href="resume__.pdf" class="btn primary-btn">Download CV</a>
-            <a href="#contact" class="btn secondary-btn">Contact Me</a>
+  <div class="container hero-container">
+    <section id="home" class="hero">
+      <div class="hero-text">
+        <h1>DATA SCIENTIST</h1>
+        <p><strong>Data Scientist</strong> with hands-on production experience designing <strong>LLM
+            pipelines</strong>, <strong>RAG architectures</strong>, and <strong>MLOps infrastructure on AWS</strong> at
+          scale. Track record of delivering <strong>96% classification accuracy</strong> across a live 51-category news
+          intelligence system monitoring <strong>200+ global companies</strong> & 91 global locations. Skilled in
+          <strong>AWS Bedrock</strong>, <strong>LangChain</strong>, <strong>NLP</strong>, and <strong>semantic
+            search</strong>. Published researcher and full-stack AI developer - open to relocate to
+          <strong>Singapore</strong> or <strong>Australia</strong>.
+        </p>
+        <div class="hero-buttons">
+          <a href="resume__.pdf" class="btn primary-btn">Download CV</a>
+          <a href="#contact" class="btn secondary-btn">Contact Me</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="Profile_Pic.jpeg" alt="Ruchith Balam" />
+      </div>
+    </section>
+  </div>
+
+  <!-- Experience Section -->
+  <div class="container timeline-container">
+    <section id="experience" class="timeline-section">
+      <div class="section-header">
+        <h2>Experience</h2>
+        <a href="Experience/experience.html" class="view-all-btn">
+          <span>Explore All</span>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item left">
+          <div class="timeline-content">
+            <img src="Experience/sganalytics.png" alt="SG Analytics" class="experience-logo">
+            <div class="experience-info">
+              <h3>SG Analytics</h3>
+              <p>Data Scientist</p>
+              <span class="date">Jan 2026 - Present</span>
+              <a href="Experience/experience.html#exp-sg-ds" class="know-more">Know More</a>
+            </div>
+            <span class="status-indicator status-active"></span>
           </div>
         </div>
-        <div class="hero-image">
-          <img src="Profile_Pic.jpeg" alt="Your Name" />
+        <div class="timeline-item right">
+          <div class="timeline-content">
+            <img src="Experience/sganalytics.png" alt="SG Analytics" class="experience-logo">
+            <div class="experience-info">
+              <h3>SG Analytics</h3>
+              <p>Data Science Intern</p>
+              <span class="date">Jan 2025 - July 2025</span>
+              <a href="Experience/experience.html#exp-sg-intern" class="know-more">Know More</a>
+            </div>
+            <span class="status-indicator status-completed"></span>
+          </div>
+        </div>
+        <div class="timeline-item left">
+          <div class="timeline-content">
+            <img src="Experience/chegg.jpg" alt="Chegg" class="experience-logo">
+            <div class="experience-info">
+              <h3>Chegg</h3>
+              <p>Subject Matter Expert</p>
+              <span class="date">Nov 2023 - Sep 2025</span>
+              <a href="Experience/experience.html#exp-chegg" class="know-more">Know More</a>
+            </div>
+            <span class="status-indicator status-completed"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- GitHub Contributions Section -->
+  <div class="container github-container">
+    <section id="github-contributions" class="github-section">
+      <div class="section-header">
+        <h2>GitHub Contributions</h2>
+      </div>
+      <div class="github-chart">
+        <!-- Reliable SVG Heatmap in a white box -->
+        <div class="chart-wrapper" id="github-svg-container" style="position: relative;">
+          <!-- Interactive SVG will be injected here -->
+          <div id="github-tooltip"></div>
+        </div>
+        <div class="github-stats" style="margin-top: 20px;">
+            <p>Check out my full profile and contributions directly on <a href="https://github.com/Ruchith1018" target="_blank">GitHub</a>.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="container contact-container">
+    <div class="contact-wrapper">
+      <div class="contact-left">
+        <section id="contact" class="contact-form">
+          <h2>Get in touch</h2>
+          <form action="https://formspree.io/f/mqazjpee" method="post">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your Name" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="your@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required placeholder="How can I help?"></textarea>
+            </div>
+            <button type="submit" class="btn primary-btn">Send Message</button>
+          </form>
+        </section>
+      </div>
+      <div class="contact-right">
+        <div class="quote-container">
+          <i class="fas fa-quote-left quote-icon"></i>
+          <p class="quote-text">It's easy to lie with statistics. It's hard to tell the truth without statistics.</p>
+          <i class="fas fa-quote-right quote-icon" style="float: right;"></i>
+          <p class="quote-author">— Andrejs Dunkels</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-
-  <!-- Contact Section -->
-  <section id="contact" class="contact-form">
-    <div class="container">
-      <h2>Contact Me</h2>
-      <form action="https://formspree.io/f/mqazjpee" method="post">
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required />
-        </div>
-        <div class="form-group">
-          <label for="message">Message:</label>
-          <textarea id="message" name="message" required></textarea>
-        </div>
-        <button type="submit" class="btn primary-btn">Send Message</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Footer -->
+  <!-- Minimal Footer -->
   <footer>
-    <div class="container">
-      <p>Get in touch:</p>
-      <p>Email: <a href="mailto:bl.ruchith@gmail.com">bl.ruchith@gmail.com</a></p>
-      <p>Connect with me:
-        <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i
-            class="fab fa-linkedin"></i></a> |
-        <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i
-            class="fab fa-github"></i></a> |
-        <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i
-            class="fab fa-instagram"></i></a>
-      </p>
+    <div class="footer-left">
+      <p>© 2026 Ruchith Balam • Data Scientist</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:bl.ruchith@gmail.com" class="icon-link"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i
+          class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i
+          class="fab fa-instagram"></i></a>
     </div>
   </footer>
 

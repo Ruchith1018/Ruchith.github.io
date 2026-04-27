@@ -5,110 +5,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Academics</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="Academics.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo"><a href="../index.html" style="color: white; text-decoration: none;">Balam Ruchith Balaji</a></div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../Experience/experience.html">Experience</a></li> <!-- Added -->
-                <li><a href="../Skills/skills.html">Skills</a></li>
-                <li><a href="../Projects/projects.html">Projects</a></li>
-                <li><a href="../Certifications/certifications.html">Certifications</a></li>
-                <li><a href="#contact">Contact Me</a></li>
-            </ul>
-            <div class="hamburger">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-        </nav>
-    </header>
+  <canvas id="neural-canvas"></canvas>
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="logo"><a href="../index.html">Ruchith Balam</a></div>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../Experience/experience.html">Experience</a></li>
+        <li><a href="../Skills/skills.html">Skills</a></li>
+        <li><a href="../Projects/projects.html">Projects</a></li>
+        <li><a href="../Certifications/certifications.html">Certifications</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <!-- Academics Section -->
-<!-- Academics Section -->
+  <div class="container academics-container">
     <section id="academics" class="academics">
-        <div class="container">
-            <h2>Academics</h2>
-            <div class="education-entry left-entry">
-                <div class="education-image">
-                    <img src="images/download.jpg" alt="B.Tech Image">
-                </div>
-                <div class="education-text">
-                    <h3>Bachelor of Technology in Artificial Intelligence</h3>
-                    <p><strong>Institution:</strong> Amrita School of Engineering, Bengaluru</p>
-                    <p><strong>Year:</strong> 2021 - 2025</p>
-                    <p><strong>CGPA:</strong> 8.2/10</p>
-                </div>
-            </div>
-            <div class="education-entry right-entry">
-                <div class="education-image">
-                    <img src="images/download.png" alt="Higher Secondary Image">
-                </div>
-                <div class="education-text">
-                    <h3>Intermediate Education</h3>
-                    <p><strong>Institution:</strong> Bhashyam Educational Instititions</p>
-                    <p><strong>Year:</strong> 2019 - 2021</p>
-                    <p><strong>Score:</strong> 973/1000</p>
-                </div>
-
-            </div>
-            <div class="education-entry left-entry">
-                <div class="education-image">
-                    <img src="images/images.png" alt="Secondary School Image">
-                </div>
-                <div class="education-text">
-                    <h3>Secondary School Education</h3>
-                    <p><strong>Institution:</strong> Bhashyam Public School</p>
-                    <p><strong>Year:</strong> 2018 - 2019</p>
-                    <p><strong>CGPA:</strong> 10/10</p>
-                </div>
-            </div>
+      <h2>Academics</h2>
+      <div class="education-grid">
+        <div class="education-entry">
+          <div class="education-image">
+            <img src="images/download.jpg" alt="Amrita University">
+          </div>
+          <div class="education-text">
+            <h3>Bachelor of Technology in Artificial Intelligence</h3>
+            <p><strong>Institution:</strong> Amrita School of Engineering, Bengaluru</p>
+            <p><strong>Year:</strong> 2021 - 2025</p>
+            <p><strong>CGPA:</strong> 8.2/10</p>
+          </div>
         </div>
+        <div class="education-entry">
+          <div class="education-image">
+            <img src="images/download.png" alt="Bhashyam Institutions">
+          </div>
+          <div class="education-text">
+            <h3>Intermediate Education</h3>
+            <p><strong>Institution:</strong> Bhashyam Educational Instititions</p>
+            <p><strong>Year:</strong> 2019 - 2021</p>
+            <p><strong>Score:</strong> 973/1000</p>
+          </div>
+        </div>
+        <div class="education-entry">
+          <div class="education-image">
+            <img src="images/images.png" alt="Bhashyam Public School">
+          </div>
+          <div class="education-text">
+            <h3>Secondary School Education</h3>
+            <p><strong>Institution:</strong> Bhashyam Public School</p>
+            <p><strong>Year:</strong> 2018 - 2019</p>
+            <p><strong>CGPA:</strong> 10/10</p>
+          </div>
+        </div>
+      </div>
     </section>
+  </div>
 
-        <!-- Contact Form Section -->
+  <!-- Contact Section -->
+  <div class="container contact-container">
+    <div class="contact-wrapper">
+      <div class="contact-left">
         <section id="contact" class="contact-form">
-            <div class="container">
-                <h2>Contact Me</h2>
-                <form action="https://formspree.io/f/mqazjpee" method="post">
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message:</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <button type="submit" class="btn primary-btn">Send Message</button>
-                </form>
+          <h2>Get in touch</h2>
+          <form action="https://formspree.io/f/mqazjpee" method="post">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your Name" />
             </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="your@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required placeholder="How can I help?"></textarea>
+            </div>
+            <button type="submit" class="btn primary-btn">Send Message</button>
+          </form>
         </section>
-
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>Get in touch:</p>
-            <p>Email: <a href="mailto:bl.ruchith@gmail.com">bl.ruchith@gmail.com</a></p>
-            <p>Connect with me:
-                <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i class="fab fa-linkedin"></i></a> |
-                <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i
-            class="fab fa-instagram"></i></a>
-            </p>
+      </div>
+      <div class="contact-right">
+        <div class="quote-container">
+          <i class="fas fa-quote-left quote-icon"></i>
+          <p class="quote-text">It's easy to lie with statistics. It's hard to tell the truth without statistics.</p>
+          <i class="fas fa-quote-right quote-icon" style="float: right;"></i>
+          <p class="quote-author">— Andrejs Dunkels</p>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimal Footer -->
+  <footer>
+    <div class="footer-left">
+      <p>© 2026 Ruchith Balam • Data Scientist</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:bl.ruchith@gmail.com" class="icon-link"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
 
     <!-- JavaScript -->
     <script src="../script.js"></script>

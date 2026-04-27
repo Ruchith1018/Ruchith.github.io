@@ -4,448 +4,425 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects</title>
+  <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="projects.css">
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
-  <!-- ✅ Global CSS (your exact style) -->
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body>
+  <canvas id="neural-canvas"></canvas>
+  <!-- Header -->
   <header>
     <nav>
-      <div class="logo"><a href="../index.html" style="color:white; text-decoration:none;">Balam Ruchith Balaji</a></div>
+      <div class="logo"><a href="../index.html">Ruchith Balam</a></div>
       <ul class="nav-links">
         <li><a href="../index.html">Home</a></li>
         <li><a href="../Experience/experience.html">Experience</a></li>
         <li><a href="../Academics/Academics.html">Academics</a></li>
         <li><a href="../Skills/skills.html">Skills</a></li>
         <li><a href="../Certifications/certifications.html">Certifications</a></li>
-        <li><a href="#contact">Contact</a></li>
       </ul>
-      <div class="hamburger">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
     </nav>
   </header>
 
-  <!-- Projects Section -->
-  <section class="projects">
-    <h2>Projects</h2>
-
-    <!-- 1 RL -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/rl.jpg" alt="">
-        <div class="project-info">
-          <h3>RL based agent for Space Invaders</h3>
-          <p>Course Project • July 2024</p>
+  <div class="container projects-container">
+    <section class="projects">
+      <h2>Projects</h2>
+      <div class="projects-grid">
+        
+        <!-- 1 RL -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/rl.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>RL based agent for Space Invaders</h3>
+              <p>Course Project • July 2024</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> Reinforcement Learning</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/RL%20based%20agent%20for%20Space%20Invaders" target="_blank">View on GitHub</a></p>
+          </div>
         </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
+
+        <!-- 2 Sarcasm -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/sarcasm.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Sarcasm Detection using Bert and GCN</h3>
+              <p>Course Project • July 2024</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> NLP & Deep Learning</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Sarcasm%20Detection%20using%20BERT%20and%20GCN" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 3 Drone -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/drone.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Drone Intrusion Detection</h3>
+              <p>Course Project • July 2024</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> Deep Learning</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Drone%20Intrusion%20Detection%20using%20Deep%20Learning" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 4 Text -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/text.png" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Text Readability Detection</h3>
+              <p>Course Project • Jan 2024</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> Deep Learning & NLP</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Text%20Readability%20Detection" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 5 Tomato -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/tomato.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Tomato Leaf Disease Detection</h3>
+              <p>Course Project • Jan 2024</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> Deep Learning</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Tomato%20Lead%20Disease%20detection%20using%20Deep%20Learning" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 6 Email -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/email.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Email Spam Detector Naive Bayes Classifier</h3>
+              <p>Course Project • Jan 2024</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> Machine Learning</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Spam%20Mail%20Detection%20using%20Bayes%20Networks" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 7 Diabetes -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/diabetes.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Diabetes Prediction using Machine Learning</h3>
+              <p>Course Project • Jan 2024</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> Machine Learning</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Diabetes_Prediction%20using%20Machine%20Learning" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 8 Face -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/face.webp" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Face Recognition Based Login Page</h3>
+              <p>Course Project • Jan 2024</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> HTML, CSS, JavaScript</p>
+            <p><strong>Type:</strong> Full Stack</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Face%20Recognition%20Login%20Page" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 9 Leishmania -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/leishmania.webp" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Leishmania Disease Detection using ML</h3>
+              <p>Course Project • June 2023</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> Machine Learning</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Lesishmania%20Disease%20Detection%20using%20%20Machine%20Learning" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 10 Maze -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/maze.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Maze Solving Robot</h3>
+              <p>Course Project • June 2023</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> Robotics</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Maze_Solving_Robot" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 11 Encryption -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/encryption.png" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Encryption & Decryption using Fourier Matrices</h3>
+              <p>Course Project • June 2023</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Matlab</p>
+            <p><strong>Type:</strong> Security</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Encryption%20and%20Decryption%20using%20Fourier%20Matrices" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 12 Letter -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/Letter.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Letter Recognition using ML</h3>
+              <p>Course Project • Jan 2023</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Type:</strong> Machine Learning</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Letter%20Recognition%20using%20Machine%20Learning" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 13 Welding -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/welding.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Welding Robot using Matlab</h3>
+              <p>Course Project • Jan 2023</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Matlab</p>
+            <p><strong>Type:</strong> Robotics</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Welding%20Robot%20Using%20Matlab" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 14 Mers -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/mers_sars.png" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Similarity Analysis of Mers and Sars</h3>
+              <p>Course Project • Jan 2023</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Similarity%20Analysis%20of%20Mers%20and%20Sars" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 15 Mesh -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/mesh.png" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Home Automation with Mesh Topology</h3>
+              <p>Course Project • Jan 2023</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Java</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/HOME%20AUTOMATION%20WITH%20MESH%20TOPOLOGY" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 16 C to Python -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/c2p.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>C to Python Compiler</h3>
+              <p>Course Project • July 2024</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Lex & Yacc</p>
+            <p><strong>Type:</strong> Compiler Design</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/C%20to%20Python%20Compiler" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 17 Phone -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/phone.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Phone Book Application using Java Structures</h3>
+              <p>Course Project • July 2022</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Java</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-1stYear/tree/main/Phone%20Book%20Application" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 18 Stacker -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/stacker.png" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Stacker Game Application using Jack Language</h3>
+              <p>Course Project • July 2022</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Jack Programming Language</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-1stYear/tree/main/Stacker%20Game%20Application" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 19 DNA -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/bidi.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>DNA to Protein Converter using Python</h3>
+              <p>Course Project • July 2022</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> Python</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-1stYear/tree/main/DNA2PROTIEN" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
+        <!-- 20 Counter -->
+        <div class="project-card">
+          <div class="project-header">
+            <img src="images/circuit_diagram.jpg" alt="" class="project-logo">
+            <div class="project-info">
+              <h3>Bidirectional Visitor Counter using Arduino</h3>
+              <p>Course Project • July 2022</p>
+            </div>
+            <i class="fas fa-chevron-down toggle-icon"></i>
+          </div>
+          <div class="project-details">
+            <p><strong>Language:</strong> C++</p>
+            <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-1stYear/tree/main/Bidirectional%20Visitor%20Counter%20using%20Arduino" target="_blank">View on GitHub</a></p>
+          </div>
+        </div>
+
       </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> Reinforcement Learning</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/RL%20based%20agent%20for%20Space%20Invaders" target="_blank">Click Me!!</a></p>
+    </section>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="container contact-container">
+    <div class="contact-wrapper">
+      <div class="contact-left">
+        <section id="contact" class="contact-form">
+          <h2>Get in touch</h2>
+          <form action="https://formspree.io/f/mqazjpee" method="post">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your Name" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="your@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required placeholder="How can I help?"></textarea>
+            </div>
+            <button type="submit" class="btn primary-btn">Send Message</button>
+          </form>
+        </section>
+      </div>
+      <div class="contact-right">
+        <div class="quote-container">
+          <i class="fas fa-quote-left quote-icon"></i>
+          <p class="quote-text">It's easy to lie with statistics. It's hard to tell the truth without statistics.</p>
+          <i class="fas fa-quote-right quote-icon" style="float: right;"></i>
+          <p class="quote-author">— Andrejs Dunkels</p>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- 2 Sarcasm -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/sarcasm.jpg" alt="">
-        <div class="project-info">
-          <h3>Sarcasm Detection using Bert and GCN</h3>
-          <p>Course Project • July 2024</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> NLP & Deep Learning</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Sarcasm%20Detection%20using%20BERT%20and%20GCN" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 3 Drone -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/drone.jpg" alt="">
-        <div class="project-info">
-          <h3>Drone Intrusion Detection</h3>
-          <p>Course Project • July 2024</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> Deep Learning</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Drone%20Intrusion%20Detection%20using%20Deep%20Learning" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 4 Text -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/text.png" alt="">
-        <div class="project-info">
-          <h3>Text Readability Detection</h3>
-          <p>Course Project • Jan 2024</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> Deep Learning & NLP</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Text%20Readability%20Detection" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 5 Tomato -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/tomato.jpg" alt="">
-        <div class="project-info">
-          <h3>Tomato Leaf Disease Detection</h3>
-          <p>Course Project • Jan 2024</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> Deep Learning</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Tomato%20Lead%20Disease%20detection%20using%20Deep%20Learning" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 6 Email -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/email.jpg" alt="">
-        <div class="project-info">
-          <h3>Email Spam Detector Naive Bayes Classifier</h3>
-          <p>Course Project • Jan 2024</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> Machine Learning</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Spam%20Mail%20Detection%20using%20Bayes%20Networks" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 7 Diabetes -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/diabetes.jpg" alt="">
-        <div class="project-info">
-          <h3>Diabetes Prediction using Machine Learning</h3>
-          <p>Course Project • Jan 2024</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> Machine Learning</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Diabetes_Prediction%20using%20Machine%20Learning" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 8 Face -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/face.webp" alt="">
-        <div class="project-info">
-          <h3>Face Recognition Based Login Page</h3>
-          <p>Course Project • Jan 2024</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> HTML, CSS, JavaScript</p>
-        <p><strong>Type:</strong> Full Stack</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/Face%20Recognition%20Login%20Page" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 9 Leishmania -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/leishmania.webp" alt="">
-        <div class="project-info">
-          <h3>Leishmania Disease Detection using ML</h3>
-          <p>Course Project • June 2023</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> Machine Learning</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Lesishmania%20Disease%20Detection%20using%20%20Machine%20Learning" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 10 Maze -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/maze.jpg" alt="">
-        <div class="project-info">
-          <h3>Maze Solving Robot</h3>
-          <p>Course Project • June 2023</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> Robotics</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Maze_Solving_Robot" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 11 Encryption -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/encryption.png" alt="">
-        <div class="project-info">
-          <h3>Encryption & Decryption using Fourier Matrices</h3>
-          <p>Course Project • June 2023</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Matlab</p>
-        <p><strong>Type:</strong> Security</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Encryption%20and%20Decryption%20using%20Fourier%20Matrices" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 12 Letter -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/Letter.jpg" alt="">
-        <div class="project-info">
-          <h3>Letter Recognition using ML</h3>
-          <p>Course Project • Jan 2023</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Type:</strong> Machine Learning</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Letter%20Recognition%20using%20Machine%20Learning" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 13 Welding -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/welding.jpg" alt="">
-        <div class="project-info">
-          <h3>Welding Robot using Matlab</h3>
-          <p>Course Project • Jan 2023</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Matlab</p>
-        <p><strong>Type:</strong> Robotics</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Welding%20Robot%20Using%20Matlab" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 14 Mers -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/mers_sars.png" alt="">
-        <div class="project-info">
-          <h3>Similarity Analysis of Mers and Sars</h3>
-          <p>Course Project • Jan 2023</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/Similarity%20Analysis%20of%20Mers%20and%20Sars" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 15 Mesh -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/mesh.png" alt="">
-        <div class="project-info">
-          <h3>Home Automation with Mesh Topology</h3>
-          <p>Course Project • Jan 2023</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Java</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-2ndYear/tree/main/HOME%20AUTOMATION%20WITH%20MESH%20TOPOLOGY" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 16 C to Python -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/c2p.jpg" alt="">
-        <div class="project-info">
-          <h3>C to Python Compiler</h3>
-          <p>Course Project • July 2024</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Lex & Yacc</p>
-        <p><strong>Type:</strong> Compiler Design</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-3rdYear/tree/main/C%20to%20Python%20Compiler" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 17 Phone -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/phone.jpg" alt="">
-        <div class="project-info">
-          <h3>Phone Book Application using Java Structures</h3>
-          <p>Course Project • July 2022</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Java</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-1stYear/tree/main/Phone%20Book%20Application" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 18 Stacker -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/stacker.png" alt="">
-        <div class="project-info">
-          <h3>Stacker Game Application using Jack Language</h3>
-          <p>Course Project • July 2022</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Jack Programming Language</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-1stYear/tree/main/Stacker%20Game%20Application" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 19 DNA -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/bidi.jpg" alt="">
-        <div class="project-info">
-          <h3>DNA to Protein Converter using Python</h3>
-          <p>Course Project • July 2022</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> Python</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-1stYear/tree/main/DNA2PROTIEN" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-
-    <!-- 20 Counter -->
-    <div class="project-card">
-      <div class="project-header">
-        <img src="images/circuit_diagram.jpg" alt="">
-        <div class="project-info">
-          <h3>Bidirectional Visitor Counter using Arduino</h3>
-          <p>Course Project • July 2022</p>
-        </div>
-        <i class="fas fa-chevron-down toggle-icon"></i>
-      </div>
-      <div class="project-details">
-        <p><strong>Language:</strong> C++</p>
-        <p><strong>Link:</strong> <a href="https://github.com/Ruchith1018/Btech-1stYear/tree/main/Bidirectional%20Visitor%20Counter%20using%20Arduino" target="_blank">Click Me!!</a></p>
-      </div>
-    </div>
-  </section>
-
-    <!-- Contact -->
-  <section id="contact" class="contact-form">
-    <div class="container">
-      <h2>Contact Me</h2>
-      <form action="https://formspree.io/f/mqazjpee" method="post">
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="message">Message:</label>
-          <textarea id="message" name="message" required></textarea>
-        </div>
-        <button type="submit" class="btn primary-btn">Send Message</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Footer -->
+  <!-- Minimal Footer -->
   <footer>
-    <p>Get in touch: <a href="mailto:bl.ruchith@gmail.com">bl.ruchith@gmail.com</a></p>
-    <p>Connect:
-      <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" target="_blank"><i class="fab fa-linkedin"></i></a> |
-      <a href="https://github.com/Ruchith1018" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i
-            class="fab fa-instagram"></i></a>
-    </p>
+    <div class="footer-left">
+      <p>© 2026 Ruchith Balam • Data Scientist</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:bl.ruchith@gmail.com" class="icon-link"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
   </footer>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  // ===== HAMBURGER MENU =====
-  const hamburger = document.querySelector(".hamburger");
-  const navLinks = document.querySelector(".nav-links");
-
-  if (hamburger && navLinks) {
-    hamburger.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
-      hamburger.classList.toggle("active");
-    });
-
-    document.querySelectorAll(".nav-links a").forEach(link => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("active");
-        hamburger.classList.remove("active");
+  <script src="../script.js"></script>
+  <script>
+    document.querySelectorAll('.project-header').forEach(header => {
+      header.addEventListener('click', () => {
+        header.parentElement.classList.toggle('active');
       });
     });
-  }
-
-  // ===== EXPAND / COLLAPSE CARDS =====
-  const allCards = document.querySelectorAll(".cert-card, .project-card");
-
-  allCards.forEach(card => {
-    const header = card.querySelector(".cert-header, .project-header");
-    if (header) {
-      header.addEventListener("click", () => {
-        // Close other cards
-        allCards.forEach(other => {
-          if (other !== card) other.classList.remove("active");
-        });
-
-        // Toggle the clicked one
-        card.classList.toggle("active");
-      });
-    }
-  });
-});
-</script>
-
-
-
+  </script>
 </body>
 </html>

@@ -1,209 +1,98 @@
 .certifications {
-  padding: 140px 20px 80px;
-  text-align: center;
+    padding: 20px 0;
 }
 
 .certifications h2 {
-  color: #ff4d4d;
-  font-size: 36px;
-  margin-bottom: 40px;
-  animation: fadeIn 1s ease-in-out;
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.certifications-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .cert-card {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 15px;
-  margin: 25px auto;
-  max-width: 850px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, background 0.3s ease;
-  overflow: hidden;
-  animation: fadeInUp 0.8s ease-in-out;
-}
-
-.cert-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.12);
+    background: var(--bg-black);
+    color: var(--text-white);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    transition: var(--transition);
 }
 
 .cert-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  cursor: pointer;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
 }
 
-.cert-header img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  border-radius: 10px;
-  margin-right: 15px;
-  background: #fff;
+.cert-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    background: white;
+    padding: 5px;
+    border-radius: 12px;
+    flex-shrink: 0;
 }
 
 .cert-info {
-  flex: 1;
-  text-align: left;
+    flex-grow: 1;
 }
 
 .cert-info h3 {
-  font-size: 20px;
-  margin-bottom: 5px;
+    color: var(--bg-yellow);
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin-bottom: 5px;
 }
 
-.toggle-icon {
-  transition: transform 0.3s ease;
-  color: #ff4d4d;
+.cert-info p {
+    font-weight: 700;
+    opacity: 0.9;
 }
 
 .cert-details {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  padding: 0 20px;
-  transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.3s ease;
-  text-align: left;
+    padding: 0 25px 25px 105px;
+    display: none;
+}
+
+.cert-details p {
+    margin-bottom: 10px;
+}
+
+.cert-details a {
+    color: var(--bg-yellow);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid var(--bg-yellow);
 }
 
 .cert-card.active .cert-details {
-  max-height: 600px;
-  opacity: 1;
-  padding-bottom: 15px;
+    display: block;
 }
 
 .cert-card.active .toggle-icon {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hamburger {
-  display: none;
-  cursor: pointer;
-}
-
-.hamburger .bar {
-  width: 25px;
-  height: 3px;
-  background-color: #fff;
-  margin: 5px 0;
-  transition: 0.3s ease;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
+.toggle-icon {
+    font-size: 1.2rem;
+    color: var(--bg-yellow);
+    transition: var(--transition);
 }
 
 @media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    left: -100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    transition: left 0.3s ease;
-    padding: 20px 0;
-  }
-
-  .nav-links.active {
-    left: 0;
-  }
-
-  .hamburger.active .bar:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .hamburger.active .bar:nth-child(2) {
-    opacity: 0;
-  }
-  .hamburger.active .bar:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
-}
-
-
-@media (max-width: 768px) {
-  .cert-header {
-    flex-direction: column;        /* Stack vertically */
-    align-items: center;           /* Center everything */
-    text-align: center;            /* Center text */
-  }
-
-  .cert-header img {
-    margin-bottom: 10px;
-  }
-
-  .cert-info {
-    text-align: center;            /* Keep text centered under image */
-    margin-bottom: 8px;
-  }
-
-  .toggle-icon {
-    margin-top: 5px;
-    color: #ff4d4d;                /* Optional: make it red on mobile for clarity */
-  }
-}
-
-
-
-/* ===== CERTIFICATION CARD GLOW + BREATHING EFFECT ===== */
-.cert-card {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 15px;
-  margin: 25px auto;
-  max-width: 850px;
-  box-shadow: 0 0 15px rgba(255, 77, 77, 0.15);
-  transition: all 0.4s ease-in-out;
-  overflow: hidden;
-  animation: fadeInUp 0.8s ease-in-out;
-  cursor: pointer;
-}
-
-/* 🔥 Hover: Neon Glow + Zoom + Breathing Effect */
-.cert-card:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.12);
-  animation: glowPulse 1.5s infinite alternate;
-  box-shadow:
-    0 0 20px rgba(255, 77, 77, 0.6),
-    0 0 40px rgba(255, 0, 0, 0.3),
-    0 0 60px rgba(255, 0, 0, 0.2);
-}
-
-/* 🧊 Prevent flicker or lingering glow on unhover */
-.cert-card:active,
-.cert-card:focus,
-.cert-card {
-  animation: none;
-}
-
-/* ✨ Shared Breathing Glow Animation (use across site) */
-@keyframes glowPulse {
-  from {
-    box-shadow:
-      0 0 20px rgba(255, 77, 77, 0.6),
-      0 0 40px rgba(255, 0, 0, 0.3);
-  }
-  to {
-    box-shadow:
-      0 0 40px rgba(255, 77, 77, 0.9),
-      0 0 80px rgba(255, 0, 0, 0.6);
-  }
+    .cert-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .cert-details {
+        padding: 20px;
+    }
 }
