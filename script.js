@@ -292,6 +292,28 @@
 })();
 
 
+// ===== PRELOADER DISMISSAL =====
+window.addEventListener('load', function () {
+  const minLoadingTime = 800; // at least 0.8s for smooth transition
+  const startTime = window.performance.timing.navigationStart;
+  const currentTime = new Date().getTime();
+  const elapsedTime = currentTime - startTime;
+
+  const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
+
+  if (document.documentElement.classList.contains('skip-loader')) {
+    document.body.classList.remove('loading');
+    document.body.classList.add('loaded');
+    return;
+  }
+
+  setTimeout(() => {
+    document.body.classList.remove('loading');
+    document.body.classList.add('loaded');
+  }, remainingTime);
+});
+
+
 document.addEventListener('DOMContentLoaded', function () {
   console.log("Script loaded - initializing features...");
 
@@ -425,4 +447,65 @@ document.addEventListener('mousemove', (e) => {
     el.style.transform = `translate(${moveX}px, ${moveY}px)`;
   });
 });
+
+// ===== DOCUMENTATION MODAL LOGIC =====
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('doc-modal');
+  const btn = document.getElementById('view-doc-btn');
+  const closeBtn = document.querySelector('.close-modal');
+  const content = document.getElementById('markdown-content');
+
+  if (modal && btn && closeBtn && content) {
+    btn.onclick = function() {
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+      
+      // Fetch README from GitHub
+      const readmeUrl = 'https://raw.githubusercontent.com/Ruchith1018/SWOT_ANALYSIS/master/README.md';
+      
+      fetch(readmeUrl)
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to load documentation');
+          return response.text();
+        })
+        .then(text => {
+          // Pre-process markdown to fix relative image paths
+          const rawBaseUrl = 'https://raw.githubusercontent.com/Ruchith1018/SWOT_ANALYSIS/master/';
+          // Replace relative image paths (e.g., assets/image.png) with absolute URLs
+          let processedText = text.replace(/!\[(.*?)\]\((?!http)(.*?)\)/g, (match, alt, path) => {
+            return `![${alt}](${rawBaseUrl}${path})`;
+          });
+          
+          // Also handle HTML <img> tags with relative sources
+          processedText = processedText.replace(/<img(.*?)src=["'](?!http)(.*?)["'](.*?)>/g, (match, before, path, after) => {
+            return `<img${before}src="${rawBaseUrl}${path}"${after}>`;
+          });
+
+          // Use marked to render the markdown
+          content.innerHTML = marked.parse(processedText);
+          content.classList.add('markdown-body'); // Ensure GitHub style is applied
+        })
+        .catch(err => {
+          content.innerHTML = `<div class="error-msg" style="text-align:center; padding: 50px;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444; margin-bottom: 20px;"></i>
+            <p>Error loading documentation: ${err.message}</p>
+            <p>Please check the repository directly on <a href="https://github.com/Ruchith1018/SWOT_ANALYSIS" target="_blank">GitHub</a>.</p>
+          </div>`;
+        });
+    }
+
+    closeBtn.onclick = function() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+  }
+});
+
 

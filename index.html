@@ -8,9 +8,35 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <!-- For Documentation Modal -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    (function() {
+      const navEntries = performance.getEntriesByType('navigation');
+      const navType = navEntries.length > 0 ? navEntries[0].type : '';
+      const hasSeenLoader = sessionStorage.getItem('loader-seen');
+
+      // Show loader only on fresh entry (not back/forward) or if explicitly reloaded
+      if (navType === 'reload' || !hasSeenLoader) {
+        sessionStorage.setItem('loader-seen', 'true');
+      } else {
+        // Skip loader
+        document.documentElement.classList.add('skip-loader');
+      }
+    })();
+  </script>
 </head>
 
-<body>
+<body class="loading">
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="preloader-content">
+      <div class="spinner"></div>
+      <p>Loading Profile</p>
+    </div>
+  </div>
+
   <canvas id="neural-canvas"></canvas>
   <!-- Header -->
   <header>
@@ -100,6 +126,81 @@
       </div>
     </section>
   </div>
+
+  <!-- Featured Projects Section -->
+  <div class="container projects-container">
+    <section id="featured-projects" class="projects-section">
+      <div class="section-header">
+        <h2>Featured Projects</h2>
+        <a href="Projects/projects.html" class="view-all-btn">
+          <span>View All</span>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+      <div class="featured-projects-grid">
+        <div class="featured-project-card">
+          <div class="project-image">
+            <img src="Projects/images/meridian_swot.png" alt="Meridian SWOT Analysis">
+          </div>
+          <div class="project-content">
+            <h3>Meridian SWOT Intelligence</h3>
+            <p>A high-performance RAG pipeline for automated company SWOT analysis using LLMs and real-time SEC data.</p>
+            <div class="project-tags">
+              <span>Python</span>
+              <span>FastAPI</span>
+              <span>LangChain</span>
+              <span>PostgreSQL</span>
+              <span>Nvidia NIM</span>
+              <span>Tavily</span>
+            </div>
+            <div class="project-links" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
+              <a href="javascript:void(0)" class="know-more" id="view-doc-btn" style="color: #2563eb; display: flex; align-items: center; gap: 5px;">
+                <i class="fas fa-file-alt"></i> View Documentation
+              </a>
+              <a href="https://github.com/Ruchith1018/SWOT_ANALYSIS" target="_blank" class="know-more" style="color: #000000; display: flex; align-items: center; gap: 5px;">
+                <i class="fab fa-github"></i> View GitHub
+              </a>
+              <a href="https://swot-analysis-u8ba.vercel.app/" target="_blank" class="know-more" style="color: #059669; display: flex; align-items: center; gap: 5px;">
+                <i class="fas fa-external-link-alt"></i> Live Site
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coming Soon Card -->
+        <div class="featured-project-card coming-soon">
+          <div class="project-image" style="background: #e2e8f0; display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-rocket" style="font-size: 5rem; color: #94a3b8; opacity: 0.5;"></i>
+          </div>
+          <div class="project-content" style="justify-content: center; align-items: center; text-align: center; opacity: 0.7;">
+            <h3 style="color: #64748b;">Coming Soon</h3>
+            <p>Another high-impact AI project is currently under development. Stay tuned for updates!</p>
+            <div class="project-tags">
+              <span style="background: #cbd5e1; color: #64748b;">Innovation</span>
+              <span style="background: #cbd5e1; color: #64748b;">AI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Documentation Modal -->
+  <div id="doc-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Project Documentation</h3>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div id="markdown-content" class="markdown-body">
+        <div class="loader-container">
+          <div class="loader"></div>
+          <p>Fetching documentation...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <!-- GitHub Contributions Section -->
   <div class="container github-container">
