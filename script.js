@@ -15,10 +15,16 @@
   const SPRING_STIFFNESS = 0.04; // lower = softer elastic
   const DAMPING = 0.82; // velocity damping (0-1, higher = less bounce)
   const IDLE_DRIFT_SPEED = 0.15; // subtle idle movement amplitude
-  const NODE_COLOR = 'rgba(0, 0, 0, 0.55)';
-  const NODE_HIGHLIGHT_COLOR = 'rgba(0, 0, 0, 0.85)';
-  const LINE_COLOR_BASE = [0, 0, 0]; // RGB
   const LINE_MAX_ALPHA = 0.25;
+
+  function getThemeColors() {
+    return {
+      node: 'rgba(0, 0, 0, 0.55)',
+      nodeHighlight: 'rgba(0, 0, 0, 0.85)',
+      line: [0, 0, 0],
+      glow: 'rgba(0, 0, 0, 0.15)'
+    };
+  }
 
   let connections = []; // pre-computed pairs [i, j] that are always connected
 
@@ -138,6 +144,7 @@
   // --- Draw ---
   function draw() {
     ctx.clearRect(0, 0, canvasW, canvasH);
+    const themeColors = getThemeColors();
 
     // Draw connections (pre-computed, never break)
     for (let c = 0; c < connections.length; c++) {
@@ -155,7 +162,7 @@
       ctx.beginPath();
       ctx.moveTo(a.x, a.y);
       ctx.lineTo(b.x, b.y);
-      ctx.strokeStyle = `rgba(${LINE_COLOR_BASE[0]}, ${LINE_COLOR_BASE[1]}, ${LINE_COLOR_BASE[2]}, ${alpha})`;
+      ctx.strokeStyle = `rgba(${themeColors.line[0]}, ${themeColors.line[1]}, ${themeColors.line[2]}, ${alpha})`;
       ctx.lineWidth = lineWidth;
       ctx.stroke();
     }
@@ -170,7 +177,7 @@
       if (isDragged || isHovered) {
         ctx.beginPath();
         const gradient = ctx.createRadialGradient(n.x, n.y, n.radius * 0.5, n.x, n.y, n.radius * 3.5);
-        gradient.addColorStop(0, 'rgba(0, 0, 0, 0.15)');
+        gradient.addColorStop(0, themeColors.glow);
         gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         ctx.fillStyle = gradient;
         ctx.arc(n.x, n.y, n.radius * 3.5, 0, Math.PI * 2);
@@ -180,7 +187,7 @@
       // Node circle
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
-      ctx.fillStyle = (isDragged || isHovered) ? NODE_HIGHLIGHT_COLOR : NODE_COLOR;
+      ctx.fillStyle = (isDragged || isHovered) ? themeColors.nodeHighlight : themeColors.node;
       ctx.fill();
 
       // Inner highlight for 3D-ish feel
@@ -507,5 +514,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
 
 

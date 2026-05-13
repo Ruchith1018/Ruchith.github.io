@@ -11,6 +11,8 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+
+
 * {
     margin: 0;
     padding: 0;
@@ -28,6 +30,27 @@ body {
     position: relative;
     opacity: 1;
     transition: opacity 0.8s ease-in-out;
+    scrollbar-color: var(--bg-black) var(--bg-yellow); /* Firefox support */
+    scrollbar-width: thin;
+}
+
+/* Custom Scrollbar Theme */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-yellow);
+    border: 1px solid #000000;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #eab308;
 }
 
 body.loading {
@@ -102,6 +125,120 @@ body.loaded {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Mobile Restriction Overlay */
+#mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #facc15; /* Force yellow background */
+    z-index: 10001;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+}
+
+.mobile-profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #000000;
+    margin-bottom: -40px; /* Overlap with the box */
+    z-index: 10004;
+    background: white;
+}
+
+.mobile-profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-overlay-box {
+    background: #facc15;
+    border: 4px solid #000000;
+    border-radius: 32px;
+    padding: 60px 30px 30px 30px;
+    z-index: 10003;
+    max-width: 90%;
+    position: relative;
+}
+
+.mobile-overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.mobile-overlay-content i {
+    font-size: 3rem;
+    margin-bottom: 5px;
+    color: #000000;
+    animation: pulse 2s infinite;
+}
+
+.mobile-overlay-content h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: #000000;
+}
+
+.mobile-overlay-content p {
+    font-size: 1rem;
+    font-weight: 700;
+    opacity: 0.9;
+    line-height: 1.4;
+    color: #000000;
+}
+
+.warning-stripes {
+    width: 100%;
+    height: 15px;
+    background: repeating-linear-gradient(
+        45deg,
+        #000000,
+        #000000 10px,
+        #facc15 10px,
+        #facc15 20px
+    );
+    background-size: 28.28px 28.28px; /* Perfect diagonal repeat for 20px stripe width */
+    animation: stripe-slide 0.6s linear infinite;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+@keyframes stripe-slide {
+    from { background-position: 0 0; }
+    to { background-position: 28.28px 0; }
+}
+
+@media screen and (max-width: 600px) {
+    #mobile-overlay {
+        display: flex;
+    }
+    body {
+        overflow: hidden !important;
+    }
+    #preloader, header, .container, footer {
+        display: none !important;
+    }
+    #neural-canvas {
+        z-index: 10002; /* Above the yellow overlay background but below content */
+        display: block !important;
+        opacity: 0.3; /* Subtle network effect on mobile */
+    }
 }
 
 /* Neural Network Background Canvas */
