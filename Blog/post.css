@@ -1,0 +1,410 @@
+/* Shared styles for every blog post (Blog/<slug>/index.html).
+   Post-specific tweaks go in that post's own style.css. */
+
+.nav-links li.nav-blog a {
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+}
+
+/* Two columns: article on the left, related posts on the right */
+.post-layout {
+    max-width: 1200px;
+    margin: 0 auto 15px auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 15px;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+}
+
+.post-layout > .container {
+    max-width: none;
+    margin: 0;
+}
+
+.post-container {
+    padding: 40px 50px;
+}
+
+/* Desktop: both boxes fit the screen and scroll inside, so the rounded
+   corners always stay visible. --post-offset (space above the boxes plus the
+   bottom gap) is measured by post.js; 130px is the fallback. */
+@media (min-width: 993px) {
+    .post-layout {
+        height: calc(100vh - var(--post-offset, 130px));
+        min-height: 480px;
+    }
+
+    .post-container {
+        height: 100%;
+        overflow-y: auto;
+        scrollbar-width: none;
+    }
+
+    /* Fixed height would otherwise squash flex children (e.g. the cover) */
+    .post-container > *,
+    .post-sidebar > * {
+        flex-shrink: 0;
+    }
+
+    .post-sidebar {
+        max-height: 100%;
+        overflow-y: auto;
+        scrollbar-width: none;
+    }
+
+    /* Scrollable, but no visible scrollbar inside the rounded boxes */
+    .post-container::-webkit-scrollbar,
+    .post-sidebar::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Related posts sidebar */
+.post-sidebar {
+    padding: 25px;
+    gap: 18px;
+}
+
+.post-sidebar h2 {
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--bg-black);
+}
+
+.related-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.related-card {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    padding: 8px;
+    background: white;
+    border: 2px solid var(--bg-black);
+    border-radius: 12px;
+    color: var(--text-black);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.related-card:hover,
+.related-card:focus-visible {
+    transform: translate(-4px, -4px);
+    box-shadow: 4px 4px 0 var(--bg-black);
+    outline: none;
+}
+
+.related-card img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    display: block;
+    border: 2px solid var(--bg-black);
+    border-radius: 8px;
+    background: var(--bg-black);
+}
+
+.related-card h3 {
+    font-size: 0.85rem;
+    font-weight: 900;
+    line-height: 1.2;
+    text-transform: uppercase;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.related-card time {
+    display: block;
+    margin-top: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.related-empty {
+    font-size: 0.95rem;
+    padding: 18px;
+    border: 2px dashed var(--bg-black);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.post-sidebar .back-link {
+    align-self: stretch;
+    justify-content: center;
+}
+
+@media (max-width: 992px) {
+    .post-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.back-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-black);
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.back-link:hover {
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+}
+
+/* Title block */
+.post-header {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.post-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.75;
+}
+
+.post-meta > * + *::before {
+    content: '•';
+    margin-right: 12px;
+}
+
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.post-tags a {
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.post-tags a:hover {
+    transform: translateY(-2px);
+}
+
+.post-cover {
+    border: 3px solid var(--bg-black);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: var(--bg-black);
+}
+
+.post-cover img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+/* Article body */
+.post-body {
+    font-size: 1.1rem;
+    line-height: 1.75;
+}
+
+.post-body > * + * {
+    margin-top: 1.2em;
+}
+
+.post-body h2 {
+    font-size: 1.7rem;
+    font-weight: 900;
+    line-height: 1.15;
+    text-transform: uppercase;
+    margin-top: 2em;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--bg-black);
+}
+
+.post-body h3 {
+    font-size: 1.3rem;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-top: 1.6em;
+}
+
+.post-body strong {
+    font-weight: 900;
+}
+
+.post-body a {
+    color: var(--text-black);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    transition: var(--transition);
+}
+
+.post-body a:hover {
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+    text-decoration: none;
+}
+
+.post-body ul,
+.post-body ol {
+    padding-left: 1.4em;
+}
+
+.post-body li + li {
+    margin-top: 0.4em;
+}
+
+.post-body code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85em;
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.post-body pre {
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+    border: 3px solid var(--bg-black);
+    border-radius: 12px;
+    padding: 20px;
+    overflow-x: auto;
+    line-height: 1.5;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.25);
+}
+
+.post-body pre code {
+    padding: 0;
+    font-size: 0.85rem;
+    background: none;
+}
+
+.post-body blockquote {
+    border-left: 6px solid var(--bg-black);
+    background: rgba(0, 0, 0, 0.06);
+    padding: 16px 20px;
+    border-radius: 0 12px 12px 0;
+    font-weight: 700;
+}
+
+.post-body figure img {
+    width: 100%;
+    display: block;
+    border: 3px solid var(--bg-black);
+    border-radius: var(--radius-card);
+    background: white;
+}
+
+.post-body figcaption {
+    margin-top: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    text-align: center;
+    opacity: 0.75;
+}
+
+.post-body hr {
+    border: none;
+    border-top: 3px solid var(--bg-black);
+    margin: 2.5em 0;
+}
+
+.post-body table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border: 3px solid var(--bg-black);
+    font-size: 0.95rem;
+}
+
+.post-body th,
+.post-body td {
+    padding: 10px 14px;
+    border: 2px solid var(--bg-black);
+    text-align: left;
+}
+
+.post-body th {
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.post-end {
+    padding-top: 25px;
+    border-top: 3px solid var(--bg-black);
+}
+
+@media (max-width: 600px) {
+    .post-container {
+        padding: 20px 18px;
+    }
+
+    .post-body {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .post-body h2 {
+        font-size: 1.4rem;
+    }
+
+    .post-body pre {
+        padding: 14px;
+        box-shadow: none;
+    }
+
+    .post-body pre code {
+        font-size: 0.78rem;
+    }
+
+    /* Wide tables scroll sideways instead of breaking the layout */
+    .post-body table {
+        display: block;
+        overflow-x: auto;
+    }
+}

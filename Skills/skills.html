@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skills</title>
+  <title>Skills | Ruchith Balam</title>
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="skills.css">
@@ -22,6 +22,7 @@
         <h1>DESKTOP ONLY</h1>
         <p>This experience is optimized for larger screens. Please switch to a desktop or laptop to explore the portfolio.</p>
         <div class="warning-stripes"></div>
+        <a href="../Blog/index.html" class="mobile-blog-btn"><i class="fas fa-pen-nib"></i> Read My Blog</a>
       </div>
     </div>
   </div>
@@ -38,118 +39,34 @@
         <li><a href="../Skills/skills.html">Skills</a></li>
         <li><a href="../Projects/projects.html">Projects</a></li>
         <li><a href="../Certifications/certifications.html">Certifications</a></li>
+        <li class="nav-blog"><a href="../Blog/index.html">Blog</a></li>
       </ul>
     </nav>
   </header>
 
-  <div class="container skills-page-container">
-    <!-- AI / ML & LLMs -->
-    <section class="bento-section">
-      <h2>AI / ML & LLMs</h2>
-      <div class="bento-grid">
-        <div class="skill-card skill-card-large">
-          <i class="fas fa-brain"></i>
-          <h3>AWS Bedrock (Claude)</h3>
-        </div>
-        <div class="skill-card"><i class="fas fa-link"></i><h3>LangChain</h3></div>
-        <div class="skill-card"><i class="fas fa-search-plus"></i><h3>RAG</h3></div>
-        <div class="skill-card"><i class="fas fa-terminal"></i><h3>Prompt Engineering</h3></div>
-        <div class="skill-card"><i class="fas fa-microchip"></i><h3>LLM Fine-Tuning</h3></div>
-        <div class="skill-card"><i class="fas fa-language"></i><h3>NLP</h3></div>
-        <div class="skill-card"><img src="SkillIages/tensorflow.svg" alt="TensorFlow"><h3>TensorFlow / Keras</h3></div>
-        <div class="skill-card"><i class="fas fa-calculator"></i><h3>Scikit-learn</h3></div>
-        <div class="skill-card"><img src="SkillIages/huggingface.svg" alt="Hugging Face"><h3>Hugging Face</h3></div>
-      </div>
+  <div class="container skills-container">
+    <section class="skills-intro">
+      <h1>Skills</h1>
+      <p>The stack I use to build LLM systems in production, and the foundations behind it. Select any skill to see the work and projects where I've used it.</p>
     </section>
 
-    <!-- Cloud & MLOps -->
-    <section class="bento-section">
-      <h2>Cloud & MLOps</h2>
-      <div class="bento-grid">
-        <div class="skill-card skill-card-large">
-          <img src="SkillIages/aws.svg" alt="AWS">
-          <h3>AWS S3</h3>
-        </div>
-        <div class="skill-card"><i class="fas fa-bolt"></i><h3>AWS Lambda</h3></div>
-        <div class="skill-card"><i class="fas fa-random"></i><h3>Concurrent LLM Processing</h3></div>
-        <div class="skill-card"><i class="fas fa-boxes"></i><h3>Batch Ingestion</h3></div>
-        <div class="skill-card skill-card-wide"><img src="SkillIages/docker.svg" alt="Docker"><h3>Docker</h3></div>
-      </div>
+    <section class="core-stack-section" aria-labelledby="core-stack-title">
+      <h2 id="core-stack-title">Core stack</h2>
+      <div id="core-stack" class="core-stack"></div>
     </section>
 
-    <!-- Databases & Languages -->
-    <section class="bento-section">
-      <h2>Databases & Languages</h2>
-      <div class="bento-grid">
-        <div class="skill-card skill-card-large">
-          <img src="SkillIages/python.png" alt="Python">
-          <h3>Python</h3>
-        </div>
-        <div class="skill-card"><img src="SkillIages/mongodb.png" alt="MongoDB"><h3>MongoDB</h3></div>
-        <div class="skill-card"><img src="SkillIages/mysql.svg" alt="MySQL"><h3>MySQL</h3></div>
-        <div class="skill-card"><i class="fas fa-cloud-upload-alt"></i><h3>Supabase</h3></div>
-        <div class="skill-card"><i class="fab fa-js-square"></i><h3>JavaScript</h3></div>
-        <div class="skill-card"><img src="SkillIages/cpp.png" alt="C++"><h3>C++</h3></div>
-        <div class="skill-card"><img src="SkillIages/typescript.svg" alt="TypeScript"><h3>TypeScript</h3></div>
-        <div class="skill-card skill-card-wide">
-          <img src="SkillIages/postgresql.svg" alt="PostgreSQL">
-          <h3>PostgreSQL</h3>
-        </div>
+    <!-- Skill groups are rendered by skills.js from skills-data.js -->
+    <div id="skill-groups" class="skill-groups"></div>
+
+    <section class="skills-cta">
+      <h2>See them in action</h2>
+      <p>Every linked skill points to real work. The full write-ups are on the projects page.</p>
+      <div class="skills-cta-links">
+        <a href="../Projects/projects.html" class="btn primary-btn">Browse Projects</a>
+        <a href="../Experience/experience.html" class="btn secondary-btn">Experience</a>
+        <a href="../index.html#contact" class="btn secondary-btn">Get in Touch</a>
       </div>
     </section>
-
-    <!-- Frameworks & Tools -->
-    <section class="bento-section frameworks-section">
-      <h2>Frameworks & Tools</h2>
-      <div class="bento-grid">
-        <div class="skill-card skill-card-large">
-          <img src="SkillIages/react.png" alt="ReactJS">
-          <h3>ReactJS</h3>
-        </div>
-        <div class="skill-card"><img src="SkillIages/node.png" alt="NodeJS"><h3>NodeJS</h3></div>
-        <div class="skill-card"><img src="SkillIages/express.png" alt="ExpressJS"><h3>ExpressJS</h3></div>
-        <div class="skill-card"><i class="fas fa-spider"></i><h3>Scrapy</h3></div>
-        <div class="skill-card"><img src="SkillIages/git.svg" alt="Git"><h3>Git</h3></div>
-        <div class="skill-card"><img src="SkillIages/fastapi.svg" alt="FastAPI"><h3>FastAPI</h3></div>
-        <div class="skill-card"><i class="fas fa-desktop"></i><h3>Streamlit</h3></div>
-        <div class="skill-card"><img src="SkillIages/vscode.svg" alt="VS Code"><h3>VS Code</h3></div>
-        <div class="skill-card"><img src="SkillIages/jupyter.svg" alt="Jupyter Notebook"><h3>Jupyter Notebook</h3></div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Contact Section -->
-  <div class="container contact-container">
-    <div class="contact-wrapper">
-      <div class="contact-left">
-        <section id="contact" class="contact-form">
-          <h2>Get in touch</h2>
-          <form action="https://formspree.io/f/mqazjpee" method="post">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required placeholder="Your Name" />
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required placeholder="your@email.com" />
-            </div>
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" required placeholder="How can I help?"></textarea>
-            </div>
-            <button type="submit" class="btn primary-btn">Send Message</button>
-          </form>
-        </section>
-      </div>
-      <div class="contact-right">
-        <div class="quote-container">
-          <i class="fas fa-quote-left quote-icon"></i>
-          <p class="quote-text">It's easy to lie with statistics. It's hard to tell the truth without statistics.</p>
-          <i class="fas fa-quote-right quote-icon" style="float: right;"></i>
-          <p class="quote-author">— Andrejs Dunkels</p>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Minimal Footer -->
@@ -168,5 +85,8 @@
   </footer>
 
   <script src="../script.js"></script>
+  <script src="../Projects/projects-data.js"></script>
+  <script src="skills-data.js"></script>
+  <script src="skills.js"></script>
 </body>
 </html>

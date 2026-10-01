@@ -1,0 +1,24 @@
+/* Styles for this post only. Shared post styling lives in ../post.css */
+
+/* DRAFT: remove .draft-banner, .draft-note and their elements when publishing */
+.draft-banner {
+    align-self: flex-start;
+    border-radius: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--bg-yellow);
+    background: var(--bg-black);
+    padding: 8px 14px;
+    border: 3px dashed var(--bg-yellow);
+    outline: 3px solid var(--bg-black);
+}
+
+.post-body .draft-note {
+    background: white;
+    border: 3px dashed var(--bg-black);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+}

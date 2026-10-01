@@ -227,6 +227,8 @@
 
   // --- Event handlers ---
   function onPointerDown(e) {
+    // On mobile-readable pages, touch-grabbing nodes would block scrolling
+    if (e.touches && document.body.classList.contains('allow-mobile')) return;
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     const cy = e.touches ? e.touches[0].clientY : e.clientY;
     mouseX = cx;

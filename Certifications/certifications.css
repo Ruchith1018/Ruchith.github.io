@@ -1,98 +1,280 @@
-.certifications {
-    padding: 20px 0;
-}
+/* Certifications page: intro tally + a wall of framed certificates with ribbon seals.
+   No hover effects by design. */
 
-.certifications h2 {
-    font-size: 2.5rem;
+.certs-intro h1 {
+    font-size: clamp(2.8rem, 8vw, 5rem);
     font-weight: 900;
+    line-height: 0.9;
     text-transform: uppercase;
-    margin-bottom: 40px;
+    margin-bottom: 15px;
 }
 
-.certifications-grid {
+.certs-intro p {
+    font-size: 1.15rem;
+    max-width: 720px;
+}
+
+.certs-tally {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.certs-tally li {
+    padding: 6px 14px;
+    background: white;
+    border: 2px solid var(--bg-black);
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.certs-tally strong {
+    font-weight: 900;
+}
+
+/* ----- Groups ----- */
+.cert-group {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
+    padding-top: 22px;
+    border-top: 3px solid var(--bg-black);
 }
 
-.cert-card {
-    background: var(--bg-black);
-    color: var(--text-white);
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    transition: var(--transition);
-}
-
-.cert-header {
-    padding: 25px;
+.group-head {
     display: flex;
-    align-items: center;
-    gap: 20px;
-    cursor: pointer;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 12px;
 }
 
-.cert-logo {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-    background: white;
-    padding: 5px;
-    border-radius: 12px;
-    flex-shrink: 0;
-}
-
-.cert-info {
-    flex-grow: 1;
-}
-
-.cert-info h3 {
-    color: var(--bg-yellow);
-    font-size: 1.4rem;
+.group-head h2 {
+    font-size: 1.5rem;
     font-weight: 900;
-    margin-bottom: 5px;
+    text-transform: uppercase;
 }
 
-.cert-info p {
+.group-count {
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 14px;
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
     font-weight: 700;
-    opacity: 0.9;
+    line-height: 28px;
+    text-align: center;
+    align-self: center;
 }
 
-.cert-details {
-    padding: 0 25px 25px 105px;
+.group-head p {
+    flex-basis: 100%;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.group-head p:empty {
     display: none;
 }
 
-.cert-details p {
-    margin-bottom: 10px;
+.paper-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+    gap: 28px;
 }
 
-.cert-details a {
-    color: var(--bg-yellow);
+/* ----- Certificate paper ----- */
+.paper {
+    position: relative;
+    padding: 10px;
+    background: white;
+    border: 3px solid var(--bg-black);
+    border-radius: 6px;
+    box-shadow: 7px 7px 0 var(--bg-black);
+}
+
+/* inner double rule, like a printed certificate border */
+.paper-frame {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 22px 22px;
+    border: 4px double var(--bg-black);
+}
+
+.paper-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--bg-black);
+    padding-right: 64px; /* room for the seal */
+}
+
+.paper-logo {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.paper-logo-wide {
+    width: 78px;
+    object-fit: cover;
+    border: 2px solid var(--bg-black);
+}
+
+.paper-meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.paper-issuer {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
     font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.paper-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    opacity: 0.65;
+}
+
+.paper h3 {
+    font-size: 1.35rem;
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.paper-text,
+.paper-points {
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.paper-points {
+    padding-left: 1.1em;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.paper-link {
+    margin-top: auto;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: var(--bg-yellow);
+    color: var(--text-black);
+    border: 2px solid var(--bg-black);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
     text-decoration: none;
-    border-bottom: 1px solid var(--bg-yellow);
 }
 
-.cert-card.active .cert-details {
-    display: block;
+/* ----- Ribbon seal ----- */
+.seal {
+    position: absolute;
+    top: -14px;
+    right: 22px;
+    width: 64px;
+    height: 84px;
 }
 
-.cert-card.active .toggle-icon {
-    transform: rotate(180deg);
+/* the two ribbon tails */
+.seal::before,
+.seal::after {
+    content: '';
+    position: absolute;
+    top: 44px;
+    width: 18px;
+    height: 38px;
+    background: var(--bg-black);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
 }
 
-.toggle-icon {
-    font-size: 1.2rem;
-    color: var(--bg-yellow);
-    transition: var(--transition);
+.seal::before {
+    left: 14px;
+    transform: rotate(14deg);
 }
 
-@media (max-width: 768px) {
-    .cert-header {
-        flex-direction: column;
-        text-align: center;
+.seal::after {
+    right: 14px;
+    transform: rotate(-14deg);
+}
+
+/* star-edged rosette */
+.rosette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-black);
+    clip-path: polygon(50.0% 0.0%, 59.6% 8.1%, 71.7% 5.0%, 76.8% 16.4%, 89.1% 18.8%, 88.7% 31.3%, 98.7% 38.9%, 93.0% 50.0%, 98.7% 61.1%, 88.7% 68.7%, 89.1% 81.2%, 76.8% 83.6%, 71.7% 95.0%, 59.6% 91.9%, 50.0% 100.0%, 40.4% 91.9%, 28.3% 95.0%, 23.2% 83.6%, 10.9% 81.2%, 11.3% 68.7%, 1.3% 61.1%, 7.0% 50.0%, 1.3% 38.9%, 11.3% 31.3%, 10.9% 18.8%, 23.2% 16.4%, 28.3% 5.0%, 40.4% 8.1%);
+}
+
+/* yellow face inside the black star edge */
+.rosette::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: var(--bg-yellow);
+    clip-path: inherit;
+}
+
+.rosette::after {
+    content: '';
+    position: absolute;
+    inset: 13px;
+    border: 2px dashed var(--bg-black);
+    border-radius: 50%;
+}
+
+.rosette i {
+    position: relative;
+    z-index: 1;
+    font-size: 1.05rem;
+    color: var(--text-black);
+}
+
+/* single-entry groups span the full width; the four simulations sit 2 x 2 */
+.group-single .paper-grid {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.group-pairs .paper-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 860px) {
+    .group-pairs .paper-grid {
+        grid-template-columns: minmax(0, 1fr);
     }
-    .cert-details {
-        padding: 20px;
-    }
+}
+
+.group-role .paper h3 {
+    font-size: 1.8rem;
 }

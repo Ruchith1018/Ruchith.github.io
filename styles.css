@@ -224,20 +224,75 @@ body.loaded {
     to { background-position: 28.28px 0; }
 }
 
+.mobile-blog-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    padding: 12px 24px;
+    background: #000000;
+    color: #facc15;
+    border: 2px solid #000000;
+    border-radius: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.mobile-blog-btn i {
+    font-size: 1rem !important;
+    margin: 0 !important;
+    color: #facc15 !important;
+    animation: none !important;
+}
+
+/* Pages with body.allow-mobile (the blog) stay readable on phones */
 @media screen and (max-width: 600px) {
-    #mobile-overlay {
+    body:not(.allow-mobile) #mobile-overlay {
         display: flex;
     }
-    body {
+    body:not(.allow-mobile) {
         overflow: hidden !important;
     }
-    #preloader, header, .container, footer {
+    body:not(.allow-mobile) #preloader,
+    body:not(.allow-mobile) header,
+    body:not(.allow-mobile) .container,
+    body:not(.allow-mobile) footer {
         display: none !important;
     }
-    #neural-canvas {
+    body:not(.allow-mobile) #neural-canvas {
         z-index: 10002; /* Above the yellow overlay background but below content */
         display: block !important;
         opacity: 0.3; /* Subtle network effect on mobile */
+    }
+
+    body.allow-mobile {
+        padding: 10px;
+    }
+    body.allow-mobile #neural-canvas {
+        opacity: 0.4;
+    }
+    body.allow-mobile header {
+        padding: 12px 18px;
+        border-radius: var(--radius-card);
+    }
+    body.allow-mobile .logo a {
+        font-size: 1.1rem;
+    }
+    body.allow-mobile .container {
+        padding: 18px;
+        border-radius: 20px;
+    }
+}
+
+/* The main nav is hidden below 768px; blog pages keep just the Blog link */
+@media screen and (max-width: 768px) {
+    body.allow-mobile .nav-links {
+        display: flex !important;
+    }
+    body.allow-mobile .nav-links li:not(.nav-blog) {
+        display: none;
     }
 }
 
