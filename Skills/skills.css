@@ -1,122 +1,283 @@
-.skills-page-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    padding: 40px;
-    background: transparent;
-    border: none;
+/* Skills page: intro, core stack, skill groups with "where used" panels, CTA */
+
+.skills-intro h1 {
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    font-weight: 900;
+    line-height: 0.9;
+    text-transform: uppercase;
+    margin-bottom: 15px;
 }
 
-@media (max-width: 992px) {
-    .skills-page-container {
-        grid-template-columns: 1fr;
-        padding: 20px;
-    }
+.skills-intro p {
+    font-size: 1.15rem;
+    max-width: 680px;
 }
 
-.bento-section {
-    background: var(--bg-yellow);
-    border: 3px solid var(--bg-black);
-    border-radius: var(--radius-main);
-    padding: 30px;
+/* ----- Section headings ----- */
+.skill-group h2,
+.skills-cta h2 {
+    font-size: 1.3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+/* ----- Core stack: one slim row of pills ----- */
+.core-stack-section {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding: 16px 0;
+    border-top: 3px solid var(--bg-black);
+    border-bottom: 3px solid var(--bg-black);
+}
+
+.core-stack-section h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.core-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.core-tile {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px 6px 8px;
+    background: white;
+    color: var(--text-black);
+    border: 2px solid var(--bg-black);
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 800;
+    cursor: pointer;
     transition: var(--transition);
 }
 
-.bento-section:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 8px 8px 0 var(--bg-black);
+.core-tile img,
+.core-tile i {
+    width: 20px;
+    height: 20px;
+    font-size: 1rem;
+    line-height: 20px;
+    text-align: center;
+    object-fit: contain;
 }
 
-.bento-section h2 {
-    font-size: 1.8rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: var(--bg-black);
-    border-bottom: 3px solid var(--bg-black);
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+.core-tile:hover,
+.core-tile:focus-visible {
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 0 var(--bg-black);
+    outline: none;
 }
 
-.bento-grid {
+/* ----- Groups ----- */
+.skill-groups {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 100px;
-    gap: 15px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+}
+
+@media (max-width: 992px) {
+    .skill-groups {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.skill-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 25px;
+    border: 3px solid var(--bg-black);
+    border-radius: var(--radius-main);
+    background: var(--bg-yellow);
+}
+
+.skill-group h2 {
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--bg-black);
+}
+
+.skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+    gap: 12px;
 }
 
 .skill-card {
-    background: white;
-    border: 2px solid var(--bg-black);
-    border-radius: 16px;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px;
-    transition: var(--transition);
+    gap: 8px;
+    min-height: 104px;
+    padding: 14px 8px 12px;
+    background: white;
+    color: var(--text-black);
+    border: 2px solid var(--bg-black);
+    border-radius: 14px;
+    font-family: inherit;
     text-align: center;
-    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
 }
 
-.skill-card:hover {
+.skill-card img,
+.skill-card i {
+    width: 34px;
+    height: 34px;
+    font-size: 1.7rem;
+    line-height: 34px;
+    object-fit: contain;
+}
+
+.skill-name {
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.skill-count {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 10px;
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 20px;
+}
+
+.skill-card:not(:disabled):hover,
+.skill-card:focus-visible {
+    transform: translate(-4px, -4px);
+    box-shadow: 4px 4px 0 var(--bg-black);
+    outline: none;
+}
+
+.skill-card.active {
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+    transform: translate(-4px, -4px);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.skill-card.active img {
+    background: white;
+    border-radius: 8px;
+    padding: 3px;
+    box-sizing: content-box;
+    width: 28px;
+    height: 28px;
+}
+
+.skill-card.active .skill-count {
+    background: var(--bg-yellow);
+    color: var(--text-black);
+}
+
+/* Skills without linked work: shown, but not interactive */
+.skill-card-plain {
+    cursor: default;
+    background: rgba(255, 255, 255, 0.55);
+    border-style: dashed;
+}
+
+/* ----- Where-used panel ----- */
+.skill-usage {
+    margin-top: auto;
+    min-height: 96px;
+    padding: 16px 18px;
+    background: white;
+    border: 2px solid var(--bg-black);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skill-usage-hint {
+    margin: auto 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    text-align: center;
+}
+
+.skill-usage h3 {
+    font-size: 1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.skill-note {
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.skill-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-black);
+    text-decoration: none;
+    background: var(--bg-yellow);
+    border: 2px solid var(--bg-black);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.skill-link-work {
     background: var(--bg-black);
     color: var(--bg-yellow);
 }
 
-.skill-card-large {
-    grid-column: span 2;
-    grid-row: span 2;
-    padding: 20px;
+.skill-link:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 2px 2px 0 var(--bg-black);
 }
 
-.skill-card-large i, .skill-card-large img {
-    font-size: 4rem;
-    width: 80px;
-    height: 80px;
-    margin-bottom: 15px;
+/* ----- CTA ----- */
+.skills-cta {
+    padding: 28px;
+    border: 3px dashed var(--bg-black);
+    border-radius: var(--radius-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
 }
 
-.skill-card i, .skill-card img {
-    font-size: 1.5rem;
-    width: 35px;
-    height: 35px;
-    object-fit: contain;
-    margin-bottom: 8px;
-    transition: var(--transition);
+.skills-cta-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 6px;
 }
-
-.skill-card:hover i, .skill-card:hover img {
-    filter: invert(1) brightness(2);
-}
-
-.skill-card h3 {
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin: 0;
-}
-
-.skill-card-large h3 {
-    font-size: 1.2rem;
-}
-
-.skill-card-wide {
-    grid-column: span 2;
-    flex-direction: row;
-    gap: 20px;
-    padding: 15px 30px;
-}
-
-.skill-card-wide h3 {
-    font-size: 1.1rem;
-}
-
-/* Specific adjustments for icons that are already black/white */
-.skill-card img[src*=".svg"], .skill-card img[src*=".png"] {
-    /* No filter if they are colorful, but we might want consistency */
-}
-
-

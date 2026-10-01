@@ -4,10 +4,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Experience</title>
+  <title>Experience | Ruchith Balam</title>
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="experience.css" />
+  <link rel="preload" href="../script.js" as="script">
+  <link rel="preload" href="experience.js" as="script">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
@@ -24,6 +27,7 @@
         <h1>DESKTOP ONLY</h1>
         <p>This experience is optimized for larger screens. Please switch to a desktop or laptop to explore the portfolio.</p>
         <div class="warning-stripes"></div>
+        <a href="../Blog/index.html" class="mobile-blog-btn"><i class="fas fa-pen-nib"></i> Read My Blog</a>
       </div>
     </div>
   </div>
@@ -32,82 +36,173 @@
   <!-- Header -->
   <header>
     <nav>
-      <div class="logo"><a href="../index.html">Ruchith Balam</a></div>
+      <div class="logo"><a href="../index.html" class="brand" aria-label="Ruchith Balam, home"><img class="brand-avatar" src="../Profile_Pic.jpeg" alt="" width="46" height="46"><span class="brand-text"><strong>Ruchith Balam</strong><small>Data Scientist</small></span></a></div>
       <ul class="nav-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="../Academics/Academics.html">Academics</a></li>
-        <li><a href="../Skills/skills.html">Skills</a></li>
-        <li><a href="../Projects/projects.html">Projects</a></li>
-        <li><a href="../Certifications/certifications.html">Certifications</a></li>
+        <li><a href="../index.html"><i class="fas fa-house"></i>Home</a></li>
+        <li><a href="../Experience/experience.html" class="is-current" aria-current="page"><i class="fas fa-briefcase"></i>Experience</a></li>
+        <li><a href="../Academics/Academics.html"><i class="fas fa-graduation-cap"></i>Academics</a></li>
+        <li><a href="../Skills/skills.html"><i class="fas fa-layer-group"></i>Skills</a></li>
+        <li><a href="../Projects/projects.html"><i class="fas fa-folder-open"></i>Projects</a></li>
+        <li><a href="../Certifications/certifications.html"><i class="fas fa-award"></i>Certifications</a></li>
+        <li class="nav-blog"><a href="../Blog/index.html"><i class="fas fa-pen-nib"></i>Blog</a></li>
       </ul>
+      <div class="nav-actions">
+        <a class="nav-btn nav-btn-cv" href="../resume__.pdf" aria-label="Download CV"><i class="fas fa-file-download"></i><span>Download CV</span></a>
+        <a class="nav-btn nav-btn-mail" href="mailto:bl.ruchith@gmail.com" aria-label="Email me"><i class="fas fa-envelope"></i><span>Email me</span></a>
+      </div>
     </nav>
   </header>
 
   <div class="container experience-container">
-    <section id="experience" class="experience">
-      <h2>Experience</h2>
-      <div class="experience-grid">
+    <section class="experience-intro">
+      <h1>Experience</h1>
+      <p>Building and running LLM systems in production at SG Analytics, alongside two years solving computer-science problems as a Chegg subject matter expert.</p>
+    </section>
 
-        <!-- SG Analytics Data Scientist -->
-        <div id="exp-sg-ds" class="experience-card">
-          <div class="experience-header">
-            <img src="sganalytics.png" alt="SG Analytics" class="experience-logo" />
-            <div class="experience-info">
-              <h3>SG Analytics</h3>
-              <p>Data Scientist | Jan 2026 - Present</p>
+    <section class="career-track" aria-label="Career timeline">
+      <div class="track-head">
+        <h2>Career track</h2>
+        <span class="track-hint">Click a bar to jump to the role</span>
+      </div>
+      <!-- Built by experience.js from the roles below -->
+      <div id="track" class="track"></div>
+    </section>
+
+    <ol class="pass-list">
+      <li id="exp-sg-ds" class="exp-item" data-start="2026-01" data-end="present" data-label="SG Analytics" data-role="Data Scientist">
+        <article class="pass pass-current">
+          <div class="pass-main">
+            <div class="pass-head">
+              <img src="sganalytics.png" alt="SG Analytics" class="pass-logo" />
+              <div class="pass-title">
+                <p class="pass-company">SG Analytics</p>
+                <h2>Data Scientist</h2>
+              </div>
+              <span class="stamp">Current</span>
             </div>
-            <i class="fas fa-chevron-down toggle-icon"></i>
+            <div class="pass-section">
+              <h3>Production pipeline (client-facing)</h3>
+                            <div class="proj-card proj-now">
+                <div class="proj-head">
+                  <span class="proj-tag tag-now">In progress</span>
+                  <h4>Agentic financial model builder</h4>
+                </div>
+                <ul class="pass-points">
+                  <li>Building an AI agent that turns <strong>SEC EDGAR</strong> filings for public and private companies into a complete, client-ready <strong>financial model in the client's custom template</strong>: <strong>income statement, balance sheet and cash-flow statement</strong>, <strong>forecasts</strong>, a <strong>revenue build</strong> and a <strong>DCF valuation</strong>.</li>
+                </ul>
+              </div>
+              <div class="proj-card proj-live">
+                <div class="proj-head">
+                  <span class="proj-tag tag-live">Completed · maintained for daily delivery</span>
+                  <h4>Company risk-monitoring pipeline</h4>
+                </div>
+                <ul class="pass-points">
+                  <li>Architected and own an end-to-end, client-facing <strong>production AI pipeline</strong> tracking <strong>200+ companies across 91 global locations</strong>: an ETL process that extracts, deduplicates and loads news data for classification and <strong>daily client delivery</strong>.</li>
+                  <li>Cut per-request latency <strong>97% (2 s → 50 ms)</strong> with prompt caching, and reduced inference cost <strong>33%</strong> by productionizing a custom ML model I trained for multi-label classification across <strong>55 risk categories</strong> (<strong>92% accuracy, 91% F1</strong>).</li>
+                  <li>Diagnose and resolve client-facing pipeline issues (data gaps, misclassifications, delivery failures) with <strong>under 1-hour turnaround</strong>, keeping daily delivery accurate and client trust intact.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="pass-section">
+              <h3>Client demos (quick prototyping)</h3>
+              <ul class="pass-points">
+                <li>Engineered an <strong>Ontology RAG</strong> demo for a regulatory banking client, built on OKF (Open Knowledge Format) with <strong>LanceDB</strong> for vector storage. It enables structured multi-hop reasoning over unstructured documents, with <strong>48% lower token cost</strong> and <strong>40% faster retrieval</strong> than standard flat-vector retrieval.</li>
+                <li>Built a <strong>fraud-ring detection</strong> demo for financial transactions: an ML anomaly-detection model across <strong>40+ transaction-level and behavioural parameters</strong> that identifies coordinated fraud beyond single-transaction anomalies.</li>
+              </ul>
+            </div>
           </div>
-          <div class="experience-details">
-            <ul>
-              <li>Engineered and own a production-grade LLM pipeline on <strong>AWS Bedrock (Claude)</strong> monitoring 200+ global companies across 91 locations, ingesting 800–1,000 articles/day via EventRegistry API with full audit logging.</li>
-              <li>Built structured classification and QC tagging workflows achieving <strong>96% decision accuracy</strong> (manually validated), using prompt engineering and automated quality checks.</li>
-              <li>Implemented semantic deduplication using <strong>Amazon Titan Embeddings</strong> and cosine similarity, eliminating cross-company and cross-day duplicate articles at scale.</li>
-              <li>Delivered concurrent LLM processing, ad-free semantic HTML content generation, and <strong>PostgreSQL</strong> batch ingestion pipeline supporting reliable daily production delivery.</li>
+          <aside class="pass-stub">
+            <div class="pass-dates">
+              <div><span>From</span><strong>Jan 2026</strong></div>
+              <div><span>To</span><strong>Present</strong></div>
+            </div>
+            <div class="pass-duration"><span>Duration</span><strong data-duration>&nbsp;</strong></div>
+            <div class="pass-stats"><div class="pass-stat"><strong>2</strong><span>production AI pipelines</span></div><div class="pass-stat"><strong>2</strong><span>client-facing AI projects</span></div><div class="pass-stat"><strong>3</strong><span>one-day client demos</span></div><div class="pass-stat"><strong>Daily</strong><span>production delivery</span></div></div>
+            <div class="pipe" id="pipe-widget">
+              <div class="pipe-head">
+                <span>Live pipeline</span>
+                <button type="button" class="pipe-run">&#9654; Run</button>
+              </div>
+              <ol class="pipe-steps">
+                <li><b>Extract</b><small>news on 200+ companies</small></li>
+                <li><b>Deduplicate</b><small>cross-day repeats removed</small></li>
+                <li><b>QC checks</b><small>automated quality gates</small></li>
+                <li><b>Classify</b><small>ML model first; routes to Claude when confidence &lt; 10%</small></li>
+                <li><b>Ads removal</b><small>clean, ad-free content</small></li>
+                <li><b>Final delivery</b><small>daily, to the client</small></li>
+              </ol>
+              <div class="lat">
+                <div class="lat-head">
+                  <span>Per-request latency</span>
+                  <label class="lat-switch">
+                    <input type="checkbox" checked>
+                    <span class="lat-track" aria-hidden="true"></span>
+                    <span class="lat-label">Prompt caching</span>
+                  </label>
+                </div>
+                <div class="lat-bar"><div class="lat-fill"></div></div>
+                <div class="lat-read"><strong class="lat-value">50 ms</strong><span class="lat-note">97% faster with caching</span></div>
+              </div>
+            </div>
+          </aside>
+        </article>
+      </li>
+
+      <li id="exp-sg-intern" class="exp-item" data-start="2025-01" data-end="2025-07" data-label="SG Analytics" data-role="Data Science Intern">
+        <article class="pass">
+          <div class="pass-main">
+            <div class="pass-head">
+              <img src="sganalytics.png" alt="SG Analytics" class="pass-logo" />
+              <div class="pass-title">
+                <p class="pass-company">SG Analytics</p>
+                <h2>Data Science Intern</h2>
+              </div>
+              
+            </div>
+            <ul class="pass-points">
+              <li>Designed an intelligent <strong>SWOT Analysis System</strong> using <strong>RAG and Amazon Bedrock</strong>, integrating <strong>SEC 10-K</strong> and annual reports with web data to produce factually accurate, auto-generated reports.</li>
+              <li>Developed a smart web crawler and data pipeline using <strong>Python, Scrapy, FastAPI and AWS S3</strong>, automating extraction of <strong>500+ URLs/minute</strong> with <strong>95% accuracy</strong>.</li>
+              <li>Automated an <strong>SFDR-compliant CIM system</strong> to extract ESG data and KPIs from unstructured corporate documents, generating structured <strong>Excel reports</strong> for financial analysis.</li>
             </ul>
           </div>
-        </div>
-
-        <!-- SG Analytics Intern -->
-        <div id="exp-sg-intern" class="experience-card">
-          <div class="experience-header">
-            <img src="sganalytics.png" alt="SG Analytics" class="experience-logo" />
-            <div class="experience-info">
-              <h3>SG Analytics</h3>
-              <p>Data Science Intern | Jan 2025 - July 2025</p>
+          <aside class="pass-stub">
+            <div class="pass-dates">
+              <div><span>From</span><strong>Jan 2025</strong></div>
+              <div><span>To</span><strong>Jul 2025</strong></div>
             </div>
-            <i class="fas fa-chevron-down toggle-icon"></i>
-          </div>
-          <div class="experience-details">
-            <ul>
-              <li>Developed a smart web crawler and data pipeline using <strong>Python, Scrapy, FastAPI, and AWS S3</strong>, automating the extraction of 500+ URLs/minute with 95% accuracy and visualizing results via an interactive <strong>Streamlit dashboard</strong>.</li>
-              <li>Automated an <strong>SFDR-compliant CIM system</strong> to extract ESG data and KPIs from unstructured corporate documents, generating structured <strong>Excel reports</strong> to streamline financial analysis and reporting.</li>
-              <li>Designed an intelligent <strong>SWOT Analysis System</strong> using <strong>Streamlit, RAG, and Amazon Bedrock</strong>, integrating <strong>SEC 10-K</strong> and annual reports with web data to produce factually accurate, auto-generated business reports.</li>
-              <li>Implemented a secure <strong>document Q&A platform</strong> using <strong>OpenWebUI and Amazon Bedrock</strong> for enterprise-grade information retrieval from uploaded corporate files.</li>
-            </ul>
-          </div>
-        </div>
+            <div class="pass-duration"><span>Duration</span><strong data-duration>&nbsp;</strong></div>
+            <div class="pass-stats"><div class="pass-stat"><strong>500+</strong><span>URLs crawled a minute</span></div><div class="pass-stat"><strong>95%</strong><span>extraction accuracy</span></div><div class="pass-stat"><strong>3</strong><span>systems built</span></div></div>
+          </aside>
+        </article>
+      </li>
 
-        <!-- Chegg -->
-        <div id="exp-chegg" class="experience-card">
-          <div class="experience-header">
-            <img src="chegg.jpg" alt="Chegg" class="experience-logo" />
-            <div class="experience-info">
-              <h3>Chegg</h3>
-              <p>Subject Matter Expert | Nov 2023 - Sep 2025</p>
+      <li id="exp-chegg" class="exp-item" data-start="2023-11" data-end="2025-09" data-label="Chegg" data-role="Subject Matter Expert">
+        <article class="pass">
+          <div class="pass-main">
+            <div class="pass-head">
+              <img src="chegg.jpg" alt="Chegg" class="pass-logo" />
+              <div class="pass-title">
+                <p class="pass-company">Chegg</p>
+                <h2>Subject Matter Expert</h2>
+              </div>
+              
             </div>
-            <i class="fas fa-chevron-down toggle-icon"></i>
-          </div>
-          <div class="experience-details">
-            <ul>
+            <ul class="pass-points">
               <li>Delivered 400+ optimized solutions in <strong>C++, Python, Data Structures, Algorithms, and Optimization.</strong></li>
               <li>Provided comprehensive explanations on a wide range of computer science topics with an Average rating of <strong>4.5+</strong>.</li>
             </ul>
           </div>
-        </div>
-
-      </div>
-    </section>
+          <aside class="pass-stub">
+            <div class="pass-dates">
+              <div><span>From</span><strong>Nov 2023</strong></div>
+              <div><span>To</span><strong>Sep 2025</strong></div>
+            </div>
+            <div class="pass-duration"><span>Duration</span><strong data-duration>&nbsp;</strong></div>
+            <div class="pass-stats"><div class="pass-stat"><strong>400+</strong><span>solutions delivered</span></div><div class="pass-stat"><strong>4.5+</strong><span>average rating</span></div></div>
+          </aside>
+        </article>
+      </li>
+    </ol>
   </div>
 
   <!-- Contact Section -->

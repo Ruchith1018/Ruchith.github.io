@@ -227,6 +227,8 @@
 
   // --- Event handlers ---
   function onPointerDown(e) {
+    // On mobile-readable pages, touch-grabbing nodes would block scrolling
+    if (e.touches && document.body.classList.contains('allow-mobile')) return;
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
     const cy = e.touches ? e.touches[0].clientY : e.clientY;
     mouseX = cx;
@@ -389,60 +391,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log("New quote injected:", randomQuote.author);
   }
 
-  // ===== GITHUB INTERACTIVE SVG FETCH =====
-  const githubContainer = document.getElementById('github-svg-container');
-  const tooltip = document.getElementById('github-tooltip');
-
-  if (githubContainer && tooltip) {
-    fetch('https://github-contributions-api.deno.dev/ruchith1018.svg')
-      .then(response => response.text())
-      .then(svgText => {
-        githubContainer.innerHTML = svgText;
-        githubContainer.appendChild(tooltip); // Ensure tooltip stays in container
-
-        const rects = githubContainer.querySelectorAll('rect[data-date]');
-        
-        rects.forEach(rect => {
-          rect.addEventListener('mouseenter', (e) => {
-            const dateStr = rect.getAttribute('data-date');
-            const count = rect.getAttribute('data-count');
-            
-            if (dateStr) {
-              const date = new Date(dateStr);
-              const day = date.getDate();
-              const month = date.toLocaleString('default', { month: 'long' });
-              
-              let suffix = 'th';
-              if (day === 1 || day === 21 || day === 31) suffix = 'st';
-              else if (day === 2 || day === 22) suffix = 'nd';
-              else if (day === 3 || day === 23) suffix = 'rd';
-              
-              const formattedDate = `${day}${suffix} ${month}`;
-              tooltip.textContent = `${count} contributions on ${formattedDate}`;
-              tooltip.style.opacity = '1';
-            }
-          });
-
-          rect.addEventListener('mousemove', (e) => {
-            const containerRect = githubContainer.getBoundingClientRect();
-            const x = e.clientX - containerRect.left;
-            const y = e.clientY - containerRect.top;
-            
-            tooltip.style.left = `${x}px`;
-            tooltip.style.top = `${y - 45}px`;
-            tooltip.style.transform = 'translateX(-50%)';
-          });
-
-          rect.addEventListener('mouseleave', () => {
-            tooltip.style.opacity = '0';
-          });
-        });
-      })
-      .catch(err => {
-        console.error('Error loading GitHub SVG:', err);
-        githubContainer.innerHTML = '<p>Error loading contributions.</p>';
-      });
-  }
+  // GitHub contributions chart is drawn by home.js
 });
 
 // ===== PARALLAX EFFECT FOR FLOATING CODE SNIPPETS =====
@@ -517,3 +466,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+// ===== TOP BAR: the bar itself is plain HTML on every page; this only switches on the pinned look =====
+document.addEventListener('DOMContentLoaded', function () {
+  const header = document.querySelector('header');
+  if (!header) return;
+  function update() {
+    const y = window.scrollY || document.documentElement.scrollTop;
+    header.classList.toggle('is-scrolled', y > 24);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+});

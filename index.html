@@ -7,28 +7,17 @@
   <title>Ruchith Balam | Data Scientist</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="preload" href="script.js" as="script">
+  <link rel="preload" href="Projects/projects-data.js" as="script">
+  <link rel="preload" href="Skills/skills-data.js" as="script">
+  <link rel="preload" href="home.js" as="script">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <!-- For Documentation Modal -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    (function() {
-      const navEntries = performance.getEntriesByType('navigation');
-      const navType = navEntries.length > 0 ? navEntries[0].type : '';
-      const hasSeenLoader = sessionStorage.getItem('loader-seen');
-
-      // Show loader only on fresh entry (not back/forward) or if explicitly reloaded
-      if (navType === 'reload' || !hasSeenLoader) {
-        sessionStorage.setItem('loader-seen', 'true');
-      } else {
-        // Skip loader
-        document.documentElement.classList.add('skip-loader');
-      }
-    })();
-  </script>
+  <link rel="stylesheet" href="Experience/experience.css" />
+  <link rel="stylesheet" href="home.css" />
 </head>
 
-<body class="loading">
+<body>
   <!-- Mobile Restriction Overlay -->
   <div id="mobile-overlay">
     <div class="mobile-profile-pic">
@@ -40,15 +29,8 @@
         <h1>DESKTOP ONLY</h1>
         <p>This experience is optimized for larger screens. Please switch to a desktop or laptop to explore the portfolio.</p>
         <div class="warning-stripes"></div>
+        <a href="Blog/index.html" class="mobile-blog-btn"><i class="fas fa-pen-nib"></i> Read My Blog</a>
       </div>
-    </div>
-  </div>
-
-  <!-- Preloader -->
-  <div id="preloader">
-    <div class="preloader-content">
-      <div class="spinner"></div>
-      <p>Loading Profile</p>
     </div>
   </div>
 
@@ -56,216 +38,163 @@
   <!-- Header -->
   <header>
     <nav>
-      <div class="logo"><a href="index.html">Ruchith Balam</a></div>
+      <div class="logo"><a href="index.html" class="brand" aria-label="Ruchith Balam, home"><img class="brand-avatar" src="Profile_Pic.jpeg" alt="" width="46" height="46"><span class="brand-text"><strong>Ruchith Balam</strong><small>Data Scientist</small></span></a></div>
       <ul class="nav-links">
-        <li><a href="Academics/Academics.html">Academics</a></li>
-        <li><a href="Experience/experience.html">Experience</a></li>
-        <li><a href="Skills/skills.html">Skills</a></li>
-        <li><a href="Projects/projects.html">Projects</a></li>
-        <li><a href="Certifications/certifications.html">Certifications</a></li>
+        <li><a href="index.html" class="is-current" aria-current="page"><i class="fas fa-house"></i>Home</a></li>
+        <li><a href="Experience/experience.html"><i class="fas fa-briefcase"></i>Experience</a></li>
+        <li><a href="Academics/Academics.html"><i class="fas fa-graduation-cap"></i>Academics</a></li>
+        <li><a href="Skills/skills.html"><i class="fas fa-layer-group"></i>Skills</a></li>
+        <li><a href="Projects/projects.html"><i class="fas fa-folder-open"></i>Projects</a></li>
+        <li><a href="Certifications/certifications.html"><i class="fas fa-award"></i>Certifications</a></li>
+        <li class="nav-blog"><a href="Blog/index.html"><i class="fas fa-pen-nib"></i>Blog</a></li>
       </ul>
+      <div class="nav-actions">
+        <a class="nav-btn nav-btn-cv" href="resume__.pdf" aria-label="Download CV"><i class="fas fa-file-download"></i><span>Download CV</span></a>
+        <a class="nav-btn nav-btn-mail" href="mailto:bl.ruchith@gmail.com" aria-label="Email me"><i class="fas fa-envelope"></i><span>Email me</span></a>
+      </div>
     </nav>
   </header>
 
-  <!-- Hero Section -->
-  <div class="container hero-container">
-    <section id="home" class="hero">
-      <div class="hero-text">
-        <h1>DATA SCIENTIST</h1>
-        <p><strong>Data Scientist</strong> with hands-on production experience designing <strong>LLM
-            pipelines</strong>, <strong>RAG architectures</strong>, and <strong>MLOps infrastructure on AWS</strong> at
-          scale. Track record of delivering <strong>96% classification accuracy</strong> across a live 51-category news
-          intelligence system monitoring <strong>200+ global companies</strong> & 91 global locations. Skilled in
-          <strong>AWS Bedrock</strong>, <strong>LangChain</strong>, <strong>NLP</strong>, and <strong>semantic
-            search</strong>. Published researcher and full-stack AI developer - open to relocate to
-          <strong>Singapore</strong> or <strong>Australia</strong>.
-        </p>
-        <div class="hero-buttons">
-          <a href="resume__.pdf" class="btn primary-btn">Download CV</a>
-          <a href="#contact" class="btn secondary-btn">Contact Me</a>
+  <!-- Hero -->
+  <div class="container home-hero-container">
+    <section id="home" class="home-hero">
+      <div class="hero-main">
+
+        <p class="hero-hello">Hi, I'm</p>
+        <h1 class="hero-name">Ruchith Balam</h1>
+        <p class="hero-rotate">I build <span class="rotate-word" id="rotate-word">production LLM pipelines</span><span class="rotate-caret" aria-hidden="true"></span></p>
+
+        <p class="hero-pitch">Data Scientist at <strong>SG Analytics</strong>. I design, ship and maintain <strong>production AI systems</strong> (LLM pipelines, RAG and AI agents) that clients rely on every day, and I prototype fast when an idea needs proving.</p>
+
+        <div class="hero-actions">
+          <a href="resume__.pdf" class="btn primary-btn"><i class="fas fa-file-download"></i> Download CV</a>
+          <a href="Projects/projects.html" class="btn secondary-btn">View Projects</a>
         </div>
+
+        <div class="impact">
+          <div class="impact-card"><strong>2</strong><span>production AI pipelines built</span></div>
+          <div class="impact-card"><strong>2</strong><span>client-facing AI projects architected</span></div>
+          <div class="impact-card"><strong>3</strong><span>client-facing quick prototypes</span></div>
+          <div class="impact-card"><strong>21</strong><span>projects built</span></div>
+          <div class="impact-card"><strong>1</strong><span>research manuscript</span></div>
+        </div>
+        <section class="ask" aria-label="Get to know me">
+          <div class="ask-tabs" role="tablist" aria-label="Ways to get to know me">
+            <button type="button" role="tab" id="tab-ask" class="ask-tab is-active" aria-selected="true" aria-controls="panel-ask"><i class="far fa-comment-dots"></i> Ask me</button>
+            <button type="button" role="tab" id="tab-tour" class="ask-tab" aria-selected="false" aria-controls="panel-tour" tabindex="-1"><i class="fas fa-stopwatch"></i> Quick tour</button>
+          </div>
+
+          <div class="ask-panels">
+            <!-- 1. Ask me -->
+            <div class="ask-panel is-active" role="tabpanel" id="panel-ask" aria-labelledby="tab-ask">
+              <div class="ask-chips" id="ask-chips" role="group" aria-label="Questions"></div>
+              <div class="ask-answer" id="ask-answer" aria-live="polite">
+                <p class="ask-text" id="ask-text"></p>
+                <div class="ask-links" id="ask-links"></div>
+              </div>
+            </div>
+
+            <!-- 2. Quick tour -->
+            <div class="ask-panel" role="tabpanel" id="panel-tour" aria-labelledby="tab-tour" inert>
+              <p class="tour-lead">How long do you have?</p>
+              <div class="ask-chips" id="tour-chips" role="group" aria-label="Time available"></div>
+              <ol class="tour-steps" id="tour-steps"></ol>
+            </div>
+          </div>
+        </section>
       </div>
-      <div class="hero-image">
-        <img src="Profile_Pic.jpeg" alt="Ruchith Balam" />
-      </div>
+
+      <aside class="hero-side">
+        <figure class="sticker">
+          <img src="Profile_Pic.jpeg" alt="Ruchith Balam" />
+          <figcaption>Data Scientist @ SG Analytics</figcaption>
+        </figure>
+
+        <div class="glance">
+          <h2>At a glance</h2>
+          <dl>
+            <div><dt>Role</dt><dd>Data Scientist, SG Analytics</dd></div>
+          </dl>
+
+          <h3 class="glance-sub">What I build</h3>
+          <ul class="build-list">
+            <li><span class="build-icon"><i class="fas fa-stream"></i></span><div><strong>LLM pipelines</strong><small>Production-grade, client-facing</small></div></li>
+            <li><span class="build-icon"><i class="fas fa-search-plus"></i></span><div><strong>RAG systems</strong><small>Answers grounded in documents</small></div></li>
+            <li><span class="build-icon"><i class="fas fa-robot"></i></span><div><strong>AI agents</strong><small>Multi-step work, automated</small></div></li>
+          </ul>
+
+          <h3 class="glance-sub">Daily stack</h3>
+          <div class="stack-tiles">
+            <span class="stack-tile"><img src="Skills/SkillIages/aws.svg" alt=""><small>Bedrock</small></span>
+            <span class="stack-tile"><img src="Skills/SkillIages/python.png" alt=""><small>Python</small></span>
+            <span class="stack-tile"><img src="Skills/SkillIages/langchain.png" alt=""><small>LangChain</small></span>
+            <span class="stack-tile"><img src="Skills/SkillIages/fastapi.svg" alt=""><small>FastAPI</small></span>
+            <span class="stack-tile"><img src="Skills/SkillIages/postgresql.svg" alt=""><small>Postgres</small></span>
+            <span class="stack-tile"><img src="Skills/SkillIages/docker.svg" alt=""><small>Docker</small></span>
+            <span class="stack-tile"><img src="Skills/SkillIages/huggingface.svg" alt=""><small>Hugging Face</small></span>
+            <span class="stack-tile"><i class="fas fa-fire"></i><small>PyTorch</small></span>
+            <span class="stack-tile"><img src="Skills/SkillIages/tensorflow.svg" alt=""><small>TensorFlow</small></span>
+            <a class="stack-tile stack-more" href="Skills/skills.html"><strong id="stack-more-count">+34</strong><small>more</small></a>
+          </div>
+          <div class="glance-actions">
+            <button type="button" class="glance-btn copy-email" data-email="bl.ruchith@gmail.com"><i class="far fa-copy"></i> <span>Copy email</span></button>
+            <a class="glance-btn" href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a class="glance-btn" href="resume__.pdf"><i class="fas fa-file-alt"></i> CV</a>
+          </div>
+        </div>
+      </aside>
     </section>
   </div>
 
-  <!-- Experience Section -->
-  <div class="container timeline-container">
-    <section id="experience" class="timeline-section">
-      <div class="section-header">
-        <h2>Experience</h2>
-        <a href="Experience/experience.html" class="view-all-btn">
-          <span>Explore All</span>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-      </div>
-      <div class="timeline">
-        <div class="timeline-item left">
-          <div class="timeline-content">
-            <img src="Experience/sganalytics.png" alt="SG Analytics" class="experience-logo">
-            <div class="experience-info">
-              <h3>SG Analytics</h3>
-              <p>Data Scientist</p>
-              <span class="date">Jan 2026 - Present</span>
-              <a href="Experience/experience.html#exp-sg-ds" class="know-more">Know More</a>
-            </div>
-            <span class="status-indicator status-active"></span>
-          </div>
-        </div>
-        <div class="timeline-item right">
-          <div class="timeline-content">
-            <img src="Experience/sganalytics.png" alt="SG Analytics" class="experience-logo">
-            <div class="experience-info">
-              <h3>SG Analytics</h3>
-              <p>Data Science Intern</p>
-              <span class="date">Jan 2025 - July 2025</span>
-              <a href="Experience/experience.html#exp-sg-intern" class="know-more">Know More</a>
-            </div>
-            <span class="status-indicator status-completed"></span>
-          </div>
-        </div>
-        <div class="timeline-item left">
-          <div class="timeline-content">
-            <img src="Experience/chegg.jpg" alt="Chegg" class="experience-logo">
-            <div class="experience-info">
-              <h3>Chegg</h3>
-              <p>Subject Matter Expert</p>
-              <span class="date">Nov 2023 - Sep 2025</span>
-              <a href="Experience/experience.html#exp-chegg" class="know-more">Know More</a>
-            </div>
-            <span class="status-indicator status-completed"></span>
-          </div>
-        </div>
-      </div>
+  <!-- Career track -->
+  <div class="container home-section">
+    <div class="home-section-head">
+      <h2>Career</h2>
+      <a href="Experience/experience.html" class="home-more">Full experience <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <section class="career-track" aria-label="Career timeline">
+      <div id="track" class="track"></div>
     </section>
   </div>
 
-  <!-- Featured Projects Section -->
-  <div class="container projects-container">
-    <section id="featured-projects" class="projects-section">
-      <div class="section-header">
-        <h2>Featured Projects</h2>
-        <a href="Projects/projects.html" class="view-all-btn">
-          <span>View All</span>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-      </div>
-      <div class="featured-projects-grid">
-        <div class="featured-project-card">
-          <div class="project-image">
-            <img src="Projects/images/meridian_swot.png" alt="Meridian SWOT Analysis">
-          </div>
-          <div class="project-content">
-            <h3>Meridian SWOT Intelligence</h3>
-            <p>A high-performance RAG pipeline for automated company SWOT analysis using LLMs and real-time SEC data.</p>
-            <div class="project-tags">
-              <span>Python</span>
-              <span>FastAPI</span>
-              <span>LangChain</span>
-              <span>PostgreSQL</span>
-              <span>Nvidia NIM</span>
-              <span>Tavily</span>
-            </div>
-            <div class="project-links" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px;">
-              <a href="javascript:void(0)" class="know-more" id="view-doc-btn" style="color: #2563eb; display: flex; align-items: center; gap: 5px;">
-                <i class="fas fa-file-alt"></i> View Documentation
-              </a>
-              <a href="https://github.com/Ruchith1018/SWOT_ANALYSIS" target="_blank" class="know-more" style="color: var(--text-black); display: flex; align-items: center; gap: 5px;">
-                <i class="fab fa-github"></i> View GitHub
-              </a>
-              <a href="https://swot-analysis-u8ba.vercel.app/" target="_blank" class="know-more" style="color: #059669; display: flex; align-items: center; gap: 5px;">
-                <i class="fas fa-external-link-alt"></i> Live Site
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Coming Soon Card -->
-        <div class="featured-project-card coming-soon">
-          <div class="project-image" style="background: #e2e8f0; display: flex; align-items: center; justify-content: center;">
-            <i class="fas fa-rocket" style="font-size: 5rem; color: #94a3b8; opacity: 0.5;"></i>
-          </div>
-          <div class="project-content" style="justify-content: center; align-items: center; text-align: center; opacity: 0.7;">
-            <h3 style="color: #64748b;">Coming Soon</h3>
-            <p>Another high-impact AI project is currently under development. Stay tuned for updates!</p>
-            <div class="project-tags">
-              <span style="background: #cbd5e1; color: #64748b;">Innovation</span>
-              <span style="background: #cbd5e1; color: #64748b;">AI</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <!-- Top projects -->
+  <div class="container home-section">
+    <div class="home-section-head">
+      <h2>Top projects</h2>
+      <a href="Projects/projects.html" class="home-more">All 21 projects <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <!-- Rendered by home.js from Projects/projects-data.js -->
+    <div id="top-projects" class="top-projects"></div>
   </div>
 
-  <!-- Documentation Modal -->
-  <div id="doc-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Project Documentation</h3>
-        <span class="close-modal">&times;</span>
+  <!-- GitHub contributions: drawn by home.js from public contribution data; hidden if it can't load -->
+  <div class="container home-section" id="github-block" hidden>
+    <div class="home-section-head">
+      <h2>GitHub activity</h2>
+      <a href="https://github.com/Ruchith1018" target="_blank" rel="noopener" class="home-more"><i class="fab fa-github"></i> @Ruchith1018</a>
+    </div>
+    <div class="gh-card">
+      <div class="gh-stats" id="gh-stats"></div>
+      <div class="gh-scroll">
+        <div class="gh-chart" id="gh-chart" role="img" aria-label="GitHub contributions over the last year"></div>
       </div>
-      <div id="markdown-content" class="markdown-body">
-        <div class="loader-container">
-          <div class="loader"></div>
-          <p>Fetching documentation...</p>
-        </div>
+      <div class="gh-foot">
+        <p class="gh-readout" id="gh-readout">Point at a square to see that day.</p>
+        <div class="gh-legend"><span>Less</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>More</span></div>
       </div>
     </div>
   </div>
 
-
-  <!-- GitHub Contributions Section -->
-  <div class="container github-container">
-    <section id="github-contributions" class="github-section">
-      <div class="section-header">
-        <h2>GitHub Contributions</h2>
-      </div>
-      <div class="github-chart">
-        <!-- Reliable SVG Heatmap in a white box -->
-        <div class="chart-wrapper" id="github-svg-container" style="position: relative;">
-          <!-- Interactive SVG will be injected here -->
-          <div id="github-tooltip"></div>
-        </div>
-        <div class="github-stats" style="margin-top: 20px;">
-            <p>Check out my full profile and contributions directly on <a href="https://github.com/Ruchith1018" target="_blank">GitHub</a>.</p>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Contact Section -->
-  <div class="container contact-container">
-    <div class="contact-wrapper">
-      <div class="contact-left">
-        <section id="contact" class="contact-form">
-          <h2>Get in touch</h2>
-          <form action="https://formspree.io/f/mqazjpee" method="post">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required placeholder="Your Name" />
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required placeholder="your@email.com" />
-            </div>
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" required placeholder="How can I help?"></textarea>
-            </div>
-            <button type="submit" class="btn primary-btn">Send Message</button>
-          </form>
-        </section>
-      </div>
-      <div class="contact-right">
-        <div class="quote-container">
-          <i class="fas fa-quote-left quote-icon"></i>
-          <p class="quote-text">It's easy to lie with statistics. It's hard to tell the truth without statistics.</p>
-          <i class="fas fa-quote-right quote-icon" style="float: right;"></i>
-          <p class="quote-author">— Andrejs Dunkels</p>
-        </div>
+  <!-- Contact -->
+  <div class="container home-contact" id="contact">
+    <div class="contact-cta">
+      <p class="contact-kicker">Hiring for LLM, RAG or AI-agent work?</p>
+      <h2>Let's talk.</h2>
+      <p>The fastest way to reach me is email. I usually reply within a day.</p>
+      <div class="contact-actions">
+        <a class="btn primary-btn" href="mailto:bl.ruchith@gmail.com"><i class="fas fa-envelope"></i> bl.ruchith@gmail.com</a>
+        <button type="button" class="btn secondary-btn copy-email" data-email="bl.ruchith@gmail.com"><i class="far fa-copy"></i> <span>Copy email</span></button>
+        <a class="btn secondary-btn" href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
       </div>
     </div>
   </div>
@@ -286,6 +215,9 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="Projects/projects-data.js"></script>
+  <script src="Skills/skills-data.js"></script>
+  <script src="home.js"></script>
 </body>
 
 </html>

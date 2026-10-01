@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Ruchith Balam</title>
+  <meta name="description" content="Writing by Ruchith Balam on LLMs, RAG, MLOps and data science.">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="blog.css">
+  <link rel="preload" href="../script.js" as="script">
+  <link rel="preload" href="blog.js" as="script">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body class="allow-mobile">
+  <canvas id="neural-canvas"></canvas>
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="logo"><a href="../index.html" class="brand" aria-label="Ruchith Balam, home"><img class="brand-avatar" src="../Profile_Pic.jpeg" alt="" width="46" height="46"><span class="brand-text"><strong>Ruchith Balam</strong><small>Data Scientist</small></span></a></div>
+      <ul class="nav-links">
+        <li><a href="../index.html"><i class="fas fa-house"></i>Home</a></li>
+        <li><a href="../Experience/experience.html"><i class="fas fa-briefcase"></i>Experience</a></li>
+        <li><a href="../Academics/Academics.html"><i class="fas fa-graduation-cap"></i>Academics</a></li>
+        <li><a href="../Skills/skills.html"><i class="fas fa-layer-group"></i>Skills</a></li>
+        <li><a href="../Projects/projects.html"><i class="fas fa-folder-open"></i>Projects</a></li>
+        <li><a href="../Certifications/certifications.html"><i class="fas fa-award"></i>Certifications</a></li>
+        <li class="nav-blog"><a href="../Blog/index.html" class="is-current" aria-current="page"><i class="fas fa-pen-nib"></i>Blog</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="nav-btn nav-btn-cv" href="../resume__.pdf" aria-label="Download CV"><i class="fas fa-file-download"></i><span>Download CV</span></a>
+        <a class="nav-btn nav-btn-mail" href="mailto:bl.ruchith@gmail.com" aria-label="Email me"><i class="fas fa-envelope"></i><span>Email me</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container blog-container">
+    <section class="blog-intro">
+      <h1>Blog</h1>
+      <p>Notes from building LLM pipelines, RAG systems and ML infrastructure in production.</p>
+    </section>
+
+    <div id="blog-filters" class="blog-filters" aria-label="Filter posts by tag"></div>
+
+    <!--
+      ADDING A POST
+      1. Copy Blog/_template/ to Blog/<post-slug>/ and write the post.
+      2. Add a tile below. Order doesn't matter: tiles are sorted by the
+         <time datetime> value, newest first.
+      3. data-tags drives the filter buttons (comma-separated).
+
+      <a class="blog-tile" href="post-slug/index.html" data-tags="LLM, RAG">
+        <div class="blog-tile-image">
+          <img src="post-slug/images/cover.jpg" alt="" loading="lazy">
+        </div>
+        <div class="blog-tile-content">
+          <div class="blog-tile-meta">
+            <time datetime="2026-10-01">01 Oct 2026</time>
+            <span>6 min read</span>
+          </div>
+          <h3>Post Title</h3>
+          <p>One or two sentences that make someone want to read the post.</p>
+          <div class="project-tags"><span>LLM</span><span>RAG</span></div>
+        </div>
+      </a>
+    -->
+    <div id="blog-grid" class="blog-grid">
+      <a class="blog-tile" href="building-meridian-swot-rag/index.html" data-tags="LLM, RAG, LangChain">
+        <div class="blog-tile-image">
+          <img src="building-meridian-swot-rag/images/cover.png" alt="" loading="lazy">
+        </div>
+        <div class="blog-tile-content">
+          <div class="blog-tile-meta">
+            <time datetime="2026-10-01">01 Oct 2026</time>
+            <span>5 min read</span>
+          </div>
+          <h3>Building Meridian: A RAG Pipeline That Knows When to Search</h3>
+          <p>How Meridian turns SEC 10-K filings into SWOT reports, and why it checks its own context before answering.</p>
+          <div class="project-tags"><span>LLM</span><span>RAG</span><span>LangChain</span></div>
+        </div>
+      </a>
+    </div>
+
+    <div id="blog-empty" class="blog-empty" hidden>
+      <i class="fas fa-pen-nib"></i>
+      <h3>First post coming soon</h3>
+      <p>Writing is in progress. Check back shortly.</p>
+    </div>
+  </div>
+
+  <!-- Minimal Footer -->
+  <footer>
+    <div class="footer-left">
+      <p>© 2026 Ruchith Balam • Data Scientist</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:bl.ruchith@gmail.com" class="icon-link"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i
+          class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i
+          class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+  <script src="blog.js"></script>
+</body>
+</html>

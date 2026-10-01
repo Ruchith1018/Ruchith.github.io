@@ -224,20 +224,75 @@ body.loaded {
     to { background-position: 28.28px 0; }
 }
 
+.mobile-blog-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    padding: 12px 24px;
+    background: #000000;
+    color: #facc15;
+    border: 2px solid #000000;
+    border-radius: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.mobile-blog-btn i {
+    font-size: 1rem !important;
+    margin: 0 !important;
+    color: #facc15 !important;
+    animation: none !important;
+}
+
+/* Pages with body.allow-mobile (the blog) stay readable on phones */
 @media screen and (max-width: 600px) {
-    #mobile-overlay {
+    body:not(.allow-mobile) #mobile-overlay {
         display: flex;
     }
-    body {
+    body:not(.allow-mobile) {
         overflow: hidden !important;
     }
-    #preloader, header, .container, footer {
+    body:not(.allow-mobile) #preloader,
+    body:not(.allow-mobile) header,
+    body:not(.allow-mobile) .container,
+    body:not(.allow-mobile) footer {
         display: none !important;
     }
-    #neural-canvas {
+    body:not(.allow-mobile) #neural-canvas {
         z-index: 10002; /* Above the yellow overlay background but below content */
         display: block !important;
         opacity: 0.3; /* Subtle network effect on mobile */
+    }
+
+    body.allow-mobile {
+        padding: 10px;
+    }
+    body.allow-mobile #neural-canvas {
+        opacity: 0.4;
+    }
+    body.allow-mobile header {
+        padding: 12px 18px;
+        border-radius: var(--radius-card);
+    }
+    body.allow-mobile .logo a {
+        font-size: 1.1rem;
+    }
+    body.allow-mobile .container {
+        padding: 18px;
+        border-radius: 20px;
+    }
+}
+
+/* The main nav is hidden below 768px; blog pages keep just the Blog link */
+@media screen and (max-width: 768px) {
+    body.allow-mobile .nav-links {
+        display: flex !important;
+    }
+    body.allow-mobile .nav-links li:not(.nav-blog) {
+        display: none;
     }
 }
 
@@ -323,11 +378,6 @@ nav {
     padding: 8px 16px;
     border-radius: 8px;
     transition: var(--transition);
-}
-
-.nav-links li a:hover {
-    background: var(--bg-black);
-    color: var(--bg-yellow);
 }
 
 /* Hero Section */
@@ -1198,3 +1248,210 @@ footer {
     100% { transform: rotate(360deg); }
 }
 
+
+
+/* ===== Top bar: sticky, brand, current-page pill, action buttons ===== */
+html {
+    scroll-padding-top: 110px;
+}
+
+header {
+    max-width: 1280px;   /* only the bar is wider than the page boxes */
+    position: sticky;
+    top: 12px;
+    z-index: 100;
+    padding: 12px 28px;
+    transition: padding 0.25s ease;
+}
+
+header.is-scrolled {
+    padding: 7px 24px;
+}
+
+header nav {
+    gap: 14px 16px;
+    flex-wrap: nowrap;
+}
+
+/* once pinned, a plain yellow band fills the gap above the bar so no page content shows through it */
+header.is-scrolled::before {
+    content: '';
+    position: absolute;
+    top: -100px;   /* measured from inside the 3px border, so 97px of height ends at the bar's outer top edge */
+    height: 97px;
+    left: -100vw;
+    right: -100vw;
+    background: var(--bg-yellow);
+}
+
+/* brand: photo + name + role */
+.logo a.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: none;
+    font-size: inherit;
+    white-space: nowrap;
+}
+
+.brand-avatar {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    object-fit: cover;
+    object-position: 50% 22%;
+    background: white;
+    border: 3px solid var(--bg-black);
+    border-radius: 50%;
+    transition: width 0.25s ease, height 0.25s ease;
+}
+
+header.is-scrolled .brand-avatar {
+    width: 36px;
+    height: 36px;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.brand-text strong {
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.brand-text small {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    max-height: 1em;
+    overflow: hidden;
+    transition: max-height 0.25s ease, opacity 0.25s ease;
+}
+
+header.is-scrolled .brand-text small {
+    max-height: 0;
+    opacity: 0;
+}
+
+/* links, each with a small icon; the current page is a white pill */
+.nav-links {
+    gap: 4px;
+    flex-wrap: nowrap;
+}
+
+.nav-links li a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 9px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.nav-links li a i,
+.nav-btn i {
+    display: inline-block;
+    width: 1.1em;
+    text-align: center;
+}
+
+.nav-links li a i {
+    font-size: 0.78rem;
+}
+
+.nav-links li a.is-current {
+    background: white;
+    border-color: var(--bg-black);
+    box-shadow: 2px 2px 0 var(--bg-black);
+}
+
+.nav-links li a:focus-visible,
+.nav-btn:focus-visible,
+.brand:focus-visible {
+    outline: 3px solid var(--bg-black);
+    outline-offset: 2px;
+}
+
+/* actions on the right: always one click from the CV and the inbox */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    border: 2px solid var(--bg-black);
+    border-radius: 10px;
+}
+
+.nav-btn-cv {
+    background: var(--bg-black);
+    color: var(--bg-yellow);
+}
+
+.nav-btn-mail {
+    background: white;
+    color: var(--text-black);
+}
+
+@media (max-width: 1330px) {
+    .nav-btn span {
+        display: none;
+    }
+
+    .nav-btn {
+        padding: 8px 11px;
+    }
+}
+
+@media (max-width: 1180px) {
+    .nav-links li a i {
+        display: none;
+    }
+}
+
+@media (max-width: 1000px) {
+    .nav-actions {
+        display: none;
+    }
+}
+
+@media (max-width: 960px) {
+    header nav {
+        gap: 10px;
+    }
+
+    .nav-links li a {
+        padding: 6px 6px;
+    }
+}
+
+@media (max-width: 900px) {
+    .brand-text {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    header,
+    .brand-avatar,
+    .brand-text small {
+        transition: none;
+    }
+}
