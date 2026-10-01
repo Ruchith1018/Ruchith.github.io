@@ -1,10 +1,5 @@
 /* Blog listing page */
 
-.nav-links li.nav-blog a {
-    background: var(--bg-black);
-    color: var(--bg-yellow);
-}
-
 .blog-intro h1 {
     font-size: clamp(2.8rem, 8vw, 5rem);
     font-weight: 900;

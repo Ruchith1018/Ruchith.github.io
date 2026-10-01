@@ -1,11 +1,6 @@
 /* Shared styles for every blog post (Blog/<slug>/index.html).
    Post-specific tweaks go in that post's own style.css. */
 
-.nav-links li.nav-blog a {
-    background: var(--bg-black);
-    color: var(--bg-yellow);
-}
-
 /* Two columns: article on the left, related posts on the right */
 .post-layout {
     max-width: 1200px;
