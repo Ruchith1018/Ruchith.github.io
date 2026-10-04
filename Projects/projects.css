@@ -361,7 +361,8 @@ body.pm-open {
     padding: 16px 20px;
 }
 
-.pm-readme-body > * + * {
+.pm-readme-body > * + *,
+.pm-readme-inline > * + * {
     margin-top: 1em;
 }
 
