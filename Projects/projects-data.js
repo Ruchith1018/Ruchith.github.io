@@ -30,7 +30,6 @@ const PROJECTS = [
     links: {
       github: 'https://github.com/Ruchith1018/SWOT_ANALYSIS',
       live: 'https://swot-analysis-u8ba.vercel.app/',
-      blog: '../Blog/building-meridian-swot-rag/index.html',
     },
     readme: {
       url: 'https://raw.githubusercontent.com/Ruchith1018/SWOT_ANALYSIS/master/README.md',

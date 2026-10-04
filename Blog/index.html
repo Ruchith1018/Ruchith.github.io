@@ -8,10 +8,12 @@
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="blog.css">
-  <link rel="preload" href="../script.js" as="script">
-  <link rel="preload" href="blog.js" as="script">
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script defer blocking="render" src="../script.js"></script>
+  <script defer blocking="render" src="blog.js"></script>
+  <!-- visitor counts: goatcounter.com (no cookies) -->
+  <script data-goatcounter="https://ruchith.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 
 <body class="allow-mobile">
@@ -29,10 +31,6 @@
         <li><a href="../Certifications/certifications.html"><i class="fas fa-award"></i>Certifications</a></li>
         <li class="nav-blog"><a href="../Blog/index.html" class="is-current" aria-current="page"><i class="fas fa-pen-nib"></i>Blog</a></li>
       </ul>
-      <div class="nav-actions">
-        <a class="nav-btn nav-btn-cv" href="../resume__.pdf" aria-label="Download CV"><i class="fas fa-file-download"></i><span>Download CV</span></a>
-        <a class="nav-btn nav-btn-mail" href="mailto:bl.ruchith@gmail.com" aria-label="Email me"><i class="fas fa-envelope"></i><span>Email me</span></a>
-      </div>
     </nav>
   </header>
 
@@ -67,20 +65,6 @@
       </a>
     -->
     <div id="blog-grid" class="blog-grid">
-      <a class="blog-tile" href="building-meridian-swot-rag/index.html" data-tags="LLM, RAG, LangChain">
-        <div class="blog-tile-image">
-          <img src="building-meridian-swot-rag/images/cover.png" alt="" loading="lazy">
-        </div>
-        <div class="blog-tile-content">
-          <div class="blog-tile-meta">
-            <time datetime="2026-10-01">01 Oct 2026</time>
-            <span>5 min read</span>
-          </div>
-          <h3>Building Meridian: A RAG Pipeline That Knows When to Search</h3>
-          <p>How Meridian turns SEC 10-K filings into SWOT reports, and why it checks its own context before answering.</p>
-          <div class="project-tags"><span>LLM</span><span>RAG</span><span>LangChain</span></div>
-        </div>
-      </a>
     </div>
 
     <div id="blog-empty" class="blog-empty" hidden>
@@ -105,7 +89,5 @@
     </div>
   </footer>
 
-  <script src="../script.js"></script>
-  <script src="blog.js"></script>
 </body>
 </html>

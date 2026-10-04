@@ -479,3 +479,10 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('scroll', update, { passive: true });
   update();
 });
+
+// ===== ANALYTICS: count CV downloads as an event (works for links added later too) =====
+document.addEventListener('click', function (e) {
+  const link = e.target.closest && e.target.closest('a[href$="resume__.pdf"]');
+  if (!link || !window.goatcounter || !window.goatcounter.count) return;
+  window.goatcounter.count({ path: 'cv-download', title: 'CV download', event: true });
+});
