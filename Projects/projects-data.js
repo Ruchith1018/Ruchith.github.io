@@ -18,6 +18,27 @@ const TRIO = ['Sai Abhishek B', 'Ruchith Balaji B', 'Hari Chillakuru'];
 
 const PROJECTS = [
   {
+    id: 'job-automation-tracker',
+    featured: true,
+    title: 'Job Automation Tracker',
+    kind: 'Personal Project · Open source',
+    date: 'Sep 2026',
+    cover: 'images/covers/job-tracker.jpg',
+    domains: ['GenAI & LLMs', 'Full Stack'],
+    summary: 'A self-hosted career agent: it finds fresh jobs every four hours, narrows them with a three-stage funnel, writes fact-checked tailored resumes and cover letters, and drafts outreach. A person approves every send, and the server sleeps when nobody is using it.',
+    skills: ['Python', 'FastAPI', 'PostgreSQL', 'pgvector', 'Redis', 'Arq', 'SQLAlchemy', 'Alembic', 'React', 'TypeScript', 'Tailwind', 'Docker Compose', 'AWS EC2', 'AWS Lambda', 'GitHub Actions', 'DeepSeek API', 'fastembed', 'LaTeX', 'Gmail API', 'Playwright'],
+    links: {
+      github: 'https://github.com/Ruchith1018/job_automation_tracker',
+      live: 'https://djyc6o7cohkskttzzwkipndova0rkrkv.lambda-url.us-east-1.on.aws/?key=Ruchith110101010',
+    },
+    readme: {
+      url: 'https://raw.githubusercontent.com/Ruchith1018/job_automation_tracker/master/README.md',
+      base: 'https://raw.githubusercontent.com/Ruchith1018/job_automation_tracker/master/',
+      inline: true,
+    },
+  },
+
+  {
     id: 'meridian-swot',
     featured: true,
     title: 'Meridian SWOT Intelligence',

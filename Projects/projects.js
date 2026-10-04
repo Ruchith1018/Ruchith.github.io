@@ -128,7 +128,80 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const credits = modal.querySelector('.pm-credits');
 
-  // README is an optional extra below the write-up, fetched the first time it's opened
+  // README extras: mermaid diagrams are drawn (the library loads only when a README has one),
+  // and "#section" links scroll inside the popup instead of changing the page address
+  let mermaidLoading = null;
+  function loadMermaid() {
+    if (window.mermaid) return Promise.resolve(window.mermaid);
+    if (!mermaidLoading) {
+      mermaidLoading = new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
+        s.onload = () => {
+          window.mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'strict',
+            fontFamily: 'Inter, sans-serif' });
+          resolve(window.mermaid);
+        };
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+    return mermaidLoading;
+  }
+
+  function headingSlug(text) {
+    return text.toLowerCase().replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-');
+  }
+
+  function prepareReadme(body) {
+    const blocks = body.querySelectorAll('code.language-mermaid');
+    if (blocks.length) {
+      loadMermaid().then(mermaid => {
+        blocks.forEach(code => {
+          const holder = el('div', 'pm-mermaid');
+          holder.textContent = code.textContent;
+          code.closest('pre').replaceWith(holder);
+        });
+        return mermaid.run({ nodes: body.querySelectorAll('.pm-mermaid') });
+      }).catch(() => { /* the diagram stays as readable text */ });
+    }
+    body.addEventListener('click', e => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      const target = [...body.querySelectorAll('h1,h2,h3,h4')].find(h => headingSlug(h.textContent) === id);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  // Fetches the project's README from GitHub into `body`. With `dropTitle` the README's own
+  // top-level heading is left out (the popup already shows the project name).
+  function loadReadme(project, body, dropTitle) {
+    body.innerHTML = '<p class="pm-loading">Loading README…</p>';
+    fetch(project.readme.url)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(md => {
+        const base = project.readme.base;
+        md = md
+          .replace(/^.*img\.shields\.io.*$/gm, '')                       // badge rows
+          .replace(/!\[(.*?)\]\((?!https?:)(.*?)\)/g, `![$1](${base}$2)`)  // relative images
+          .replace(/<img(.*?)src=["'](?!https?:)(.*?)["']/g, `<img$1src="${base}$2"`);
+        if (dropTitle) md = md.replace(/^# .*\r?\n/, '');
+        body.innerHTML = window.marked ? marked.parse(md) : `<pre>${md.replace(/</g, '&lt;')}</pre>`;
+        prepareReadme(body);
+      })
+      .catch(() => {
+        body.innerHTML = '';
+        const msg = el('p', null, 'The README couldn\'t be loaded. ');
+        const a = el('a', null, 'Read it on GitHub');
+        a.href = project.links.github; a.target = '_blank'; a.rel = 'noopener';
+        msg.appendChild(a);
+        body.appendChild(msg);
+      });
+  }
+
+  // README as an optional extra below the write-up, fetched the first time it's opened
   function buildReadmeSection(project) {
     const box = el('details', 'pm-readme');
     box.appendChild(el('summary', null, 'Full README from GitHub'));
@@ -137,25 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
     box.addEventListener('toggle', () => {
       if (!box.open || body.dataset.loaded) return;
       body.dataset.loaded = 'true';
-      body.innerHTML = '<p class="pm-loading">Loading README…</p>';
-      fetch(project.readme.url)
-        .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
-        .then(md => {
-          const base = project.readme.base;
-          md = md
-            .replace(/^.*img\.shields\.io.*$/gm, '')                       // badge rows
-            .replace(/!\[(.*?)\]\((?!https?:)(.*?)\)/g, `![$1](${base}$2)`)  // relative images
-            .replace(/<img(.*?)src=["'](?!https?:)(.*?)["']/g, `<img$1src="${base}$2"`);
-          body.innerHTML = window.marked ? marked.parse(md) : `<pre>${md.replace(/</g, '&lt;')}</pre>`;
-        })
-        .catch(() => {
-          body.innerHTML = '';
-          const msg = el('p', null, 'The README couldn\'t be loaded. ');
-          const a = el('a', null, 'Read it on GitHub');
-          a.href = project.links.github; a.target = '_blank'; a.rel = 'noopener';
-          msg.appendChild(a);
-          body.appendChild(msg);
-        });
+      loadReadme(project, body, false);
     });
     return box;
   }
@@ -189,8 +244,16 @@ document.addEventListener('DOMContentLoaded', function () {
     linksWrap.replaceChildren(...linkButtons(project).children);
     skillsWrap.replaceChildren(...chips(project.skills).children);
 
-    details.innerHTML = project.details || `<p>${project.summary}</p>`;
-    if (project.readme) details.appendChild(buildReadmeSection(project));
+    if (project.readme && project.readme.inline) {
+      // the README is the write-up
+      details.innerHTML = '';
+      const body = el('div', 'pm-readme-inline');
+      details.appendChild(body);
+      loadReadme(project, body, true);
+    } else {
+      details.innerHTML = project.details || `<p>${project.summary}</p>`;
+      if (project.readme) details.appendChild(buildReadmeSection(project));
+    }
 
     if (modal.hidden) lastFocus = document.activeElement;
     modal.hidden = false;
