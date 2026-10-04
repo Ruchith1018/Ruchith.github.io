@@ -1250,7 +1250,7 @@ footer {
 
 
 
-/* ===== Top bar: sticky, brand, current-page pill, action buttons ===== */
+/* ===== Top bar: sticky, brand, links with a current-page pill ===== */
 html {
     scroll-padding-top: 110px;
 }
@@ -1271,6 +1271,11 @@ header.is-scrolled {
 header nav {
     gap: 14px 16px;
     flex-wrap: nowrap;
+    justify-content: flex-start;   /* the brand stays left; the links sit on the right */
+}
+
+.nav-links {
+    margin-left: auto;
 }
 
 /* once pinned, a plain yellow band fills the gap above the bar so no page content shows through it */
@@ -1356,8 +1361,7 @@ header.is-scrolled .brand-text small {
     white-space: nowrap;
 }
 
-.nav-links li a i,
-.nav-btn i {
+.nav-links li a i {
     display: inline-block;
     width: 1.1em;
     text-align: center;
@@ -1374,60 +1378,13 @@ header.is-scrolled .brand-text small {
 }
 
 .nav-links li a:focus-visible,
-.nav-btn:focus-visible,
 .brand:focus-visible {
     outline: 3px solid var(--bg-black);
     outline-offset: 2px;
 }
 
-/* actions on the right: always one click from the CV and the inbox */
-.nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.nav-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 7px 12px;
-    font-size: 0.82rem;
-    font-weight: 800;
-    text-decoration: none;
-    white-space: nowrap;
-    border: 2px solid var(--bg-black);
-    border-radius: 10px;
-}
-
-.nav-btn-cv {
-    background: var(--bg-black);
-    color: var(--bg-yellow);
-}
-
-.nav-btn-mail {
-    background: white;
-    color: var(--text-black);
-}
-
-@media (max-width: 1330px) {
-    .nav-btn span {
-        display: none;
-    }
-
-    .nav-btn {
-        padding: 8px 11px;
-    }
-}
-
 @media (max-width: 1180px) {
     .nav-links li a i {
-        display: none;
-    }
-}
-
-@media (max-width: 1000px) {
-    .nav-actions {
         display: none;
     }
 }
@@ -1445,6 +1402,60 @@ header.is-scrolled .brand-text small {
 @media (max-width: 900px) {
     .brand-text {
         display: none;
+    }
+}
+
+/* phones (only the blog is open there): just the brand, and the bar scrolls away with the page */
+@media (max-width: 768px) {
+    header {
+        position: relative;
+        top: auto;
+        padding: 8px 14px;
+    }
+
+    header nav {
+        gap: 10px;
+    }
+
+    .brand-text {
+        display: flex;
+    }
+
+    .brand-text strong {
+        font-size: 1rem;
+    }
+
+    .brand-text small {
+        display: block;
+        font-size: 0.56rem;
+    }
+
+    .brand-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    body.allow-mobile header .nav-links {
+        display: none !important;
+    }
+
+    /* the bar is not pinned here, so none of the pinned-bar changes apply */
+    header.is-scrolled {
+        padding: 8px 14px;
+    }
+
+    header.is-scrolled::before {
+        display: none;
+    }
+
+    header.is-scrolled .brand-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    header.is-scrolled .brand-text small {
+        max-height: 1em;
+        opacity: 0.75;
     }
 }
 

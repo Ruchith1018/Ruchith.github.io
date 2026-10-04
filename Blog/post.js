@@ -101,3 +101,19 @@ document.addEventListener('DOMContentLoaded', function () {
       showEmpty('Browse all posts on the blog page.');
     });
 });
+
+// ===== READ COUNT: this post's views, read from GoatCounter's public counter =====
+// Needs "Allow adding visitor counts on your website" turned on in GoatCounter settings.
+document.addEventListener('DOMContentLoaded', function () {
+  const slot = document.getElementById('read-count');
+  if (!slot) return;
+  const path = window.location.pathname;
+  fetch('https://ruchith.goatcounter.com/counter/' + encodeURIComponent(path) + '.json')
+    .then(r => (r.ok ? r.json() : null))
+    .then(d => {
+      if (!d || !d.count) return;
+      slot.textContent = d.count + (d.count === '1' ? ' read' : ' reads');
+      slot.hidden = false;
+    })
+    .catch(() => {});
+});
