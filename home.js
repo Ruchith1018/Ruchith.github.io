@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ['Full experience, role by role', 'Experience/experience.html'],
       ['Meridian write-up: architecture and design choices', 'Projects/projects.html#meridian-swot'],
       ['Research: DQN vs PPO for Space Invaders', 'Projects/projects.html#space-invaders-rl'],
-      ['All 21 projects, filterable by domain', 'Projects/projects.html'],
+      ['All 22 projects, filterable by domain', 'Projects/projects.html'],
       ['Degree, certificates and coursework', 'Academics/Academics.html'],
     ] },
   ];
@@ -457,6 +457,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const top = document.getElementById('top-projects');
   if (top && typeof PROJECTS !== 'undefined') {
     const PICKS = [
+      { id: 'job-automation-tracker', metric: '$0.005', label: 'per fact-checked, tailored resume' },
       { id: 'meridian-swot', metric: '206', label: 'analyst questions answered per report' },
       { id: 'space-invaders-rl', metric: '+52%', label: 'reward from vertical movement (PPO)' },
       { id: 'drone-detection', metric: '97.7%', label: 'test accuracy, InceptionV3 + attention' },
