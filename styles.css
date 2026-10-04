@@ -22,9 +22,6 @@
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-yellow);
-    background-image: url("bg-pattern.svg"); /* coding doodles, tiled like a chat wallpaper */
-    background-repeat: repeat;
-    background-attachment: fixed; /* the icons stay put while the page scrolls over them */
     color: var(--text-black);
     line-height: 1.5;
     padding: 20px;
@@ -35,6 +32,18 @@ body {
     transition: opacity 0.8s ease-in-out;
     scrollbar-color: var(--bg-black) var(--bg-yellow); /* Firefox support */
     scrollbar-width: thin;
+}
+
+/* The doodle wallpaper sits on its own fixed layer. (background-attachment: fixed makes the
+   browser repaint the whole screen on every scroll step, which made scrolling lag.) */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url("bg-pattern.svg") repeat;
+    pointer-events: none;
+    will-change: transform;
 }
 
 /* Custom Scrollbar Theme */

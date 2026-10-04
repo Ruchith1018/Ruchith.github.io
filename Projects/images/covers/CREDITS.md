@@ -25,3 +25,4 @@ Covers made from the projects' own material:
 - `stacker-game.jpg` — screenshot from the project report
 - `home-automation.jpg` — redraw of the device graph in the project report
 - `face-login.jpg`, `diabetes-prediction.jpg` — images previously used on this site
+- `job-tracker.jpg` — cover supplied by the project owner

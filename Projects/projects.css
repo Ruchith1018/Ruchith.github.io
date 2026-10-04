@@ -66,11 +66,9 @@
     transition: var(--transition);
 }
 
-.project-tile:hover,
 .project-tile:focus-visible {
-    transform: translate(-8px, -8px);
-    box-shadow: 8px 8px 0 var(--bg-black);
-    outline: none;
+    outline: 3px solid var(--bg-black);
+    outline-offset: 3px;
 }
 
 .project-tile.is-hidden,
@@ -91,10 +89,6 @@
     object-fit: cover;
     display: block;
     transition: var(--transition);
-}
-
-.project-tile:hover .project-tile-image img {
-    transform: scale(1.05);
 }
 
 .project-tile-content {
@@ -137,36 +131,35 @@
     text-transform: uppercase;
 }
 
-.project-tile:hover .project-tile-more {
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-}
-
 /* Domain chips (styles.css defines .project-tags span for the home page) */
 .project-tile .project-tags {
     margin-top: 0;
 }
 
 /* ----- Featured card ----- */
-.project-tile-featured {
-    flex-direction: row;
+/* the featured projects sit side by side, two to a row */
+.featured-project {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+    align-items: stretch;
+}
+
+.featured-project:not(:empty):not(.is-hidden) {
+    margin-bottom: 30px;
 }
 
 .project-tile-featured .project-tile-image {
-    flex: 0 0 55%;
-    aspect-ratio: auto;
-    min-height: 340px;
-    border-bottom: none;
-    border-right: 3px solid var(--bg-black);
+    aspect-ratio: 16 / 9;
 }
 
 .project-tile-featured .project-tile-content {
-    padding: 30px;
+    padding: 26px;
     gap: 14px;
 }
 
 .project-tile-featured h3 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 }
 
 .project-tile-featured p {
@@ -208,24 +201,9 @@
     transition: var(--transition);
 }
 
-.project-link:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 3px 3px 0 var(--bg-black);
-    background: var(--bg-yellow);
-    color: var(--text-black);
-}
-
 @media (max-width: 900px) {
-    .project-tile-featured {
-        flex-direction: column;
-    }
-
-    .project-tile-featured .project-tile-image {
-        flex: none;
-        aspect-ratio: 16 / 9;
-        min-height: 0;
-        border-right: none;
-        border-bottom: 3px solid var(--bg-black);
+    .featured-project {
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 
@@ -544,4 +522,24 @@ body.pm-open {
     .pm-body {
         padding: 22px 20px 30px;
     }
+}
+
+/* Diagrams drawn from a README's mermaid blocks */
+.pm-mermaid {
+    overflow-x: auto;
+    padding: 12px;
+    background: #fff;
+    border: 2px solid var(--bg-black);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.pm-mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.pm-readme-body img {
+    max-width: 100%;
+    height: auto;
 }
