@@ -451,3 +451,13 @@
     }
 }
 
+/* Justified paragraphs and list text, with hyphenation so long words don't leave wide gaps.
+   Tables, captions, headings and code keep their normal alignment. */
+.post-body > p,
+.post-body > ul > li,
+.post-body > ol > li,
+.post-body blockquote {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+}
