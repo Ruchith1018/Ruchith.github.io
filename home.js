@@ -11,6 +11,51 @@ document.addEventListener('DOMContentLoaded', function () {
     return node;
   }
 
+  // ----- Count-up numbers: run from 0 to the shown value when first scrolled into view -----
+  // Keeps any text around the number ("21 days", "1,234"). Skipped for reduced motion.
+  function countUp(node, duration) {
+    const text = node.dataset.final || node.textContent;
+    const m = text.match(/^(\D*)([\d,]+)(.*)$/);
+    if (!m) return;
+    const target = parseInt(m[2].replace(/,/g, ''), 10);
+    if (!target) return;
+    const withCommas = m[2].includes(',');
+    const fmt = n => (withCommas ? n.toLocaleString() : String(n));
+    const start = performance.now();
+    node.textContent = m[1] + fmt(0) + m[3];
+    function frame(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      node.textContent = m[1] + fmt(Math.round(target * eased)) + m[3];
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function countWhenVisible(nodes, duration) {
+    if (reduce || !nodes.length) return;
+    // start at 0 straight away so the final number never flashes before the count;
+    // screen readers still get the real value
+    nodes.forEach(n => {
+      const m = n.textContent.match(/^(\D*)([\d,]+)(.*)$/);
+      if (!m) return;
+      n.setAttribute('aria-label', n.textContent);
+      n.dataset.final = n.textContent;
+      n.textContent = m[1] + '0' + m[3];
+    });
+    if (!('IntersectionObserver' in window)) { nodes.forEach(n => countUp(n, duration)); return; }
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        countUp(e.target, duration);
+      });
+    }, { threshold: 0.4 });
+    nodes.forEach(n => io.observe(n));
+  }
+
+  countWhenVisible([...document.querySelectorAll('.impact-card strong')], 900);
+
   // ----- Rotating headline: types and deletes each phrase -----
   const word = document.getElementById('rotate-word');
   const PHRASES = ['production LLM pipelines', 'RAG systems', 'AI agents', 'ML models that ship'];
@@ -389,6 +434,7 @@ document.addEventListener('DOMContentLoaded', function () {
       card.append(el('strong', null, String(n)), el('span', null, l));
       stats.appendChild(card);
     });
+    countWhenVisible([...stats.querySelectorAll('strong')], 1200);
 
     // ---- grid: one column per week, Sunday at the top ----
     const CELL = 13, GAP = 3, STEP = CELL + GAP, LEFT = 30, TOP = 20;
