@@ -1433,3 +1433,21 @@ header.is-scrolled::before {
         transition: none;
     }
 }
+
+/* Inline code everywhere: a soft highlight, not a black box (pages may restyle code inside <pre>) */
+code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85em;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+pre code {
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+}

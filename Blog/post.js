@@ -117,3 +117,20 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     .catch(() => {});
 });
+
+// ===== TABLES: wrap for sideways scrolling, keep short cells on one line =====
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.post-body table').forEach(table => {
+    if (!table.parentElement.classList.contains('table-wrap')) {
+      const wrap = document.createElement('div');
+      wrap.className = 'table-wrap';
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    }
+    table.querySelectorAll('td').forEach(td => {
+      const len = td.textContent.trim().length;
+      if (len <= 28) td.classList.add('nw');
+      else if (len > 70) td.classList.add('wide');
+    });
+  });
+});
