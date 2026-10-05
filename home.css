@@ -978,3 +978,9 @@
     font-size: 0.85rem;
     text-align: center;
 }
+
+/* Counting numbers keep a steady width while they animate */
+.impact-card strong,
+.gh-stat strong {
+    font-variant-numeric: tabular-nums;
+}
