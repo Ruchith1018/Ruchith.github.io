@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
     wrap.className = 'nl-box' + (withArt ? ' nl-has-art' : ' nl-compact');
     const formHtml = `
         <form class="nl-form" action="https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USER}"
-              method="post" target="nl-sink">
+              method="post" target="_blank">
           <label class="nl-label" for="${idPrefix}-email">Email address</label>
           <div class="nl-field">
             <i class="far fa-envelope" aria-hidden="true"></i>
@@ -211,33 +211,18 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>`;
     const form = wrap.querySelector('form');
     form.addEventListener('submit', () => {
-      // sent to Buttondown in the background (hidden frame): no new window, no redirect
-      const button = form.querySelector('.nl-button');
+      // Buttondown's page opens in a new tab (it confirms the sign-up there, with a CAPTCHA if
+      // needed); this post stays open and shows the "check your inbox" dialog
       const email = form.querySelector('.nl-input').value.trim();
-      button.disabled = true;
-      button.textContent = 'Subscribing…';
-      let done = false;
-      const finish = () => {
-        if (done) return;
-        done = true;
-        store.set(SUBSCRIBED, '1');
+      store.set(SUBSCRIBED, '1');
+      setTimeout(() => {
         document.querySelectorAll('.nl-form, .nl-fine').forEach(x => { x.hidden = true; });
         document.querySelectorAll('.nl-thanks').forEach(x => { x.hidden = false; });
         openSuccess(email);
-      };
-      sink.addEventListener('load', finish, { once: true });
-      setTimeout(finish, 4000);
+      }, 150);
     });
     return wrap;
   }
-
-  // hidden frame the forms post into, so the page never navigates
-  const sink = document.createElement('iframe');
-  sink.name = 'nl-sink';
-  sink.title = 'Newsletter sign-up';
-  sink.hidden = true;
-  sink.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(sink);
 
   // 1) inline boxes: end of article (shown below 993px) and sidebar (shown from 993px)
   const end = main.querySelector('.post-end');
