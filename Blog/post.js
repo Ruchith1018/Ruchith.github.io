@@ -213,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', () => {
       // sent to Buttondown in the background (hidden frame): no new window, no redirect
       const button = form.querySelector('.nl-button');
+      const email = form.querySelector('.nl-input').value.trim();
       button.disabled = true;
       button.textContent = 'Subscribing…';
       let done = false;
@@ -222,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
         store.set(SUBSCRIBED, '1');
         document.querySelectorAll('.nl-form, .nl-fine').forEach(x => { x.hidden = true; });
         document.querySelectorAll('.nl-thanks').forEach(x => { x.hidden = false; });
-        if (overlay) setTimeout(closePopup, 3000);
+        openSuccess(email);
       };
       sink.addEventListener('load', finish, { once: true });
       setTimeout(finish, 4000);
@@ -310,6 +311,21 @@ document.addEventListener('DOMContentLoaded', function () {
     later.addEventListener('click', closePopup);
     card.querySelector('.nl-content').appendChild(later);
     showOverlay(card, 'nl-popup-title', card.querySelector('.nl-input'));
+  }
+
+  function openSuccess(email) {
+    const card = document.createElement('div');
+    card.className = 'nl-box nl-popup nl-success';
+    card.innerHTML = `
+      <div class="nl-success-icon"><img src="${NL_ASSETS}mailbox.svg" alt="" width="44" height="44"></div>
+      <h3 class="nl-title" id="nl-success-title">Check your inbox</h3>
+      <p class="nl-text">We've sent a confirmation link${email ? ' to <strong></strong>' : ''}. Click it to finish subscribing.</p>
+      <button type="button" class="nl-button nl-done">Got it</button>
+      <p class="nl-fine">No email after a few minutes? Check your spam folder, or
+        <a href="https://buttondown.com/${BUTTONDOWN_USER}" target="_blank" rel="noopener">subscribe on the newsletter page</a>.</p>`;
+    if (email) card.querySelector('.nl-text strong').textContent = email;
+    card.querySelector('.nl-done').addEventListener('click', closePopup);
+    showOverlay(card, 'nl-success-title', card.querySelector('.nl-done'));
   }
 
   if (!store.get(SUBSCRIBED) && !store.get(seenKey)) {
