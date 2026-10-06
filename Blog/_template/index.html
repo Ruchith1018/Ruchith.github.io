@@ -5,6 +5,8 @@
   2. Put the cover image at images/cover.jpg (16:9 works best) plus any other images.
   3. Replace everything marked TODO.
   4. Add a tile for the post in Blog/index.html.
+  5. Run  python Blog/build_feed.py  to update the RSS feed (Blog/feed.xml).
+  6. After it is live, send the "new post" email from the Buttondown dashboard.
   Folders starting with "_" are not published by GitHub Pages, so this template stays private.
 -->
 <html lang="en">
@@ -24,6 +26,7 @@
   <script defer blocking="render" src="script.js"></script>
   <!-- visitor counts: goatcounter.com (no cookies) -->
   <script data-goatcounter="https://ruchith.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="alternate" type="application/rss+xml" title="Ruchith Balam: Blog" href="../feed.xml">
 </head>
 
 <body class="allow-mobile">

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ruchith Balam: Blog</title>
+    <link>https://www.ruchith.space/Blog/index.html</link>
+    <atom:link href="https://www.ruchith.space/Blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Notes on LLM pipelines, AI evaluation and ML engineering.</description>
+    <language>en</language>
+    <lastBuildDate>Mon, 05 Oct 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Evaluating Jev as a Prompt-Injection Guardrail</title>
+      <link>https://www.ruchith.space/Blog/testing-jev-as-a-guardrail/index.html</link>
+      <guid isPermaLink="true">https://www.ruchith.space/Blog/testing-jev-as-a-guardrail/index.html</guid>
+      <pubDate>Mon, 05 Oct 2026 00:00:00 +0000</pubDate>
+      <description>An evaluation of TypeSafe AI's Jev decision model as a prompt-injection detector: calibration, over-blocking, embedded and obfuscated attacks, multilingual input, and where it fits in a security architecture.</description>
+      <category>Jev</category>
+      <category>Guardrails</category>
+      <category>Prompt Injection</category>
+      <category>Evaluation</category>
+    </item>
+  </channel>
+</rss>

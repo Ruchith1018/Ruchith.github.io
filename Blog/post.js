@@ -134,3 +134,112 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+// ===== NEWSLETTER (Buttondown) =====
+// A subscribe box at the end of the article (phones/tablets) and under Related Posts (desktop),
+// plus a one-time popup the first time a browser opens each post.
+// Set BUTTONDOWN_USER to the Buttondown username. Until it is set, nothing is shown.
+const BUTTONDOWN_USER = 'ruchith';
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (!BUTTONDOWN_USER) return;
+  const main = document.querySelector('.post-container');
+  if (!main) return;
+
+  const store = {
+    get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* storage blocked */ } },
+  };
+  const SUBSCRIBED = 'nl-subscribed';
+
+  function buildForm(idPrefix) {
+    const wrap = document.createElement('div');
+    wrap.className = 'nl-box';
+    wrap.innerHTML = `
+      <div class="nl-icon"><i class="fas fa-envelope-open-text"></i></div>
+      <h3 class="nl-title">Get new posts by email</h3>
+      <p class="nl-text">One short email when a new post is published. No spam, unsubscribe any time.</p>
+      <form class="nl-form" action="https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USER}"
+            method="post" target="_blank">
+        <label class="nl-label" for="${idPrefix}-email">Email address</label>
+        <input id="${idPrefix}-email" class="nl-input" type="email" name="email" placeholder="you@example.com" required>
+        <input type="hidden" name="tag" value="blog">
+        <button class="nl-button" type="submit">Subscribe</button>
+      </form>
+      <p class="nl-thanks" hidden><i class="fas fa-check-circle"></i> Thanks! Check your inbox and confirm your email to finish subscribing.</p>`;
+    const form = wrap.querySelector('form');
+    form.addEventListener('submit', () => {
+      store.set(SUBSCRIBED, '1');
+      // let the browser send the form first, then swap in the thank-you message
+      setTimeout(() => {
+        document.querySelectorAll('.nl-form').forEach(f => { f.hidden = true; });
+        document.querySelectorAll('.nl-thanks').forEach(t => { t.hidden = false; });
+      }, 50);
+      setTimeout(closePopup, 2500);
+    });
+    return wrap;
+  }
+
+  // 1) inline boxes: end of article (shown below 993px) and sidebar (shown from 993px)
+  const end = main.querySelector('.post-end');
+  const inline = buildForm('nl-inline');
+  inline.classList.add('nl-inline');
+  if (end) end.parentNode.insertBefore(inline, end); else main.appendChild(inline);
+
+  const side = document.querySelector('.post-sidebar');
+  if (side) {
+    const box = buildForm('nl-side');
+    box.classList.add('nl-side');
+    side.appendChild(box);
+  }
+
+  // 2) one-time popup per post
+  const seenKey = 'nl-seen:' + window.location.pathname.replace(/index\.html$/, '');
+  let overlay = null, lastFocus = null;
+
+  function closePopup() {
+    if (!overlay) return;
+    overlay.remove();
+    overlay = null;
+    document.removeEventListener('keydown', onKey);
+    if (lastFocus) lastFocus.focus();
+  }
+  function onKey(e) { if (e.key === 'Escape') closePopup(); }
+
+  function openPopup() {
+    if (overlay) return;
+    store.set(seenKey, '1');
+    lastFocus = document.activeElement;
+    overlay = document.createElement('div');
+    overlay.className = 'nl-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-labelledby', 'nl-popup-title');
+    const card = buildForm('nl-popup');
+    card.classList.add('nl-popup');
+    card.querySelector('.nl-title').id = 'nl-popup-title';
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'nl-close';
+    close.setAttribute('aria-label', 'Close');
+    close.innerHTML = '<i class="fas fa-times"></i>';
+    close.addEventListener('click', closePopup);
+    const later = document.createElement('button');
+    later.type = 'button';
+    later.className = 'nl-later';
+    later.textContent = 'No thanks';
+    later.addEventListener('click', closePopup);
+    card.prepend(close);
+    card.appendChild(later);
+    overlay.appendChild(card);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
+    document.body.appendChild(overlay);
+    document.addEventListener('keydown', onKey);
+    card.querySelector('.nl-input').focus({ preventScroll: true });
+  }
+
+  if (!store.get(SUBSCRIBED) && !store.get(seenKey)) {
+    // give the reader a moment with the article before asking
+    setTimeout(openPopup, 4000);
+  }
+});
