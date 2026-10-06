@@ -178,19 +178,14 @@ document.addEventListener('DOMContentLoaded', function () {
   function buildForm(idPrefix, withArt) {
     const wrap = document.createElement('div');
     wrap.className = 'nl-box' + (withArt ? ' nl-has-art' : ' nl-compact');
+    // Buttondown's own embedded form: it handles the sign-up and any CAPTCHA inside the frame,
+    // so there is no new tab, no window and no redirect
     const formHtml = `
-        <form class="nl-form" action="https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USER}"
-              method="post" target="nl-sink">
-          <label class="nl-label" for="${idPrefix}-email">Email address</label>
-          <div class="nl-field">
-            <i class="far fa-envelope" aria-hidden="true"></i>
-            <input id="${idPrefix}-email" class="nl-input" type="email" name="email" placeholder="Your email" autocomplete="email" required>
-          </div>
-          <input type="hidden" name="tag" value="blog">
-          <button class="nl-button" type="submit">Subscribe</button>
-        </form>
-        <p class="nl-fine">No spam. Unsubscribe any time.</p>
-        <p class="nl-thanks" hidden><i class="fas fa-check-circle"></i> Thanks! Check your inbox and click the confirmation link to finish subscribing.</p>`;
+        <div class="nl-embed">
+          <iframe src="https://buttondown.com/${BUTTONDOWN_USER}?as_embed=true" title="Subscribe to the newsletter"
+ scrolling="no"></iframe>
+        </div>
+        <p class="nl-fine">No spam. Unsubscribe any time.</p>`;
     wrap.innerHTML = withArt ? `
       <div class="nl-art">${NL_ART}</div>
       <div class="nl-content">
@@ -209,35 +204,8 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="nl-text">New posts on LLMs, AI evaluation and ML engineering, straight to your inbox.</p>
         ${formHtml}
       </div>`;
-    const form = wrap.querySelector('form');
-    form.addEventListener('submit', () => {
-      // sent to Buttondown in the background (hidden frame): no new window, no redirect
-      const button = form.querySelector('.nl-button');
-      const email = form.querySelector('.nl-input').value.trim();
-      button.disabled = true;
-      button.textContent = 'Subscribing…';
-      let done = false;
-      const finish = () => {
-        if (done) return;
-        done = true;
-        store.set(SUBSCRIBED, '1');
-        document.querySelectorAll('.nl-form, .nl-fine').forEach(x => { x.hidden = true; });
-        document.querySelectorAll('.nl-thanks').forEach(x => { x.hidden = false; });
-        openSuccess(email);
-      };
-      sink.addEventListener('load', finish, { once: true });
-      setTimeout(finish, 4000);
-    });
     return wrap;
   }
-
-  // hidden frame the forms post into, so the page never navigates
-  const sink = document.createElement('iframe');
-  sink.name = 'nl-sink';
-  sink.title = 'Newsletter sign-up';
-  sink.hidden = true;
-  sink.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(sink);
 
   // 1) inline boxes: end of article (shown below 993px) and sidebar (shown from 993px)
   const end = main.querySelector('.post-end');
@@ -310,22 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
     later.textContent = 'Maybe later';
     later.addEventListener('click', closePopup);
     card.querySelector('.nl-content').appendChild(later);
-    showOverlay(card, 'nl-popup-title', card.querySelector('.nl-input'));
-  }
-
-  function openSuccess(email) {
-    const card = document.createElement('div');
-    card.className = 'nl-box nl-popup nl-success';
-    card.innerHTML = `
-      <div class="nl-success-icon"><img src="${NL_ASSETS}mailbox.svg" alt="" width="44" height="44"></div>
-      <h3 class="nl-title" id="nl-success-title">Check your inbox</h3>
-      <p class="nl-text">We've sent a confirmation link${email ? ' to <strong></strong>' : ''}. Click it to finish subscribing.</p>
-      <button type="button" class="nl-button nl-done">Got it</button>
-      <p class="nl-fine">No email after a few minutes? Check your spam folder, or
-        <a href="https://buttondown.com/${BUTTONDOWN_USER}" target="_blank" rel="noopener">subscribe on the newsletter page</a>.</p>`;
-    if (email) card.querySelector('.nl-text strong').textContent = email;
-    card.querySelector('.nl-done').addEventListener('click', closePopup);
-    showOverlay(card, 'nl-success-title', card.querySelector('.nl-done'));
+    showOverlay(card, 'nl-popup-title', card.querySelector('.nl-close'));
   }
 
   if (!store.get(SUBSCRIBED) && !store.get(seenKey)) {
