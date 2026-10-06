@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
     wrap.className = 'nl-box' + (withArt ? ' nl-has-art' : ' nl-compact');
     const formHtml = `
         <form class="nl-form" action="https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USER}"
-              method="post" target="nl-window">
+              method="post" target="nl-sink">
           <label class="nl-label" for="${idPrefix}-email">Email address</label>
           <div class="nl-field">
             <i class="far fa-envelope" aria-hidden="true"></i>
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <button class="nl-button" type="submit">Subscribe</button>
         </form>
         <p class="nl-fine">No spam. Unsubscribe any time.</p>
-        <p class="nl-thanks" hidden><i class="fas fa-check-circle"></i> Almost there: finish in the Buttondown window, then confirm the email we send you.</p>`;
+        <p class="nl-thanks" hidden><i class="fas fa-check-circle"></i> Thanks! Check your inbox and click the confirmation link to finish subscribing.</p>`;
     wrap.innerHTML = withArt ? `
       <div class="nl-art">${NL_ART}</div>
       <div class="nl-content">
@@ -211,22 +211,32 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>`;
     const form = wrap.querySelector('form');
     form.addEventListener('submit', () => {
-      // Buttondown's own page opens in a small window (it can show a CAPTCHA there if needed);
-      // the post stays open behind it. On phones this opens as a new tab.
-      const email = form.querySelector('.nl-input').value.trim();
-      const w = 520, h = 640;
-      const left = Math.max(0, (window.screenX || 0) + (window.outerWidth - w) / 2);
-      const top = Math.max(0, (window.screenY || 0) + (window.outerHeight - h) / 2);
-      window.open('', 'nl-window', `width=${w},height=${h},left=${left},top=${top},noopener=no`);
-      store.set(SUBSCRIBED, '1');
-      setTimeout(() => {
-        document.querySelectorAll('.nl-box:not(.nl-popup) .nl-form, .nl-box:not(.nl-popup) .nl-fine').forEach(x => { x.hidden = true; });
-        document.querySelectorAll('.nl-box:not(.nl-popup) .nl-thanks').forEach(x => { x.hidden = false; });
-        openSuccess(email);
-      }, 300);
+      // sent to Buttondown in the background (hidden frame): no new window, no redirect
+      const button = form.querySelector('.nl-button');
+      button.disabled = true;
+      button.textContent = 'Subscribing…';
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        store.set(SUBSCRIBED, '1');
+        document.querySelectorAll('.nl-form, .nl-fine').forEach(x => { x.hidden = true; });
+        document.querySelectorAll('.nl-thanks').forEach(x => { x.hidden = false; });
+        if (overlay) setTimeout(closePopup, 3000);
+      };
+      sink.addEventListener('load', finish, { once: true });
+      setTimeout(finish, 4000);
     });
     return wrap;
   }
+
+  // hidden frame the forms post into, so the page never navigates
+  const sink = document.createElement('iframe');
+  sink.name = 'nl-sink';
+  sink.title = 'Newsletter sign-up';
+  sink.hidden = true;
+  sink.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(sink);
 
   // 1) inline boxes: end of article (shown below 993px) and sidebar (shown from 993px)
   const end = main.querySelector('.post-end');
@@ -300,21 +310,6 @@ document.addEventListener('DOMContentLoaded', function () {
     later.addEventListener('click', closePopup);
     card.querySelector('.nl-content').appendChild(later);
     showOverlay(card, 'nl-popup-title', card.querySelector('.nl-input'));
-  }
-
-  function openSuccess(email) {
-    const card = document.createElement('div');
-    card.className = 'nl-box nl-popup nl-success';
-    card.innerHTML = `
-      <div class="nl-success-icon"><img src="${NL_ASSETS}mailbox.svg" alt="" width="44" height="44"></div>
-      <h3 class="nl-title" id="nl-success-title">One more step</h3>
-      <p class="nl-text">Finish in the Buttondown window that just opened, then click the confirmation link we email${email ? ' to <strong></strong>' : ''}.</p>
-      <button type="button" class="nl-button nl-done">Got it</button>
-      <p class="nl-fine">Window didn't open, or no email after a few minutes? Check spam, or
-        <a href="https://buttondown.com/${BUTTONDOWN_USER}" target="_blank" rel="noopener">subscribe on the newsletter page</a>.</p>`;
-    if (email) card.querySelector('.nl-text strong').textContent = email;
-    card.querySelector('.nl-done').addEventListener('click', closePopup);
-    showOverlay(card, 'nl-success-title', card.querySelector('.nl-done'));
   }
 
   if (!store.get(SUBSCRIBED) && !store.get(seenKey)) {
