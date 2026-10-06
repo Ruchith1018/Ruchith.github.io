@@ -152,30 +152,78 @@ document.addEventListener('DOMContentLoaded', function () {
   };
   const SUBSCRIBED = 'nl-subscribed';
 
-  function buildForm(idPrefix) {
+  // newsletter images live in Blog/assets/ (Fluent Emoji, MIT licence); resolved from this script's own URL
+  const NL_ASSETS = new URL('assets/', document.querySelector('script[src$="post.js"]').src).href;
+
+  // Drawn illustration for the popup: a laptop sending a letter, in the site's yellow
+  const NL_ART = `
+    <svg viewBox="0 0 320 240" role="img" aria-hidden="true" focusable="false">
+      <circle cx="160" cy="126" r="100" fill="#fef3c7"/>
+      <g fill="#facc15" opacity=".9"><circle cx="58" cy="62" r="5"/><circle cx="270" cy="70" r="4"/><circle cx="282" cy="176" r="6"/><circle cx="44" cy="180" r="4"/></g>
+      <rect x="70" y="92" width="150" height="98" rx="8" fill="#fff" stroke="#16181d" stroke-width="5"/>
+      <rect x="84" y="106" width="122" height="70" rx="4" fill="#f4f4f5"/>
+      <rect x="92" y="114" width="54" height="8" rx="4" fill="#d4d4d8"/>
+      <rect x="92" y="130" width="96" height="6" rx="3" fill="#e4e4e7"/>
+      <rect x="92" y="142" width="80" height="6" rx="3" fill="#e4e4e7"/>
+      <rect x="92" y="154" width="88" height="6" rx="3" fill="#e4e4e7"/>
+      <path d="M52 190h186l-14 16H66z" fill="#16181d"/>
+      <g transform="rotate(-12 222 88)">
+        <rect x="176" y="58" width="96" height="62" rx="8" fill="#facc15" stroke="#16181d" stroke-width="5"/>
+        <path d="M180 64l44 34 44-34" fill="none" stroke="#16181d" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+      </g>
+      <g fill="none" stroke="#16181d" stroke-width="4" stroke-linecap="round"><path d="M248 30l10-14M268 42l16-6M232 26l-2-16"/></g>
+      <g transform="translate(96 196)"><rect width="34" height="26" rx="6" fill="#fff" stroke="#16181d" stroke-width="4"/><path d="M8 13l6 6 12-12" fill="none" stroke="#16a34a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
+    </svg>`;
+
+  function buildForm(idPrefix, withArt) {
     const wrap = document.createElement('div');
-    wrap.className = 'nl-box';
-    wrap.innerHTML = `
-      <div class="nl-icon"><i class="fas fa-envelope-open-text"></i></div>
-      <h3 class="nl-title">Get new posts by email</h3>
-      <p class="nl-text">One short email when a new post is published. No spam, unsubscribe any time.</p>
-      <form class="nl-form" action="https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USER}"
-            method="post" target="_blank">
-        <label class="nl-label" for="${idPrefix}-email">Email address</label>
-        <input id="${idPrefix}-email" class="nl-input" type="email" name="email" placeholder="you@example.com" required>
-        <input type="hidden" name="tag" value="blog">
-        <button class="nl-button" type="submit">Subscribe</button>
-      </form>
-      <p class="nl-thanks" hidden><i class="fas fa-check-circle"></i> Thanks! Check your inbox and confirm your email to finish subscribing.</p>`;
+    wrap.className = 'nl-box' + (withArt ? ' nl-has-art' : ' nl-compact');
+    const formHtml = `
+        <form class="nl-form" action="https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USER}"
+              method="post" target="nl-window">
+          <label class="nl-label" for="${idPrefix}-email">Email address</label>
+          <div class="nl-field">
+            <i class="far fa-envelope" aria-hidden="true"></i>
+            <input id="${idPrefix}-email" class="nl-input" type="email" name="email" placeholder="Your email" autocomplete="email" required>
+          </div>
+          <input type="hidden" name="tag" value="blog">
+          <button class="nl-button" type="submit">Subscribe</button>
+        </form>
+        <p class="nl-fine">No spam. Unsubscribe any time.</p>
+        <p class="nl-thanks" hidden><i class="fas fa-check-circle"></i> Almost there: finish in the Buttondown window, then confirm the email we send you.</p>`;
+    wrap.innerHTML = withArt ? `
+      <div class="nl-art">${NL_ART}</div>
+      <div class="nl-content">
+        <h3 class="nl-title">Subscribe to my newsletter</h3>
+        <p class="nl-text">Get each new post on LLMs, AI evaluation and ML engineering in your inbox. One email per post.</p>
+        ${formHtml}
+      </div>` : `
+      <div class="nl-head">
+        <span class="nl-ico" aria-hidden="true"><img src="${NL_ASSETS}newsletter.svg" alt="" width="30" height="30"></span>
+        <div>
+          <span class="nl-kicker">Newsletter</span>
+          <h3 class="nl-title">Join my newsletter</h3>
+        </div>
+      </div>
+      <div class="nl-content">
+        <p class="nl-text">New posts on LLMs, AI evaluation and ML engineering, straight to your inbox.</p>
+        ${formHtml}
+      </div>`;
     const form = wrap.querySelector('form');
     form.addEventListener('submit', () => {
+      // Buttondown's own page opens in a small window (it can show a CAPTCHA there if needed);
+      // the post stays open behind it. On phones this opens as a new tab.
+      const email = form.querySelector('.nl-input').value.trim();
+      const w = 520, h = 640;
+      const left = Math.max(0, (window.screenX || 0) + (window.outerWidth - w) / 2);
+      const top = Math.max(0, (window.screenY || 0) + (window.outerHeight - h) / 2);
+      window.open('', 'nl-window', `width=${w},height=${h},left=${left},top=${top},noopener=no`);
       store.set(SUBSCRIBED, '1');
-      // let the browser send the form first, then swap in the thank-you message
       setTimeout(() => {
-        document.querySelectorAll('.nl-form').forEach(f => { f.hidden = true; });
-        document.querySelectorAll('.nl-thanks').forEach(t => { t.hidden = false; });
-      }, 50);
-      setTimeout(closePopup, 2500);
+        document.querySelectorAll('.nl-box:not(.nl-popup) .nl-form, .nl-box:not(.nl-popup) .nl-fine').forEach(x => { x.hidden = true; });
+        document.querySelectorAll('.nl-box:not(.nl-popup) .nl-thanks').forEach(x => { x.hidden = false; });
+        openSuccess(email);
+      }, 300);
     });
     return wrap;
   }
@@ -202,40 +250,71 @@ document.addEventListener('DOMContentLoaded', function () {
     overlay.remove();
     overlay = null;
     document.removeEventListener('keydown', onKey);
-    if (lastFocus) lastFocus.focus();
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    lastFocus = null;
   }
   function onKey(e) { if (e.key === 'Escape') closePopup(); }
 
-  function openPopup() {
-    if (overlay) return;
-    store.set(seenKey, '1');
-    lastFocus = document.activeElement;
-    overlay = document.createElement('div');
-    overlay.className = 'nl-overlay';
-    overlay.setAttribute('role', 'dialog');
-    overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-labelledby', 'nl-popup-title');
-    const card = buildForm('nl-popup');
-    card.classList.add('nl-popup');
-    card.querySelector('.nl-title').id = 'nl-popup-title';
+  function closeButton() {
     const close = document.createElement('button');
     close.type = 'button';
     close.className = 'nl-close';
     close.setAttribute('aria-label', 'Close');
     close.innerHTML = '<i class="fas fa-times"></i>';
     close.addEventListener('click', closePopup);
-    const later = document.createElement('button');
-    later.type = 'button';
-    later.className = 'nl-later';
-    later.textContent = 'No thanks';
-    later.addEventListener('click', closePopup);
-    card.prepend(close);
-    card.appendChild(later);
+    return close;
+  }
+
+  function showOverlay(card, labelId, focusEl) {
+    if (overlay) {
+      // swap one popup for another without jumping focus back to the page
+      overlay.remove();
+      overlay = null;
+      document.removeEventListener('keydown', onKey);
+    } else {
+      lastFocus = document.activeElement;
+    }
+    overlay = document.createElement('div');
+    overlay.className = 'nl-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-labelledby', labelId);
+    card.prepend(closeButton());
     overlay.appendChild(card);
     overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
     document.body.appendChild(overlay);
     document.addEventListener('keydown', onKey);
-    card.querySelector('.nl-input').focus({ preventScroll: true });
+    if (focusEl) focusEl.focus({ preventScroll: true });
+  }
+
+  function openPopup() {
+    if (overlay) return;
+    store.set(seenKey, '1');
+    const card = buildForm('nl-popup', true);
+    card.classList.add('nl-popup');
+    card.querySelector('.nl-title').id = 'nl-popup-title';
+    const later = document.createElement('button');
+    later.type = 'button';
+    later.className = 'nl-later';
+    later.textContent = 'Maybe later';
+    later.addEventListener('click', closePopup);
+    card.querySelector('.nl-content').appendChild(later);
+    showOverlay(card, 'nl-popup-title', card.querySelector('.nl-input'));
+  }
+
+  function openSuccess(email) {
+    const card = document.createElement('div');
+    card.className = 'nl-box nl-popup nl-success';
+    card.innerHTML = `
+      <div class="nl-success-icon"><img src="${NL_ASSETS}mailbox.svg" alt="" width="44" height="44"></div>
+      <h3 class="nl-title" id="nl-success-title">One more step</h3>
+      <p class="nl-text">Finish in the Buttondown window that just opened, then click the confirmation link we email${email ? ' to <strong></strong>' : ''}.</p>
+      <button type="button" class="nl-button nl-done">Got it</button>
+      <p class="nl-fine">Window didn't open, or no email after a few minutes? Check spam, or
+        <a href="https://buttondown.com/${BUTTONDOWN_USER}" target="_blank" rel="noopener">subscribe on the newsletter page</a>.</p>`;
+    if (email) card.querySelector('.nl-text strong').textContent = email;
+    card.querySelector('.nl-done').addEventListener('click', closePopup);
+    showOverlay(card, 'nl-success-title', card.querySelector('.nl-done'));
   }
 
   if (!store.get(SUBSCRIBED) && !store.get(seenKey)) {
