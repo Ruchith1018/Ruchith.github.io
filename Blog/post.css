@@ -786,3 +786,17 @@
 .nl-box [hidden] {
     display: none !important;
 }
+
+/* Buttondown's embedded form (its inside is styled in Buttondown: Settings > Design) */
+.nl-embed {
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f4f4f5;
+}
+
+.nl-embed iframe {
+    display: block;
+    width: 100%;
+    height: 230px;
+    border: 0;
+}
