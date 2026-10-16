@@ -35,7 +35,7 @@
     border-radius: 12px;
     padding: 14px 16px 6px;
 }
-.chart svg { display: block; overflow: visible; font-family: inherit; }
+.chart svg { display: block; overflow: visible; font-family: inherit; max-width: 100%; }
 .chart .hit { cursor: default; outline: none; }
 .chart .hit:hover path, .chart .hit:focus path { filter: brightness(0.92); }
 .chart-legend {
@@ -123,6 +123,44 @@
 .decider-verdict.maybe { background: #fff6e0; border-color: #eda100; }
 .decider-verdict.stop { background: #fdeeee; border-color: #e34948; }
 .decider-out ul { margin-bottom: 10px; }
+
+/* 2026 research timeline */
+.research-timeline {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0 24px;
+    border-left: 3px solid #0b0b0b;
+}
+.research-timeline li {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 14px;
+    padding: 0 0 18px 18px;
+    position: relative;
+    text-align: left;
+}
+.research-timeline li::before {
+    content: "";
+    position: absolute;
+    left: -9px;
+    top: 4px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #facc15;
+    border: 3px solid #0b0b0b;
+}
+.research-timeline time {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding-top: 2px;
+    letter-spacing: 0.04em;
+}
+.research-timeline div { line-height: 1.6; }
+@media (max-width: 640px) {
+    .research-timeline li { grid-template-columns: 1fr; gap: 2px; }
+}
 
 .post-note { font-size: 0.85rem; color: #52514e; }
 

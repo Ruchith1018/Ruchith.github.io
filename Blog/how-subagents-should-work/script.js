@@ -52,66 +52,104 @@
     return `M${x0},${y} H${x1 + r} Q${x1},${y} ${x1},${y + r} V${y + h - r} Q${x1},${y + h} ${x1 + r},${y + h} H${x0} Z`;
   }
 
+  // ---------------------------------------------------------------- responsive horizontal bars
+  // Draws at the container's real width (1 SVG unit = 1 CSS px), so text never shrinks.
+  // On narrow screens the label moves above its bar instead of sitting to its left.
+  function hbars(host, cfg) {
+    const box = document.createElement('div');
+    host.appendChild(box);
+    function draw() {
+      box.innerHTML = '';
+      const cs = getComputedStyle(host);
+      const W = Math.max(260, host.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight));
+      const narrow = W < 540;
+      const left = narrow ? (cfg.domain[0] < 0 ? 56 : 0) : cfg.labelW;
+      const right = 58;
+      const barH = narrow ? 16 : cfg.barH;
+      const labelH = narrow ? (cfg.sub ? 34 : 18) : 0;
+      const rowH = narrow ? labelH + barH + 16 : cfg.rowH;
+      const top = cfg.header ? 30 : 8;
+      const H = top + cfg.rows.length * rowH + 28;
+      const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H }, box);
+      const [min, max] = cfg.domain;
+      const sx = v => left + (v - min) / (max - min) * (W - left - right);
+      (narrow && cfg.ticksNarrow ? cfg.ticksNarrow : cfg.ticks).forEach(t => {
+        el('line', { x1: sx(t), x2: sx(t), y1: top - 4, y2: H - 24, stroke: t === 0 ? C.axis : C.grid, 'stroke-width': t === 0 ? 1.5 : 1 }, svg);
+        text(svg, sx(t), H - 10, cfg.tick(t), { anchor: 'middle', fill: C.muted, size: 11 });
+      });
+      if (cfg.header) {
+        text(svg, sx(0) - 6, 12, narrow ? '◀ worse' : '◀ worse than one agent', { anchor: 'end', fill: C.muted, size: 12 });
+        text(svg, sx(0) + 6, 12, narrow ? 'better ▶' : 'better than one agent ▶', { fill: C.muted, size: 12 });
+      }
+      cfg.rows.forEach((r, i) => {
+        const y0 = top + i * rowH;
+        let by;
+        if (narrow) {
+          text(svg, 0, y0 + 8, r.label, { fill: C.ink, weight: 600, size: 13 });
+          if (cfg.sub && r.sub) text(svg, 0, y0 + 24, r.sub, { fill: C.muted, size: 11.5 });
+          by = y0 + labelH;
+        } else {
+          by = y0 + (rowH - barH) / 2;
+          if (cfg.sub) {
+            text(svg, 0, by + barH / 2 - 7, r.label, { fill: C.ink, weight: 600, size: 14 });
+            text(svg, 0, by + barH / 2 + 10, r.sub, { fill: C.muted, size: 12 });
+          } else {
+            text(svg, left - 12, by + barH / 2, r.label, { anchor: 'end', fill: C.ink, size: 13 });
+          }
+        }
+        const g = el('g', { class: 'hit' }, svg);
+        el('rect', { x: 0, y: y0, width: W, height: rowH, fill: 'transparent' }, g);
+        const attrs = { d: barPath(sx(0), sx(r.v), by, barH), fill: r.color };
+        if (r.opacity) attrs.opacity = r.opacity;
+        el('path', attrs, g);
+        const neg = r.v < 0;
+        text(g, neg ? sx(r.v) - 6 : sx(r.v) + 6, by + barH / 2, r.value, { anchor: neg ? 'end' : 'start', fill: C.ink, weight: 600, size: 12 });
+        hover(g, r.tip);
+      });
+    }
+    draw();
+    let lastW = host.clientWidth, t;
+    window.addEventListener('resize', () => {
+      clearTimeout(t);
+      t = setTimeout(() => { if (host.clientWidth !== lastW) { lastW = host.clientWidth; draw(); } }, 150);
+    });
+  }
+  const signed = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(1) + '%';
+
   // ---------------------------------------------------------------- Figure 2: diverging bars
   function chartBenchmarks(host) {
-    const rows = [
-      { name: 'Finance-Agent', kind: 'parallel analysis', v: 80.8, base: 0.349 },
-      { name: 'BrowseComp-Plus', kind: 'web research', v: 0.2, base: 0.318 },
-      { name: 'WorkBench', kind: 'business tool use', v: -1.2, base: 0.629 },
-      { name: 'PlanCraft', kind: 'sequential planning', v: -50.3, base: 0.568 },
+    const data = [
+      ['Finance-Agent', 'parallel analysis', 80.8, 0.349],
+      ['BrowseComp-Plus', 'web research', 0.2, 0.318],
+      ['WorkBench', 'business tool use', -1.2, 0.629],
+      ['PlanCraft', 'sequential planning', -50.3, 0.568],
     ];
-    const W = 720, rowH = 46, top = 34, left = 170, right = 70;
-    const H = top + rows.length * rowH + 30;
-    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, width: '100%' }, host);
-    const min = -60, max = 90;
-    const sx = v => left + (v - min) / (max - min) * (W - left - right);
-    [-50, -25, 0, 25, 50, 75].forEach(t => {
-      el('line', { x1: sx(t), x2: sx(t), y1: top - 8, y2: H - 26, stroke: t === 0 ? C.axis : C.grid, 'stroke-width': t === 0 ? 1.5 : 1 }, svg);
-      text(svg, sx(t), H - 12, (t > 0 ? '+' : '') + t + '%', { anchor: 'middle', fill: C.muted, size: 12 });
-    });
-    text(svg, sx(0) - 8, 14, '◀ worse than one agent', { anchor: 'end', fill: C.muted, size: 12 });
-    text(svg, sx(0) + 8, 14, 'better than one agent ▶', { fill: C.muted, size: 12 });
-    rows.forEach((r, i) => {
-      const y = top + i * rowH, h = 24;
-      text(svg, 0, y + h / 2 - 7, r.name, { fill: C.ink, weight: 600, size: 14 });
-      text(svg, 0, y + h / 2 + 10, r.kind, { fill: C.muted, size: 12 });
-      const g = el('g', { class: 'hit' }, svg);
-      el('rect', { x: left, y: y - 6, width: W - left - right + 60, height: h + 12, fill: 'transparent' }, g);
-      el('path', { d: barPath(sx(0), sx(r.v), y, h), fill: r.v >= 0 ? C.pos : C.neg }, g);
-      const label = (r.v > 0 ? '+' : r.v < 0 ? '−' : '') + Math.abs(r.v).toFixed(1) + '%';
-      const lx = r.v >= 0 ? sx(r.v) + 8 : sx(r.v) - 8;
-      text(g, lx, y + h / 2, label, { anchor: r.v >= 0 ? 'start' : 'end', fill: C.ink, weight: 600 });
-      hover(g, `<strong>${r.name}</strong> (${r.kind})<br>Single agent: ${r.base.toFixed(3)}<br>Orchestrator: ${label} vs single agent`);
+    hbars(host, {
+      labelW: 170, rowH: 46, barH: 24, sub: true, header: true,
+      domain: [-60, 90], ticks: [-50, -25, 0, 25, 50, 75], ticksNarrow: [-50, 0, 50], tick: t => (t > 0 ? '+' : '') + t + '%',
+      rows: data.map(([name, kind, v, base]) => ({
+        label: name, sub: kind, v, value: signed(v), color: v >= 0 ? C.pos : C.neg,
+        tip: `<strong>${name}</strong> (${kind})<br>Single agent: ${base.toFixed(3)}<br>Orchestrator: ${signed(v)} vs single agent`,
+      })),
     });
   }
 
   // ---------------------------------------------------------------- Figure 3: error amplification
   function chartErrors(host) {
-    const rows = [
-      { name: 'Single agent', how: 'one loop, one context', v: 1.0, eff: 67.7 },
-      { name: 'Centralized', how: 'orchestrator validates', v: 4.4, eff: 21.5 },
-      { name: 'Hybrid', how: 'orchestrator + peer messages', v: 5.1, eff: 13.6 },
-      { name: 'Decentralized', how: 'peers debate', v: 7.8, eff: 23.9 },
-      { name: 'Independent', how: 'no checks, outputs joined', v: 17.2, eff: 42.4 },
+    const data = [
+      ['Single agent', 'one loop, one context', 1.0, 67.7],
+      ['Centralized', 'orchestrator validates', 4.4, 21.5],
+      ['Hybrid', 'orchestrator + peer messages', 5.1, 13.6],
+      ['Decentralized', 'peers debate', 7.8, 23.9],
+      ['Independent', 'no checks, outputs joined', 17.2, 42.4],
     ];
-    const W = 720, rowH = 44, top = 18, left = 200, right = 60;
-    const H = top + rows.length * rowH + 30;
-    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, width: '100%' }, host);
-    const max = 18;
-    const sx = v => left + v / max * (W - left - right);
-    [0, 5, 10, 15].forEach(t => {
-      el('line', { x1: sx(t), x2: sx(t), y1: top - 6, y2: H - 26, stroke: t === 0 ? C.axis : C.grid, 'stroke-width': t === 0 ? 1.5 : 1 }, svg);
-      text(svg, sx(t), H - 12, t + '×', { anchor: 'middle', fill: C.muted, size: 12 });
-    });
-    rows.forEach((r, i) => {
-      const y = top + i * rowH, h = 22;
-      text(svg, 0, y + h / 2 - 7, r.name, { fill: C.ink, weight: 600, size: 14 });
-      text(svg, 0, y + h / 2 + 10, r.how, { fill: C.muted, size: 12 });
-      const g = el('g', { class: 'hit' }, svg);
-      el('rect', { x: left, y: y - 6, width: W - left, height: h + 12, fill: 'transparent' }, g);
-      el('path', { d: barPath(sx(0), sx(r.v), y, h), fill: C.pos, opacity: r.name === 'Single agent' ? 0.45 : 1 }, g);
-      text(g, sx(r.v) + 8, y + h / 2, r.v.toFixed(1) + '×', { fill: C.ink, weight: 600 });
-      hover(g, `<strong>${r.name}</strong>: ${r.how}<br>Error amplification: ${r.v.toFixed(1)}× a single agent<br>Successes per 1,000 tokens: ${r.eff}`);
+    hbars(host, {
+      labelW: 200, rowH: 44, barH: 22, sub: true,
+      domain: [0, 18], ticks: [0, 5, 10, 15], tick: t => t + '×',
+      rows: data.map(([name, how, v, eff]) => ({
+        label: name, sub: how, v, value: v.toFixed(1) + '×', color: C.pos, opacity: name === 'Single agent' ? 0.45 : null,
+        tip: `<strong>${name}</strong>: ${how}<br>Error amplification: ${v.toFixed(1)}× a single agent<br>Successes per 1,000 tokens: ${eff}`,
+      })),
     });
   }
 
@@ -133,7 +171,6 @@
       ['FM-1.2', 'Breaks its assigned role', 'System design', 1.5],
       ['FM-2.4', 'Withholds needed information', 'Inter-agent misalignment', 0.85],
     ];
-    // legend (HTML, above the plot), with category totals
     const totals = {};
     rows.forEach(r => { totals[r[2]] = (totals[r[2]] || 0) + r[3]; });
     const legend = document.createElement('div');
@@ -144,24 +181,13 @@
       legend.appendChild(s);
     });
     host.appendChild(legend);
-
-    const W = 720, rowH = 28, top = 8, left = 270, right = 60;
-    const H = top + rows.length * rowH + 28;
-    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, width: '100%' }, host);
-    const max = 16;
-    const sx = v => left + v / max * (W - left - right);
-    [0, 5, 10, 15].forEach(t => {
-      el('line', { x1: sx(t), x2: sx(t), y1: top - 4, y2: H - 24, stroke: t === 0 ? C.axis : C.grid, 'stroke-width': t === 0 ? 1.5 : 1 }, svg);
-      text(svg, sx(t), H - 10, t + '%', { anchor: 'middle', fill: C.muted, size: 12 });
-    });
-    rows.forEach((r, i) => {
-      const y = top + i * rowH, h = 18;
-      text(svg, left - 12, y + h / 2, r[1], { anchor: 'end', fill: C.ink, size: 13 });
-      const g = el('g', { class: 'hit' }, svg);
-      el('rect', { x: 0, y: y - 4, width: W, height: h + 8, fill: 'transparent' }, g);
-      el('path', { d: barPath(sx(0), sx(r[3]), y, h), fill: C.cat[r[2]] }, g);
-      text(g, sx(r[3]) + 8, y + h / 2, r[3] + '%', { fill: C.ink2, size: 12, weight: 600 });
-      hover(g, `<strong>${r[0]}: ${r[1]}</strong><br>${r[2]}<br>${r[3]}% of annotated failures`);
+    hbars(host, {
+      labelW: 270, rowH: 28, barH: 18, sub: false,
+      domain: [0, 16], ticks: [0, 5, 10, 15], tick: t => t + '%',
+      rows: rows.map(([id, name, cat, v]) => ({
+        label: name, v, value: v + '%', color: C.cat[cat],
+        tip: `<strong>${id}: ${name}</strong><br>${cat}<br>${v}% of annotated failures`,
+      })),
     });
   }
 
@@ -180,6 +206,8 @@
         a: [['yes', 'Yes'], ['no', 'No']] },
       { id: 'flood', q: "Would the side material (search results, logs, files) flood the main agent's context?",
         a: [['yes', 'Yes'], ['no', 'No']] },
+      { id: 'checks', q: 'Can each part be checked automatically (tests, a validator, a known-good reference)?',
+        a: [['yes', 'Yes, reliably'], ['partly', 'Partly'], ['no', 'No']] },
     ];
     const state = {};
     const form = document.createElement('div');
@@ -221,11 +249,12 @@
       if (state.seq === 'yes') {
         why.push('Sequential work resists delegation: every multi-agent variant lost 39 to 70% on step-by-step planning.');
       }
-      if (state.split === 'no' || state.kind === 'write') {
+      const verifiedWrite = state.kind !== 'read' && state.split !== 'no' && state.checks === 'yes';
+      if (state.split === 'no' || (state.kind === 'write' && !verifiedWrite)) {
         why.push('Parts of one artifact carry hidden decisions that parallel subagents cannot see, the Flappy Bird failure.');
       }
       if (state.base === 'strong') {
-        why.push('A single agent above about 45% gains little or nothing from coordination (the baseline paradox).');
+        why.push('A single agent above about 45% gains little or nothing from coordination (the baseline paradox), and at equal thinking budgets single agents matched or beat multi-agent systems on multi-hop reasoning (Tran and Kiela, 2026).');
       }
       if (state.value === 'no') {
         why.push('Multi-agent runs used about 15 times the tokens of a chat; the task does not justify that.');
@@ -237,6 +266,11 @@
         why.push('The work decomposes into independent, read-heavy questions, where the orchestrator design gained up to 80.8%.');
         why.push(state.base === 'weak' ? 'A struggling single agent is where coordination helps most.' : 'Start with 2 to 4 subagents and measure successes per 1,000 tokens.');
         why.push('Use the full contract: scope, signature, return type, authority, budget, and verify every result.');
+      } else if (blockers === 0 && verifiedWrite) {
+        verdict = 'Parallel subagents, gated by automatic checks';
+        cls = 'maybe';
+        why.push("Write-heavy work can run in parallel when a near-perfect check splits it into independent units, as in Anthropic's 2026 C compiler built by 16 agents.");
+        why.push('Have each subagent claim one checkable unit, merge often, and fall back to one agent when the work collapses into a single task.');
       } else if (blockers === 0) {
         verdict = 'Main agent + a few subagents, carefully';
         cls = 'maybe';
