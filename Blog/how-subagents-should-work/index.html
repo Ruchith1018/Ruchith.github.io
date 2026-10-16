@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subagents Are Function Calls, Not Teammates | Ruchith Balam</title>
+  <meta name="description" content="What 1,642 failure traces and 180 agent configurations reveal about how a main agent should delegate to subagents, and a five-clause delegation contract for multi-agent LLM systems.">
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../post.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script defer blocking="render" src="../../script.js"></script>
+  <script defer blocking="render" src="../post.js"></script>
+  <script defer src="script.js"></script>
+  <!-- visitor counts: goatcounter.com (no cookies) -->
+  <script data-goatcounter="https://ruchith.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="alternate" type="application/rss+xml" title="Ruchith Balam: Blog" href="../feed.xml">
+</head>
+
+<body class="allow-mobile">
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="logo"><a href="../../index.html" class="brand" aria-label="Ruchith Balam, home"><img class="brand-avatar" src="../../Profile_Pic.jpeg" alt="" width="46" height="46"><span class="brand-text"><strong>Ruchith Balam</strong><small>Data Scientist</small></span></a></div>
+      <ul class="nav-links">
+        <li><a href="../../index.html"><i class="fas fa-house"></i>Home</a></li>
+        <li><a href="../../Experience/experience.html"><i class="fas fa-briefcase"></i>Experience</a></li>
+        <li><a href="../../Academics/Academics.html"><i class="fas fa-graduation-cap"></i>Academics</a></li>
+        <li><a href="../../Skills/skills.html"><i class="fas fa-layer-group"></i>Skills</a></li>
+        <li><a href="../../Projects/projects.html"><i class="fas fa-folder-open"></i>Projects</a></li>
+        <li><a href="../../Certifications/certifications.html"><i class="fas fa-award"></i>Certifications</a></li>
+        <li class="nav-blog"><a href="../../Blog/index.html" class="is-current" aria-current="page"><i class="fas fa-pen-nib"></i>Blog</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="post-layout">
+    <main class="container post-container">
+      <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> All Posts</a>
+
+      <div class="post-header">
+        <h1 class="post-title">Subagents Are Function Calls, Not Teammates</h1>
+        <p class="post-dek">What 1,642 failure traces and 180 agent configurations reveal about how a main agent should delegate, and a five-clause contract for doing it well.</p>
+        <div class="post-meta">
+          <time datetime="2026-10-16">16 Oct 2026</time>
+          <span>16 min read</span>
+          <span id="read-count" hidden></span>
+        </div>
+        <div class="post-tags">
+          <a href="../index.html?tag=agents">Agents</a>
+          <a href="../index.html?tag=llm">LLM</a>
+          <a href="../index.html?tag=multi-agent%20systems">Multi-Agent Systems</a>
+          <a href="../index.html?tag=ai%20engineering">AI Engineering</a>
+        </div>
+      </div>
+
+      <figure class="post-cover">
+        <img src="images/cover.jpg" alt="Cover in yellow, black and off-white. On the left, Ruchith Balam and the title Subagents, Are Function Calls, Not Teammates, underlined in yellow, with the line A delegation contract for LLM agents. On the right, on a black panel, a main agent card sends briefs to three subagent cards, 01 Search, 02 Read and 03 Verify; dashed yellow arrows carry their results into a Caller verifies tray with three check marks, above the five clauses scope, signature, return, authority and budget.">
+      </figure>
+
+      <article class="post-body">
+        <p class="lede">In a controlled study of 180 agent configurations, researchers at Google, Google DeepMind and MIT gave the same orchestrator design, a main agent coordinating subagents, two different jobs. On financial analysis it scored <strong>80.8% higher</strong> than a single agent working alone. On step-by-step planning in Minecraft it scored <strong>50.3% lower</strong>. Same models, same token budget, same architecture.</p>
+        <p>The difference was not the models. It was whether the work could be cut into pieces that do not depend on each other, and whether the hand-offs between agents were designed for what language models actually are. This article argues for one idea that explains both results: <strong>a subagent is a function call, not a teammate.</strong> It should be given a precise signature, return a typed result, leave every shared decision and side effect to its caller, and stop within a budget. When delegation is designed that way, and only used where the work decomposes, subagents deliver the gains reported by Anthropic and others. When it is designed like a conversation between colleagues, it produces the failure patterns documented across 1,642 traces in a NeurIPS 2025 study.</p>
+
+        <aside class="tldr">
+          <h2>Key takeaways</h2>
+          <ul>
+            <li><strong>Subagents help only when the work decomposes.</strong> The orchestrator design gained 80.8% on parallel financial analysis and lost 50.3% on sequential planning, against a single agent with the same budget.</li>
+            <li><strong>Coordination is what fails, not intelligence.</strong> Across seven open-source multi-agent frameworks, failure rates ran from 41% to 86.7%, and the root causes were mostly system design and agent misalignment rather than model capability.</li>
+            <li><strong>A central caller contains errors.</strong> Independent agents amplified errors 17.2 times; a central orchestrator held it to 4.4 times.</li>
+            <li><strong>Design every delegation as a contract</strong> with five clauses: scope, signature, return type, authority and budget. Each clause closes a documented failure mode.</li>
+            <li><strong>Verification belongs to the caller.</strong> Missing or wrong verification accounts for close to a quarter of observed failures; adding one objective check raised success by 15.6% in a case study.</li>
+          </ul>
+        </aside>
+
+        <h2>What a subagent buys you</h2>
+        <p>Language models have a finite working memory. Anthropic describes it as an attention budget: the more tokens a context window holds, the less reliably the model recalls any one of them, an effect often called context rot. An agent that searches the web, reads files and inspects logs fills that budget quickly with material it will never need again.</p>
+        <p>A subagent is the standard answer. It runs in a separate context window with its own instructions and tools, does the noisy work there, and hands back a short result. In Anthropic's description of its research system, each subagent may use tens of thousands of tokens exploring a question but returns a distilled summary of often 1,000 to 2,000 tokens. The main agent's context stays focused on the request, the plan and the conclusions, which lets it reason over a much larger body of work than it could hold at once.</p>
+        <figure>
+          <img src="images/architecture.svg" alt="Diagram. A main agent box at the top, which owns the goal, plan, shared decisions and final answer, sends a brief down to three subagent boxes. Each subagent has its own context window, prompt and tools, where searches, pages and logs stay. Results come back up to the main agent. Below the subagents, a shared workspace holds large outputs, and only a short summary and a reference go back up.">
+          <figcaption>Figure 1: The intended shape of delegation. A brief goes down, a short result comes up, and bulky material stays in the subagent's context or in a shared workspace.</figcaption>
+        </figure>
+        <p>The payoff can be large. Anthropic reported that its system, with Claude Opus 4 leading and Claude Sonnet 4 subagents, outperformed a single Claude Opus 4 agent by 90.2% on its internal research evaluation. The price was also large: multi-agent runs used about 15 times as many tokens as a chat interaction. On the BrowseComp benchmark, token usage alone explained 80% of the variance in performance, which is a reminder that a good part of the gain is simply more reading, done in parallel.</p>
+
+        <h2>The pressure: what the evidence shows</h2>
+        <p>If subagents were a free upgrade, the controlled comparisons would show steady gains. They do not. The Google study held the reasoning-token budget fixed and compared one agent with four multi-agent arrangements across four benchmarks and three model families. Figure 2 shows the centralized arrangement, a main agent coordinating subagents, against the single-agent baseline.</p>
+
+        <figure class="chart-figure">
+          <div class="chart" id="chart-benchmarks" role="img" aria-label="Bar chart of the orchestrator design's change in performance versus a single agent: Finance-Agent plus 80.8 percent, BrowseComp-Plus plus 0.2 percent, WorkBench minus 1.2 percent, PlanCraft minus 50.3 percent."></div>
+          <figcaption>Figure 2: Change in performance of the centralized (orchestrator) design relative to a single agent with the same token budget. Source: Google Research, Google DeepMind and MIT, <em>Towards a Science of Scaling Agent Systems</em> (2025).</figcaption>
+          <details class="chart-table"><summary>Show the data</summary>
+            <table>
+              <thead><tr><th>Benchmark</th><th>Task type</th><th>Single agent</th><th>Change with orchestrator</th></tr></thead>
+              <tbody>
+                <tr><td>Finance-Agent</td><td>Parallel analysis</td><td>0.349</td><td>+80.8%</td></tr>
+                <tr><td>BrowseComp-Plus</td><td>Web research</td><td>0.318</td><td>+0.2%</td></tr>
+                <tr><td>WorkBench</td><td>Business tool use</td><td>0.629</td><td>−1.2%</td></tr>
+                <tr><td>PlanCraft</td><td>Sequential planning</td><td>0.568</td><td>−50.3%</td></tr>
+              </tbody>
+            </table>
+          </details>
+        </figure>
+
+        <p>Three findings from the same study shape everything that follows.</p>
+        <ul>
+          <li><strong>Sequential work breaks.</strong> On PlanCraft, where each step depends on the previous one, every multi-agent variant lost between 39% and 70% of the single agent's performance.</li>
+          <li><strong>Strong single agents gain little.</strong> Once a single agent already scored above roughly 45% on a task, adding coordination gave diminishing or negative returns. The authors call this the baseline paradox.</li>
+          <li><strong>The structure of the hand-off matters.</strong> When agents worked independently and their outputs were simply concatenated, errors compounded 17.2 times relative to a single agent. A central orchestrator that checked results held it to 4.4 times.</li>
+        </ul>
+
+        <figure class="chart-figure">
+          <div class="chart" id="chart-errors" role="img" aria-label="Bar chart of error amplification relative to a single agent: single agent 1.0, centralized 4.4, hybrid 5.1, decentralized 7.8, independent 17.2."></div>
+          <figcaption>Figure 3: How much each architecture amplifies errors relative to a single agent. The centralized design, closest to a caller and its functions, contains errors best among the multi-agent options. Source: <em>Towards a Science of Scaling Agent Systems</em> (2025), Table 5.</figcaption>
+          <details class="chart-table"><summary>Show the data</summary>
+            <table>
+              <thead><tr><th>Architecture</th><th>How agents interact</th><th>Error amplification</th><th>Successes per 1,000 tokens</th></tr></thead>
+              <tbody>
+                <tr><td>Single agent</td><td>One loop, one context</td><td>1.0×</td><td>67.7</td></tr>
+                <tr><td>Centralized</td><td>Orchestrator coordinates and validates</td><td>4.4×</td><td>21.5</td></tr>
+                <tr><td>Hybrid</td><td>Orchestrator plus peer messages</td><td>5.1×</td><td>13.6</td></tr>
+                <tr><td>Decentralized</td><td>Peers debate to consensus</td><td>7.8×</td><td>23.9</td></tr>
+                <tr><td>Independent</td><td>No communication, outputs concatenated</td><td>17.2×</td><td>42.4</td></tr>
+              </tbody>
+            </table>
+          </details>
+        </figure>
+
+        <p>Efficiency tells the same story from another angle. A single agent produced 67.7 successful outcomes per thousand tokens; the centralized design produced 21.5. Coordination costs tokens, so it has to buy accuracy that a single agent cannot reach.</p>
+        <p>The NeurIPS 2025 paper <em>Why Do Multi-Agent LLM Systems Fail?</em> looked at the problem from the failure side. Its authors annotated 1,642 execution traces from seven open-source multi-agent frameworks, found failure rates between 41% and 86.7%, and organised the causes into 14 failure modes. Their headline conclusion is that these failures are "not merely a function of challenges in the underlying model." They come from how the system is specified, how agents align with each other, and how results are verified.</p>
+
+        <figure class="chart-figure">
+          <div class="chart chart-tall" id="chart-mast" role="img" aria-label="Horizontal bar chart of the 14 MAST failure modes by frequency, coloured by category. Most frequent: repeats completed steps 15.7 percent, reasoning and actions don't match 13.2 percent, doesn't recognise when to stop 12.4 percent, ignores task constraints 11.8 percent."></div>
+          <figcaption>Figure 4: Frequency of the 14 failure modes in the MAST taxonomy, coloured by category. Source: Cemri et al., <em>Why Do Multi-Agent LLM Systems Fail?</em> (NeurIPS 2025).</figcaption>
+          <details class="chart-table"><summary>Show the data</summary>
+            <table>
+              <thead><tr><th>ID</th><th>Failure mode</th><th>Category</th><th>Share</th></tr></thead>
+              <tbody>
+                <tr><td>FM-1.3</td><td>Repeats completed steps</td><td>System design</td><td>15.7%</td></tr>
+                <tr><td>FM-2.6</td><td>Reasoning and actions don't match</td><td>Inter-agent misalignment</td><td>13.2%</td></tr>
+                <tr><td>FM-1.5</td><td>Doesn't recognise when to stop</td><td>System design</td><td>12.4%</td></tr>
+                <tr><td>FM-1.1</td><td>Ignores task constraints</td><td>System design</td><td>11.8%</td></tr>
+                <tr><td>FM-3.3</td><td>Verification done incorrectly</td><td>Task verification</td><td>9.1%</td></tr>
+                <tr><td>FM-3.2</td><td>Verification missing or incomplete</td><td>Task verification</td><td>8.2%</td></tr>
+                <tr><td>FM-2.3</td><td>Drifts from the task goal</td><td>Inter-agent misalignment</td><td>7.4%</td></tr>
+                <tr><td>FM-2.2</td><td>Proceeds on assumptions instead of asking</td><td>Inter-agent misalignment</td><td>6.8%</td></tr>
+                <tr><td>FM-3.1</td><td>Terminates too early</td><td>Task verification</td><td>6.2%</td></tr>
+                <tr><td>FM-1.4</td><td>Loses conversation context</td><td>System design</td><td>2.8%</td></tr>
+                <tr><td>FM-2.1</td><td>Unwarranted conversation reset</td><td>Inter-agent misalignment</td><td>2.2%</td></tr>
+                <tr><td>FM-2.5</td><td>Disregards other agents' input</td><td>Inter-agent misalignment</td><td>1.9%</td></tr>
+                <tr><td>FM-1.2</td><td>Breaks its assigned role</td><td>System design</td><td>1.5%</td></tr>
+                <tr><td>FM-2.4</td><td>Withholds needed information</td><td>Inter-agent misalignment</td><td>0.85%</td></tr>
+              </tbody>
+            </table>
+          </details>
+        </figure>
+
+        <h2>The root cause: the teammate mental model</h2>
+        <p>Most of these failures share a source. Multi-agent systems are usually described, prompted and built as teams: a manager and specialists who talk to each other, divide the work and help out where needed. Human teams work because their members share a large amount of tacit context. They know the project's history, the audience and the unwritten conventions, and they ask when something is unclear.</p>
+        <p>Language-model agents share none of that unless it is written into their context. A subagent knows the text it was given and nothing else. It does not see the conversation that produced its task, the decisions already made or the work of the other subagents. Treated as a teammate, it fills those gaps with plausible assumptions, and the failure data shows exactly that pattern:</p>
+        <ul>
+          <li>Agents <strong>repeat completed steps</strong> (15.7% of failures) because nobody told them what was already done.</li>
+          <li>They <strong>don't recognise when to stop</strong> (12.4%) because "help with this" has no finish line.</li>
+          <li>They <strong>ignore task constraints</strong> (11.8%) and <strong>drift from the goal</strong> (7.4%) because the constraints and the goal never reached them.</li>
+          <li>They <strong>proceed on assumptions instead of asking</strong> (6.8%), which is the failure Cognition described in its Flappy Bird example: one subagent built a background in the style of Super Mario Bros., another built a bird that matched neither, and each was reasonable on its own. Cognition's summary: "actions carry implicit decisions, and conflicting decisions carry bad results."</li>
+        </ul>
+        <p>The teammate model also invites the expensive arrangements. In the Google study, agents that debated peer to peer to reach consensus carried a coordination overhead of 263% relative to a single agent, and the hybrid design, with both an orchestrator and peer messages, an overhead of 515%, while amplifying errors more than the centralized design did.</p>
+
+        <h2>The better model: delegation as a function call</h2>
+        <p>Software engineering already has a reliable way to hand work to a component that cannot see the caller's state: the function call. A well-designed function has a signature that states exactly what it needs, returns a value of a known type, avoids changing shared state behind the caller's back, and runs within limits. The caller decides what to do with the result.</p>
+        <p>Applied to agents, this model explains the evidence. The centralized design, which is the closest match to a caller with functions, contained errors best among the multi-agent options because the orchestrator validates each result before anything builds on it. Independent agents, the equivalent of functions writing straight to a shared output with nobody checking, compounded errors most. And sequential planning resists delegation for the same reason a tightly coupled algorithm resists being split across functions: each step needs the full state of the last.</p>
+        <p>The rest of this article turns the model into a concrete contract: five clauses that every delegation should state, each one aimed at a documented failure.</p>
+
+        <h2>The delegation contract</h2>
+
+        <h3>Clause 1. Scope: delegate only work that decomposes</h3>
+        <p>A function call makes sense when the sub-problem can be solved without knowing what the other sub-problems decided. In practice that means read-heavy work: searching, reading, extracting, comparing and checking. Answers to "what does vendor X charge?" and "what does vendor Y charge?" combine without conflict. Parts of one product, such as the screens of an app or the sections of a single argument, do not, because each carries choices the others must match.</p>
+        <figure>
+          <img src="images/read-vs-write.svg" alt="Two-panel diagram. Left, in green, read-heavy work: a main agent sends three independent questions, pricing of vendors X, Y and Z, to three subagents, which can finish without knowing what the others decided, so the work is parallel and safe. Right, in red, write-heavy work: a main agent splits a game into a background, where the subagent chose a retro style, and a player character, where the subagent chose a realistic style, so the parts conflict.">
+          <figcaption>Figure 5: Independent questions combine cleanly. Parts of one artifact depend on decisions nobody wrote down, so splitting them invites conflict.</figcaption>
+        </figure>
+        <p>Two checks from the evidence belong in this clause. If the task is a sequence where each step depends on the last, keep it in one agent. If a single agent already handles the task well, above roughly 45% success in the Google study's terms, coordination is unlikely to pay for itself.</p>
+
+        <h3>Clause 2. Signature: the brief states everything the subagent needs</h3>
+        <p>The brief is the subagent's entire world. Anthropic found that short, vague instructions caused subagents to misread tasks and duplicate each other's searches, and settled on four required parts: an objective, an output format, guidance on tools and sources, and clear task boundaries. The failure data argues for two more: what is already known, which prevents repeated work, and why the task matters, which keeps the subagent anchored to the goal when it has to make judgement calls.</p>
+        <p>The difference shows clearly side by side.</p>
+<pre><code># Teammate-style brief
+Research the semiconductor shortage.</code></pre>
+<pre><code># Function-style brief
+OBJECTIVE   Find the main forecasts for automotive chip supply
+            in 2027-2028 and the assumptions behind them.
+WHY         The user is deciding whether to sign a 2-year supply
+            contract. Pricing is covered elsewhere.
+KNOWN       The 2021 shortage is already covered. Do not research it.
+SOURCES     Analyst reports and manufacturer statements from the
+            last 12 months. No news aggregators.
+BOUNDARIES  Report findings only. Do not recommend a decision.
+RETURN      ResearchResult (schema below), max 300 words.
+BUDGET      10 searches. Stop early if sources start repeating.</code></pre>
+
+        <h3>Clause 3. Return type: results, not transcripts</h3>
+        <p>A function returns a value the caller can use without re-reading the function's internals. A subagent should do the same: a short, structured result with the findings, where each came from, how confident the subagent is and what it could not resolve. Anthropic's 1,000 to 2,000 token range for returned summaries is a useful ceiling. A fixed schema also makes results from several subagents comparable, which is what lets the caller check them.</p>
+<pre><code>{
+  "findings": [
+    {"claim": "...", "source": "https://...", "date": "2026-08-14"}
+  ],
+  "disagreements": ["Forecast A assumes ..., forecast B assumes ..."],
+  "confidence": "medium",
+  "open_questions": ["No 2028 figure from manufacturer C"],
+  "artifact": "workspace/supply-forecasts.md"
+}</code></pre>
+        <p>The <code>artifact</code> field handles large outputs. Instead of passing a long report back through the caller, the subagent writes it to a shared store and returns a reference, which Anthropic uses to avoid losing detail in a chain of summaries, a problem it calls a game of telephone.</p>
+
+        <h3>Clause 4. Authority: the caller owns shared decisions and side effects</h3>
+        <p>A function that silently changes global state is a source of bugs; a subagent that makes a decision other parts depend on is the same bug. Anything that more than one subagent relies on, such as the report's structure and audience, an interface or a naming convention, should be fixed by the caller before it fans out. When a subagent meets a question of that kind, its brief should tell it to report it as an open question rather than answer it.</p>
+        <p>Authority also covers side effects. Sending messages, writing to production systems, spending money and deleting data should stay with the main agent, behind explicit checks. There is a security reason too: a subagent that reads web pages or documents can absorb instructions planted in them, and its summary can carry that text to the main agent, which usually holds more powerful tools. The caller should treat every return value as data to evaluate, never as instructions to follow. This is the indirect prompt-injection problem, applied inside the system.</p>
+
+        <h3>Clause 5. Budget: every call has limits</h3>
+        <p>Functions run with timeouts and memory limits; subagents need the same. Failing to recognise when to stop accounts for 12.4% of the failures in the MAST data, and Anthropic reports early versions of its system spawning 50 subagents for simple questions and searching endlessly for sources that did not exist. A brief should therefore set a tool-call budget, a token or time limit and a stop condition. The system should also cap how many subagents run at once and how deep delegation can nest. The Google study found that under a fixed budget, per-agent reasoning capacity becomes too thin beyond three or four agents. Anthropic's own scaling rule of thumb is one agent with 3 to 10 tool calls for simple fact-finding, 2 to 4 subagents for direct comparisons, and more than 10 only for complex research with clearly divided responsibilities.</p>
+
+        <h3>And the caller verifies</h3>
+        <p>In ordinary code, the caller checks return values before relying on them. In multi-agent systems this step is often missing. The three verification failures in the MAST taxonomy, missing checks, wrong checks and stopping too early, together account for about a quarter of the observed failures. In one case study the authors added a single high-level check of the task objective to a software-building framework and raised its success rate by 15.6%. Verification is cheap compared with the cost of an error compounding through the rest of the run, and it is the reason the centralized design contained errors better than the others.</p>
+
+        <table>
+          <thead>
+            <tr><th>Clause</th><th>What it states</th><th>Failure modes it targets (MAST share)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Scope</strong></td><td>Only independent, read-heavy sub-problems</td><td>Conflicting outputs from parallel writing; sequential tasks degraded 39 to 70%</td></tr>
+            <tr><td><strong>Signature</strong></td><td>Objective, why, what is known, sources, boundaries</td><td>Repeats steps (15.7%), ignores constraints (11.8%), drifts from goal (7.4%), loses context (2.8%)</td></tr>
+            <tr><td><strong>Return type</strong></td><td>Short structured result, evidence, confidence, open questions, artifact reference</td><td>Withholds information (0.85%), reasoning and actions don't match (13.2%), detail lost in summaries</td></tr>
+            <tr><td><strong>Authority</strong></td><td>Caller owns shared decisions and side effects; returns are data</td><td>Proceeds on assumptions (6.8%), breaks role (1.5%), injected instructions</td></tr>
+            <tr><td><strong>Budget</strong></td><td>Tool calls, tokens or time, stop condition, fan-out and depth limits</td><td>Doesn't know when to stop (12.4%), over-delegation, runaway cost</td></tr>
+            <tr><td><strong>Caller verifies</strong></td><td>Checks each result against the objective before using it</td><td>Missing verification (8.2%), wrong verification (9.1%), stops too early (6.2%)</td></tr>
+          </tbody>
+        </table>
+
+        <h2>The contract in code</h2>
+        <p>The contract is easiest to see as an interface. The sketch below is illustrative rather than tied to one framework: the brief and the result are typed objects, the budget is part of the call, and the caller validates every result before it reaches the final answer.</p>
+<pre><code>import json
+from dataclasses import dataclass, field
+
+@dataclass
+class Brief:                      # Clause 2: the signature
+    objective: str
+    why: str
+    known: list[str]
+    sources: str
+    boundaries: str
+    max_tool_calls: int = 10      # Clause 5: the budget
+    max_return_words: int = 300
+
+@dataclass
+class Result:                     # Clause 3: the return type
+    findings: list[dict]          # {"claim", "source", "date"}
+    open_questions: list[str] = field(default_factory=list)
+    confidence: str = "medium"
+    artifact: str | None = None
+
+def delegate(brief: Brief, run_subagent) -> Result:
+    raw = run_subagent(brief)                 # separate context window
+    result = Result(**json.loads(raw))        # reject malformed returns
+    for f in result.findings:                 # caller verifies
+        if not f.get("source"):
+            raise ValueError("finding without a source: " + f["claim"])
+    return result                             # data, never instructions
+
+# Clause 1 and 4 live in the caller: it decides what to split,
+# fixes shared decisions first, and keeps every side effect.</code></pre>
+        <p>Frameworks already provide most of these pieces. Claude Code gives each subagent its own context window, its own system prompt and an allowlist of tools, lets each subagent run on its own model, and limits nesting depth. OpenAI's Agents SDK distinguishes <em>agents as tools</em>, where a manager calls specialists and keeps ownership of the answer, from <em>handoffs</em>, where a specialist takes over the conversation. The function-call model corresponds to the first. What the frameworks cannot supply is the content of the contract: the scope decision, the brief, the schema and the checks.</p>
+
+        <h2>Should this task get subagents?</h2>
+        <p>The evidence reduces to a short set of questions. Answer them for a task you have in mind; the result explains its reasoning with the findings above.</p>
+
+        <div class="decider" id="decider">
+          <noscript><p>This interactive checklist needs JavaScript. The same questions appear in the table below.</p></noscript>
+        </div>
+
+        <table>
+          <thead>
+            <tr><th>Question</th><th>Points toward subagents</th><th>Points toward one agent</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Can the work be split into parts that don't depend on each other's decisions?</td><td>Yes</td><td>No</td></tr>
+            <tr><td>Is it mainly reading, searching or checking, or producing one integrated artifact?</td><td>Reading and checking</td><td>One artifact</td></tr>
+            <tr><td>Is it a sequence where each step depends on the last?</td><td>No</td><td>Yes (multi-agent lost 39 to 70%)</td></tr>
+            <tr><td>Does a single agent already do it well (above about 45%)?</td><td>No, it struggles</td><td>Yes (gains diminish)</td></tr>
+            <tr><td>Is the result valuable enough to pay several times the tokens?</td><td>Yes</td><td>No (about 15× the tokens of a chat)</td></tr>
+            <tr><td>Would the side material flood the main agent's context?</td><td>Yes</td><td>No</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Putting the contract to work</h2>
+        <p>For a typical research task, such as preparing a market analysis, the contract produces a workflow in which every step has one owner.</p>
+        <figure>
+          <img src="images/workflow.svg" alt="Workflow diagram with seven steps. 1, plan: the main agent splits the task, fixes shared choices and saves the plan. 2, brief: objective, format, tools, boundaries and budget for each subagent. 3, three subagents work in parallel on market size, competitors and regulation. 4, they write findings files with sources and return a summary. 5, the main agent synthesizes, opening files only where needed and spotting gaps. 6, a separate subagent verifies claims against sources. 7, the main agent alone writes the final answer. A dashed arrow shows that if gaps are found, a new subagent is briefed, within the budget.">
+          <figcaption>Figure 6: The contract as a workflow. The main agent plans, briefs, synthesizes, verifies and writes; subagents gather within their scope and budget.</figcaption>
+        </figure>
+        <p>Measuring it follows the same logic. Anthropic recommends starting with a small set of about 20 real queries, because early prompt changes have large effects; scoring outputs against a rubric of factual accuracy, citation accuracy, completeness, source quality and tool efficiency; judging the end state rather than the exact path; and keeping a person in the loop, since human testers caught problems automated checks missed. For the delegation itself, log every brief and every return. Most of the failure modes above are visible in those two records, and the Google study's efficiency measure, successful outcomes per thousand tokens, is a useful single number for deciding whether coordination is earning its cost.</p>
+
+        <h2>From more agents to better interfaces</h2>
+        <p>The public debate about multi-agent systems has mostly been about quantity: whether to add agents, and how many. The evidence points to a different question. The same orchestrator design gained 80% on one benchmark and lost half its performance on another, and most failures across seven frameworks came from how agents were specified and connected rather than from the models inside them. Reliability depends less on how many agents a system has than on the quality of the interfaces between them.</p>
+        <p>That is good news for anyone building agents today, because interfaces are something we know how to design. A precise signature, a typed result, a single owner for shared state, a budget and a check on every return are ordinary engineering habits. Cognition's warning about fragile multi-agent collaboration still holds for work that cannot be cleanly divided, and better shared context may change that over time. For the large class of work that does divide, treating each subagent as a function call rather than a colleague is what turns the extra tokens into better answers.</p>
+
+        <h2>Sources</h2>
+        <ul>
+          <li>Google Research, Google DeepMind and MIT, <a href="https://arxiv.org/abs/2512.08296" target="_blank" rel="noopener">Towards a Science of Scaling Agent Systems: When and Why Agent Systems Work</a> (arXiv 2512.08296, December 2025), and the <a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/" target="_blank" rel="noopener">Google Research summary</a>. Source of Figures 2 and 3, the 45% threshold and overhead figures.</li>
+          <li>Cemri et al. (UC Berkeley and others), <a href="https://arxiv.org/abs/2503.13657" target="_blank" rel="noopener">Why Do Multi-Agent LLM Systems Fail?</a> (NeurIPS 2025). Source of Figure 4, the 41 to 86.7% failure rates and the 15.6% verification result.</li>
+          <li>Anthropic, <a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener">How we built our multi-agent research system</a> (June 2025): the 90.2% result, token usage, delegation and scaling rules, and evaluation advice.</li>
+          <li>Anthropic, <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener">Effective context engineering for AI agents</a> (September 2025): attention budget, context rot and the 1,000 to 2,000 token return range.</li>
+          <li>Cognition, <a href="https://cognition.com/blog/dont-build-multi-agents" target="_blank" rel="noopener">Don't Build Multi-Agents</a> (June 2025): shared context, implicit decisions and the Flappy Bird example.</li>
+          <li>Anthropic, <a href="https://code.claude.com/docs/en/sub-agents" target="_blank" rel="noopener">Claude Code subagents documentation</a>, and OpenAI, <a href="https://openai.github.io/openai-agents-python/multi_agent/" target="_blank" rel="noopener">Agents SDK: agent orchestration</a>: how current frameworks implement delegation.</li>
+        </ul>
+        <p class="post-note">Figures 2 to 4 re-plot numbers published in the sources above; no new experiments were run for this article. Percentages in Figure 4 are shares of annotated failures as reported in the MAST paper.</p>
+      </article>
+
+      <div class="post-end">
+        <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> All Posts</a>
+      </div>
+    </main>
+
+    <aside class="container post-sidebar" aria-labelledby="related-heading">
+      <h2 id="related-heading">Related Posts</h2>
+      <!-- Filled by ../post.js from the tiles in ../index.html -->
+      <div id="related-list" class="related-list"></div>
+      <a href="../index.html" class="back-link">View All Posts <i class="fas fa-arrow-right"></i></a>
+    </aside>
+  </div>
+
+  <div class="chart-tip" id="chart-tip" role="status" hidden></div>
+
+  <!-- Minimal Footer -->
+  <footer>
+    <div class="footer-left">
+      <p>© 2026 Ruchith Balam • Data Scientist</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:bl.ruchith@gmail.com" class="icon-link"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i
+          class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i
+          class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+
+</body>
+</html>
