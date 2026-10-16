@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 470" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="900" height="470" fill="#ffffff"/>
+
+  <g font-size="13" fill="#0f172a">
+    <!-- 1 plan -->
+    <rect x="20" y="40" width="150" height="96" rx="12" fill="#eef2ff" stroke="#4338ca" stroke-width="1.8"/>
+    <text x="95" y="66" text-anchor="middle" font-weight="700" font-size="14" fill="#312e81">1. Plan</text>
+    <text x="95" y="88" text-anchor="middle" fill="#3730a3">Main agent splits</text>
+    <text x="95" y="105" text-anchor="middle" fill="#3730a3">the task, fixes shared</text>
+    <text x="95" y="122" text-anchor="middle" fill="#3730a3">choices, saves plan</text>
+
+    <!-- 2 briefs -->
+    <rect x="210" y="40" width="150" height="96" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+    <text x="285" y="66" text-anchor="middle" font-weight="700" font-size="14" fill="#1e3a8a">2. Brief</text>
+    <text x="285" y="88" text-anchor="middle" fill="#1d4ed8">Objective, format,</text>
+    <text x="285" y="105" text-anchor="middle" fill="#1d4ed8">tools, boundaries,</text>
+    <text x="285" y="122" text-anchor="middle" fill="#1d4ed8">budget per subagent</text>
+
+    <!-- 3 parallel subagents -->
+    <rect x="400" y="14" width="170" height="44" rx="10" fill="#f8fafc" stroke="#64748b"/>
+    <text x="485" y="41" text-anchor="middle">Subagent: market size</text>
+    <rect x="400" y="66" width="170" height="44" rx="10" fill="#f8fafc" stroke="#64748b"/>
+    <text x="485" y="93" text-anchor="middle">Subagent: competitors</text>
+    <rect x="400" y="118" width="170" height="44" rx="10" fill="#f8fafc" stroke="#64748b"/>
+    <text x="485" y="145" text-anchor="middle">Subagent: regulation</text>
+    <text x="485" y="186" text-anchor="middle" font-weight="700" fill="#334155">3. Work in parallel</text>
+
+    <!-- 4 artifacts -->
+    <rect x="610" y="40" width="130" height="96" rx="12" fill="#fffbeb" stroke="#d97706" stroke-width="1.8" stroke-dasharray="6 4"/>
+    <text x="675" y="66" text-anchor="middle" font-weight="700" font-size="14" fill="#92400e">4. Write</text>
+    <text x="675" y="88" text-anchor="middle" fill="#b45309">findings files</text>
+    <text x="675" y="105" text-anchor="middle" fill="#b45309">with sources;</text>
+    <text x="675" y="122" text-anchor="middle" fill="#b45309">return a summary</text>
+
+    <!-- 5 synthesize -->
+    <rect x="610" y="250" width="270" height="88" rx="12" fill="#eef2ff" stroke="#4338ca" stroke-width="1.8"/>
+    <text x="745" y="278" text-anchor="middle" font-weight="700" font-size="14" fill="#312e81">5. Synthesize (main agent)</text>
+    <text x="745" y="300" text-anchor="middle" fill="#3730a3">Reads summaries, opens files only</text>
+    <text x="745" y="317" text-anchor="middle" fill="#3730a3">where needed, spots gaps</text>
+
+    <!-- 6 verify -->
+    <rect x="320" y="250" width="240" height="88" rx="12" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
+    <text x="440" y="278" text-anchor="middle" font-weight="700" font-size="14" fill="#14532d">6. Verify (separate subagent)</text>
+    <text x="440" y="300" text-anchor="middle" fill="#166534">Checks claims against sources,</text>
+    <text x="440" y="317" text-anchor="middle" fill="#166534">reports problems back</text>
+
+    <!-- 7 answer -->
+    <rect x="20" y="250" width="250" height="88" rx="12" fill="#1e1b4b"/>
+    <text x="145" y="285" text-anchor="middle" font-weight="700" font-size="15" fill="#ffffff">7. Final answer</text>
+    <text x="145" y="308" text-anchor="middle" fill="#c7d2fe">Written by the main agent only</text>
+
+    <!-- gap loop -->
+    <text x="745" y="380" text-anchor="middle" font-size="12.5" fill="#64748b">Gaps found? Brief a new subagent (step 2), within the budget</text>
+  </g>
+
+  <!-- arrows -->
+  <path d="M170 88 L206 88" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M360 88 L396 36" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M360 88 L396 88" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M360 88 L396 140" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M570 36 L606 80" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M570 88 L606 88" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M570 140 L606 96" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M675 136 L705 246" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M610 294 L564 294" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M320 294 L274 294" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <path d="M800 338 C 860 420, 420 440, 290 150" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#a)"/>
+</svg>
