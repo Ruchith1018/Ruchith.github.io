@@ -42,10 +42,10 @@
 
       <div class="post-header">
         <h1 class="post-title">Subagents Are Function Calls, Not Teammates</h1>
-        <p class="post-dek">What 1,642 failure traces and 180 agent configurations reveal about how a main agent should delegate, and a five-clause contract for doing it well.</p>
+        <p class="post-dek">What research from 2025 to September 2026 reveals about how a main agent should delegate, and a five-clause contract for doing it well.</p>
         <div class="post-meta">
           <time datetime="2026-10-16">16 Oct 2026</time>
-          <span>16 min read</span>
+          <span>22 min read</span>
           <span id="read-count" hidden></span>
         </div>
         <div class="post-tags">
@@ -62,7 +62,7 @@
 
       <article class="post-body">
         <p class="lede">In a controlled study of 180 agent configurations, researchers at Google, Google DeepMind and MIT gave the same orchestrator design, a main agent coordinating subagents, two different jobs. On financial analysis it scored <strong>80.8% higher</strong> than a single agent working alone. On step-by-step planning in Minecraft it scored <strong>50.3% lower</strong>. Same models, same token budget, same architecture.</p>
-        <p>The difference was not the models. It was whether the work could be cut into pieces that do not depend on each other, and whether the hand-offs between agents were designed for what language models actually are. This article argues for one idea that explains both results: <strong>a subagent is a function call, not a teammate.</strong> It should be given a precise signature, return a typed result, leave every shared decision and side effect to its caller, and stop within a budget. When delegation is designed that way, and only used where the work decomposes, subagents deliver the gains reported by Anthropic and others. When it is designed like a conversation between colleagues, it produces the failure patterns documented across 1,642 traces in a NeurIPS 2025 study.</p>
+        <p>The difference was not the models. It was whether the work could be cut into pieces that do not depend on each other, and whether the hand-offs between agents were designed for what language models actually are. This article argues for one idea that explains both results: <strong>a subagent is a function call, not a teammate.</strong> It should be given a precise signature, return a typed result, leave every shared decision and side effect to its caller, and stop within a budget. When delegation is designed that way, and only used where the work decomposes, subagents deliver the gains reported by Anthropic and others. When it is designed like a conversation between colleagues, it produces the failure patterns documented across 1,642 traces in a NeurIPS 2025 study. Research published through September 2026, from equal-budget comparisons to trained orchestrators, points the same way and sharpens where the line falls.</p>
 
         <aside class="tldr">
           <h2>Key takeaways</h2>
@@ -72,6 +72,7 @@
             <li><strong>A central caller contains errors.</strong> Independent agents amplified errors 17.2 times; a central orchestrator held it to 4.4 times.</li>
             <li><strong>Design every delegation as a contract</strong> with five clauses: scope, signature, return type, authority and budget. Each clause closes a documented failure mode.</li>
             <li><strong>Verification belongs to the caller.</strong> Missing or wrong verification accounts for close to a quarter of observed failures; adding one objective check raised success by 15.6% in a case study.</li>
+            <li><strong>2026 research sharpens the line.</strong> At equal thinking budgets, a single agent matched or beat multi-agent systems on multi-hop reasoning. A learned policy that delegates only when needed scored about 16% higher at roughly a tenth of the cost. And 16 agents built a C compiler in parallel because a near-perfect test suite split the work into independently checkable pieces.</li>
           </ul>
         </aside>
 
@@ -156,6 +157,28 @@
           </details>
         </figure>
 
+        <h2>What the 2026 research adds</h2>
+        <p>Most of the evidence above was published in 2025. Since then, the question has moved from "do multi-agent systems work?" to "under which conditions, and who decides when to split?". The studies below, all published between January and September 2026, are the ones that change how the contract in this article should be applied.</p>
+
+        <ol class="research-timeline">
+          <li><time>Jan 2026</time><div><strong>Kimi K2.5 Agent Swarm</strong> (Moonshot AI). A trainable orchestrator, taught with parallel-agent reinforcement learning, spawns up to 100 frozen subagents for up to 1,500 coordinated steps, cutting execution time by up to 4.5 times against a single agent. Training had to overcome <em>serial collapse</em>, the orchestrator's tendency to fall back to doing everything itself, and latency is measured in <em>critical steps</em>: only the slowest subagent at each stage counts.</div></li>
+          <li><time>Feb 2026</time><div><strong>Anthropic's parallel-agent C compiler</strong> (Anthropic engineering blog). Sixteen agents, with no orchestrator, wrote a 100,000-line Rust C compiler that builds Linux 6.9, over nearly 2,000 sessions and just under $20,000. It worked while there were many independent failing tests to claim, and stalled on the single monolithic task of compiling the kernel: "every agent would hit the same bug, fix that bug, and then overwrite each other's changes."</div></li>
+          <li><time>Feb 2026</time><div><strong>AOrchestra</strong> (arXiv 2602.03786). Models every subagent as a tuple of instruction, context, tools and model, which the orchestrator fills in to create specialised subagents on demand. Reported a 16.28% relative improvement over the strongest baseline on GAIA, SWE-Bench and Terminal-Bench with Gemini-3-Flash.</div></li>
+          <li><time>Feb 2026</time><div><strong>AdaptOrch</strong> (arXiv 2602.16873). Chooses among parallel, sequential, hierarchical and hybrid topologies from each task's dependency graph, and reports 12 to 23% gains over a fixed topology with identical models. Its argument: as frontier models converge in capability, orchestration design matters more than model choice.</div></li>
+          <li><time>Apr 2026</time><div><strong>Tran and Kiela</strong> (arXiv 2604.02460). With thinking tokens held equal, single agents "consistently match or outperform" multi-agent systems on multi-hop reasoning across Qwen3, DeepSeek-R1-Distill-Llama and Gemini 2.5. Multi-agent systems become competitive when a single agent's effective use of its context is degraded, and many reported gains are "better explained by unaccounted computation and context effects."</div></li>
+          <li><time>May 2026</time><div><strong>Uno-Orchestra</strong> (arXiv 2605.05007). A single learned policy decides whether to decompose a task at all, and which model handles each piece. It reached 77.0% macro pass@1 across 13 benchmarks, about 16% above the strongest workflow baseline, at roughly an order of magnitude lower cost per query.</div></li>
+          <li><time>Jul 2026</time><div><strong>OrchBench</strong> (arXiv 2607.25656). Scores orchestration plans without running the workers, with simulated scores correlating at r = 0.816 with real Claude Code executions. Its central finding: "preserving task-critical information is more important than simply increasing the number of agents," and parallelism shows diminishing returns as coordination failures accumulate.</div></li>
+          <li><time>Sep 2026</time><div><strong>SoK: When Safe Agents Fail Together</strong> (arXiv 2609.00595). A review of 197 works on the security of multi-agent systems. Because these systems move information, decisions and authority across boundaries, they create "failures that local checks may miss," and the authors recommend tracing each attack path end to end through the system.</div></li>
+        </ol>
+
+        <p>Read together, these results refine the picture in four ways.</p>
+        <ul>
+          <li><strong>The real reason to delegate is context, not more minds.</strong> When budgets are equal, a single agent reasons as well or better; subagents earn their place when one context window would otherwise be overloaded, which is exactly the separation they provide.</li>
+          <li><strong>Deciding <em>not</em> to delegate is part of the design.</strong> The strongest 2026 orchestrators, Uno-Orchestra and AdaptOrch, gain by choosing when and how to split, and Kimi's training had to fight the opposite failure, an orchestrator that will not split at all.</li>
+          <li><strong>Parallel writing can work, under one condition.</strong> The C compiler shows that agents can build one artifact together when a near-perfect verifier, here a large test suite and a known-good compiler, divides the work into independently checkable units. Without that, they collide.</li>
+          <li><strong>The orchestrator is becoming a trained component.</strong> Kimi, Uno-Orchestra and the Tran and Kiela analysis all treat delegation as something to optimise and measure, not a fixed prompt. That makes the interface between caller and subagent the thing worth getting right.</li>
+        </ul>
+
         <h2>The root cause: the teammate mental model</h2>
         <p>Most of these failures share a source. Multi-agent systems are usually described, prompted and built as teams: a manager and specialists who talk to each other, divide the work and help out where needed. Human teams work because their members share a large amount of tacit context. They know the project's history, the audience and the unwritten conventions, and they ask when something is unclear.</p>
         <p>Language-model agents share none of that unless it is written into their context. A subagent knows the text it was given and nothing else. It does not see the conversation that produced its task, the decisions already made or the work of the other subagents. Treated as a teammate, it fills those gaps with plausible assumptions, and the failure data shows exactly that pattern:</p>
@@ -181,9 +204,10 @@
           <figcaption>Figure 5: Independent questions combine cleanly. Parts of one artifact depend on decisions nobody wrote down, so splitting them invites conflict.</figcaption>
         </figure>
         <p>Two checks from the evidence belong in this clause. If the task is a sequence where each step depends on the last, keep it in one agent. If a single agent already handles the task well, above roughly 45% success in the Google study's terms, coordination is unlikely to pay for itself.</p>
+        <p>The 2026 C-compiler experiment adds the one clear exception for write-heavy work. Sixteen agents could build a single compiler in parallel because the test suite turned it into many small, independently checkable tasks, each claimed with a lock file, and its author notes that the verifier had to be "nearly perfect" or the agents would solve the wrong problem. When the work collapsed back into one task, compiling the kernel, the parallelism stopped helping until a known-good compiler was used to split it again. So the rule becomes: delegate work that decomposes, and treat a strong automatic check as the thing that can make a write-heavy task decompose.</p>
 
         <h3>Clause 2. Signature: the brief states everything the subagent needs</h3>
-        <p>The brief is the subagent's entire world. Anthropic found that short, vague instructions caused subagents to misread tasks and duplicate each other's searches, and settled on four required parts: an objective, an output format, guidance on tools and sources, and clear task boundaries. The failure data argues for two more: what is already known, which prevents repeated work, and why the task matters, which keeps the subagent anchored to the goal when it has to make judgement calls.</p>
+        <p>The brief is the subagent's entire world. Anthropic found that short, vague instructions caused subagents to misread tasks and duplicate each other's searches, and settled on four required parts: an objective, an output format, guidance on tools and sources, and clear task boundaries. The failure data argues for two more: what is already known, which prevents repeated work, and why the task matters, which keeps the subagent anchored to the goal when it has to make judgement calls. AOrchestra, published in February 2026, formalises the same idea from the other side: it defines every subagent as an instruction, a context, a set of tools and a model, all chosen by the orchestrator at the moment of delegation, and reports a 16.28% gain over the strongest baseline with that explicit structure.</p>
         <p>The difference shows clearly side by side.</p>
 <pre><code># Teammate-style brief
 Research the semiconductor shortage.</code></pre>
@@ -210,14 +234,15 @@ BUDGET      10 searches. Stop early if sources start repeating.</code></pre>
   "open_questions": ["No 2028 figure from manufacturer C"],
   "artifact": "workspace/supply-forecasts.md"
 }</code></pre>
-        <p>The <code>artifact</code> field handles large outputs. Instead of passing a long report back through the caller, the subagent writes it to a shared store and returns a reference, which Anthropic uses to avoid losing detail in a chain of summaries, a problem it calls a game of telephone.</p>
+        <p>The <code>artifact</code> field handles large outputs. Instead of passing a long report back through the caller, the subagent writes it to a shared store and returns a reference, which Anthropic uses to avoid losing detail in a chain of summaries, a problem it calls a game of telephone. OrchBench's 2026 analysis of orchestration plans reached the same conclusion in general form: preserving task-critical information between agents mattered more than adding agents.</p>
 
         <h3>Clause 4. Authority: the caller owns shared decisions and side effects</h3>
         <p>A function that silently changes global state is a source of bugs; a subagent that makes a decision other parts depend on is the same bug. Anything that more than one subagent relies on, such as the report's structure and audience, an interface or a naming convention, should be fixed by the caller before it fans out. When a subagent meets a question of that kind, its brief should tell it to report it as an open question rather than answer it.</p>
-        <p>Authority also covers side effects. Sending messages, writing to production systems, spending money and deleting data should stay with the main agent, behind explicit checks. There is a security reason too: a subagent that reads web pages or documents can absorb instructions planted in them, and its summary can carry that text to the main agent, which usually holds more powerful tools. The caller should treat every return value as data to evaluate, never as instructions to follow. This is the indirect prompt-injection problem, applied inside the system.</p>
+        <p>Authority also covers side effects. Sending messages, writing to production systems, spending money and deleting data should stay with the main agent, behind explicit checks. There is a security reason too: a subagent that reads web pages or documents can absorb instructions planted in them, and its summary can carry that text to the main agent, which usually holds more powerful tools. The caller should treat every return value as data to evaluate, never as instructions to follow. This is the indirect prompt-injection problem, applied inside the system. The September 2026 security review of 197 multi-agent studies explains why per-agent safeguards are not enough: when information and authority cross agent boundaries, safe agents can fail together in ways no local check sees, so the caller is the natural place to trace and close those paths.</p>
 
         <h3>Clause 5. Budget: every call has limits</h3>
         <p>Functions run with timeouts and memory limits; subagents need the same. Failing to recognise when to stop accounts for 12.4% of the failures in the MAST data, and Anthropic reports early versions of its system spawning 50 subagents for simple questions and searching endlessly for sources that did not exist. A brief should therefore set a tool-call budget, a token or time limit and a stop condition. The system should also cap how many subagents run at once and how deep delegation can nest. The Google study found that under a fixed budget, per-agent reasoning capacity becomes too thin beyond three or four agents. Anthropic's own scaling rule of thumb is one agent with 3 to 10 tool calls for simple fact-finding, 2 to 4 subagents for direct comparisons, and more than 10 only for complex research with clearly divided responsibilities.</p>
+        <p>Two 2026 results add precision. Kimi's agent swarm measures speed in critical steps, so an extra subagent only counts if it shortens the slowest path; budgets should be judged the same way, by the longest chain, not the total number of agents. And Uno-Orchestra's best configurations come from a policy that first decides whether to decompose at all, which is why the cheapest correct budget is often zero subagents.</p>
 
         <h3>And the caller verifies</h3>
         <p>In ordinary code, the caller checks return values before relying on them. In multi-agent systems this step is often missing. The three verification failures in the MAST taxonomy, missing checks, wrong checks and stopping too early, together account for about a quarter of the observed failures. In one case study the authors added a single high-level check of the task objective to a software-building framework and raised its success rate by 15.6%. Verification is cheap compared with the cost of an error compounding through the rest of the run, and it is the reason the centralized design contained errors better than the others.</p>
@@ -227,7 +252,7 @@ BUDGET      10 searches. Stop early if sources start repeating.</code></pre>
             <tr><th>Clause</th><th>What it states</th><th>Failure modes it targets (MAST share)</th></tr>
           </thead>
           <tbody>
-            <tr><td><strong>Scope</strong></td><td>Only independent, read-heavy sub-problems</td><td>Conflicting outputs from parallel writing; sequential tasks degraded 39 to 70%</td></tr>
+            <tr><td><strong>Scope</strong></td><td>Only independent sub-problems: read-heavy work, or write-heavy work split by a near-perfect automatic check</td><td>Conflicting outputs from parallel writing; sequential tasks degraded 39 to 70%</td></tr>
             <tr><td><strong>Signature</strong></td><td>Objective, why, what is known, sources, boundaries</td><td>Repeats steps (15.7%), ignores constraints (11.8%), drifts from goal (7.4%), loses context (2.8%)</td></tr>
             <tr><td><strong>Return type</strong></td><td>Short structured result, evidence, confidence, open questions, artifact reference</td><td>Withholds information (0.85%), reasoning and actions don't match (13.2%), detail lost in summaries</td></tr>
             <tr><td><strong>Authority</strong></td><td>Caller owns shared decisions and side effects; returns are data</td><td>Proceeds on assumptions (6.8%), breaks role (1.5%), injected instructions</td></tr>
@@ -288,6 +313,7 @@ def delegate(brief: Brief, run_subagent) -> Result:
             <tr><td>Does a single agent already do it well (above about 45%)?</td><td>No, it struggles</td><td>Yes (gains diminish)</td></tr>
             <tr><td>Is the result valuable enough to pay several times the tokens?</td><td>Yes</td><td>No (about 15× the tokens of a chat)</td></tr>
             <tr><td>Would the side material flood the main agent's context?</td><td>Yes</td><td>No</td></tr>
+            <tr><td>Can each part be checked automatically (tests, a validator, a known-good reference)?</td><td>Yes (it can make write-heavy work splittable)</td><td>No</td></tr>
           </tbody>
         </table>
 
@@ -302,17 +328,26 @@ def delegate(brief: Brief, run_subagent) -> Result:
         <h2>From more agents to better interfaces</h2>
         <p>The public debate about multi-agent systems has mostly been about quantity: whether to add agents, and how many. The evidence points to a different question. The same orchestrator design gained 80% on one benchmark and lost half its performance on another, and most failures across seven frameworks came from how agents were specified and connected rather than from the models inside them. Reliability depends less on how many agents a system has than on the quality of the interfaces between them.</p>
         <p>That is good news for anyone building agents today, because interfaces are something we know how to design. A precise signature, a typed result, a single owner for shared state, a budget and a check on every return are ordinary engineering habits. Cognition's warning about fragile multi-agent collaboration still holds for work that cannot be cleanly divided, and better shared context may change that over time. For the large class of work that does divide, treating each subagent as a function call rather than a colleague is what turns the extra tokens into better answers.</p>
+        <p>The 2026 research suggests where this goes next. Orchestrators are starting to be trained rather than prompted, learning when to split, how wide to go and when to stop, and benchmarks such as OrchBench are beginning to score plans on their own. As that happens, the contract stops being only a writing guideline for prompts and becomes the interface those systems are optimised against: what goes into a brief, what a result must contain, who owns each decision and what a call is allowed to cost.</p>
 
-        <h2>Sources</h2>
+        <h2>Sources (current to October 2026)</h2>
         <ul>
           <li>Google Research, Google DeepMind and MIT, <a href="https://arxiv.org/abs/2512.08296" target="_blank" rel="noopener">Towards a Science of Scaling Agent Systems: When and Why Agent Systems Work</a> (arXiv 2512.08296, December 2025), and the <a href="https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/" target="_blank" rel="noopener">Google Research summary</a>. Source of Figures 2 and 3, the 45% threshold and overhead figures.</li>
           <li>Cemri et al. (UC Berkeley and others), <a href="https://arxiv.org/abs/2503.13657" target="_blank" rel="noopener">Why Do Multi-Agent LLM Systems Fail?</a> (NeurIPS 2025). Source of Figure 4, the 41 to 86.7% failure rates and the 15.6% verification result.</li>
           <li>Anthropic, <a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener">How we built our multi-agent research system</a> (June 2025): the 90.2% result, token usage, delegation and scaling rules, and evaluation advice.</li>
           <li>Anthropic, <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener">Effective context engineering for AI agents</a> (September 2025): attention budget, context rot and the 1,000 to 2,000 token return range.</li>
           <li>Cognition, <a href="https://cognition.com/blog/dont-build-multi-agents" target="_blank" rel="noopener">Don't Build Multi-Agents</a> (June 2025): shared context, implicit decisions and the Flappy Bird example.</li>
+          <li>Moonshot AI, <a href="https://www.kimi.ai/blog/kimi-k2-5" target="_blank" rel="noopener">Kimi K2.5: Visual Agentic Intelligence</a> (January 2026): Agent Swarm, PARL training, serial collapse and critical steps.</li>
+          <li>Nicholas Carlini, Anthropic, <a href="https://www.anthropic.com/engineering/building-c-compiler" target="_blank" rel="noopener">engineering post on building a C compiler with 16 parallel Claude agents</a> (February 2026).</li>
+          <li>Ruan et al., <a href="https://arxiv.org/abs/2602.03786" target="_blank" rel="noopener">AOrchestra: Automating Sub-Agent Creation for Agentic Orchestration</a> (arXiv 2602.03786, February 2026).</li>
+          <li>Yu, <a href="https://arxiv.org/abs/2602.16873" target="_blank" rel="noopener">AdaptOrch: Task-Adaptive Multi-Agent Orchestration in the Era of LLM Performance Convergence</a> (arXiv 2602.16873, February 2026).</li>
+          <li>Tran and Kiela, <a href="https://arxiv.org/abs/2604.02460" target="_blank" rel="noopener">Single-Agent LLMs Outperform Multi-Agent Systems on Multi-Hop Reasoning Under Equal Thinking Token Budgets</a> (arXiv 2604.02460, April 2026).</li>
+          <li>Cui et al., <a href="https://arxiv.org/abs/2605.05007" target="_blank" rel="noopener">Uno-Orchestra: Parsimonious Agent Routing via Selective Delegation</a> (arXiv 2605.05007, May 2026).</li>
+          <li>Ren et al., <a href="https://arxiv.org/abs/2607.25656" target="_blank" rel="noopener">OrchBench: Evaluating Multi-Agent Orchestration Plans in Isolation via Deterministic Simulation</a> (arXiv 2607.25656, July 2026).</li>
+          <li>Yang et al., <a href="https://arxiv.org/abs/2609.00595" target="_blank" rel="noopener">SoK: When Safe Agents Fail Together: The Security of Multi Agent LLM Systems</a> (arXiv 2609.00595, September 2026).</li>
           <li>Anthropic, <a href="https://code.claude.com/docs/en/sub-agents" target="_blank" rel="noopener">Claude Code subagents documentation</a>, and OpenAI, <a href="https://openai.github.io/openai-agents-python/multi_agent/" target="_blank" rel="noopener">Agents SDK: agent orchestration</a>: how current frameworks implement delegation.</li>
         </ul>
-        <p class="post-note">Figures 2 to 4 re-plot numbers published in the sources above; no new experiments were run for this article. Percentages in Figure 4 are shares of annotated failures as reported in the MAST paper.</p>
+        <p class="post-note">Figures 2 to 4 re-plot numbers published in the sources above; no new experiments were run for this article. Several 2026 papers are preprints; figures are as reported in their abstracts and posts. Percentages in Figure 4 are shares of annotated failures as reported in the MAST paper.</p>
       </article>
 
       <div class="post-end">
