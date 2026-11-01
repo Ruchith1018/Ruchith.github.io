@@ -984,3 +984,157 @@
 .gh-stat strong {
     font-variant-numeric: tabular-nums;
 }
+
+/* ===== Phones only (desktop layout above is untouched) ===== */
+@media (max-width: 600px) {
+    .home-hero-container {
+        padding: 22px 18px 26px;
+    }
+
+    .home-hero {
+        gap: 28px;
+    }
+
+    .hero-main {
+        gap: 14px;
+    }
+
+    .hero-name {
+        font-size: clamp(2.6rem, 13.5vw, 3.4rem);
+        letter-spacing: -1px;
+    }
+
+    .hero-rotate {
+        font-size: 1.15rem;
+        min-height: 2.8em;   /* room for two lines so the page does not jump while the word types */
+    }
+
+    .hero-pitch {
+        font-size: 1rem;
+    }
+
+    /* the two main buttons fill the row and are easy to tap */
+    .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .hero-actions .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 50px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .impact {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .impact-card:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+
+    .ask-tab,
+    .ask-chip {
+        min-height: 40px;
+    }
+
+    .tour-step {
+        min-height: 46px;
+    }
+
+    /* photo and at-a-glance stack instead of sitting side by side */
+    .hero-side {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 28px;
+    }
+
+    .sticker {
+        width: min(250px, 80%);
+        margin: 0 auto;
+        transform: rotate(1.5deg);
+        box-shadow: 6px 6px 0 var(--bg-black);
+    }
+
+    .sticker figcaption {
+        padding: 3px 9px;
+        font-size: 0.6rem;
+    }
+
+    .glance {
+        padding: 16px;
+        box-shadow: 5px 5px 0 var(--bg-black);
+    }
+
+    .stack-tile {
+        min-height: 40px;
+    }
+
+    .glance-btn {
+        min-height: 44px;
+        font-size: 0.85rem;
+    }
+
+    .home-section {
+        padding: 20px 18px;
+    }
+
+    .home-section-head {
+        flex-wrap: wrap;
+        margin-bottom: 4px;
+    }
+
+    .home-section-head h2 {
+        font-size: 1.6rem;
+    }
+
+    .home-more {
+        min-height: 40px;
+    }
+
+    .top-projects {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .gh-card {
+        padding: 16px;
+        gap: 16px;
+        box-shadow: 5px 5px 0 var(--bg-black);
+    }
+
+    .gh-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .gh-scroll {
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .contact-cta {
+        padding: 36px 18px;
+    }
+
+    .contact-cta h2 {
+        font-size: 2.4rem;
+    }
+
+    .contact-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .contact-actions .btn {
+        justify-content: center;
+        min-height: 50px;
+        word-break: break-all;
+    }
+}

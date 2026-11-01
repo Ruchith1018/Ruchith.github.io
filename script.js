@@ -1,5 +1,31 @@
 // script.js
 
+// ===== MOBILE SWITCH =====
+// true  = the full site works on phones (Menu button, phone layouts on every page)
+// false = the previous version: phones see a DESKTOP ONLY screen on every page except the blog
+const MOBILE_SITE = false;
+
+if (!MOBILE_SITE) {
+  document.documentElement.classList.add('mobile-off');
+  if (!document.body.classList.contains('allow-mobile') && !document.getElementById('mobile-overlay')) {
+    const avatar = document.querySelector('.brand-avatar');
+    const blogLink = document.querySelector('.nav-blog a');
+    const overlay = document.createElement('div');
+    overlay.id = 'mobile-overlay';
+    overlay.innerHTML =
+      '<div class="mobile-profile-pic"><img alt="Ruchith Balam"></div>' +
+      '<div class="mobile-overlay-box"><div class="mobile-overlay-content">' +
+      '<i class="fas fa-desktop"></i><h1>DESKTOP ONLY</h1>' +
+      '<p>This experience is optimized for larger screens. Please switch to a desktop or laptop to explore the portfolio.</p>' +
+      '<div class="warning-stripes"></div>' +
+      '<a class="mobile-blog-btn"><i class="fas fa-pen-nib"></i> Read My Blog</a>' +
+      '</div></div>';
+    overlay.querySelector('img').src = avatar ? avatar.getAttribute('src') : 'Profile_Pic.jpeg';
+    overlay.querySelector('a').href = blogLink ? blogLink.getAttribute('href') : 'Blog/index.html';
+    document.body.prepend(overlay);
+  }
+}
+
 // ===== PRELOADER DISMISSAL =====
 window.addEventListener('load', function () {
   const minLoadingTime = 800; // at least 0.8s for smooth transition
@@ -177,6 +203,42 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   window.addEventListener('scroll', update, { passive: true });
   update();
+});
+
+// ===== PHONE MENU: a Menu button that opens the nav links as a dropdown (CSS shows it below 768px) =====
+document.addEventListener('DOMContentLoaded', function () {
+  const header = document.querySelector('header');
+  const nav = header && header.querySelector('nav');
+  const links = nav && nav.querySelector('.nav-links');
+  if (!links || nav.querySelector('.nav-toggle')) return;
+
+  links.id = links.id || 'site-nav-links';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-controls', links.id);
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i><span>Menu</span>';
+  nav.insertBefore(btn, links);
+
+  function setOpen(open) {
+    header.classList.toggle('menu-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.querySelector('i').className = 'fas ' + (open ? 'fa-xmark' : 'fa-bars');
+    btn.querySelector('span').textContent = open ? 'Close' : 'Menu';
+  }
+  btn.addEventListener('click', function () {
+    setOpen(!header.classList.contains('menu-open'));
+  });
+  document.addEventListener('click', function (e) {
+    if (header.classList.contains('menu-open') && !header.contains(e.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && header.classList.contains('menu-open')) { setOpen(false); btn.focus(); }
+  });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) setOpen(false);
+  });
 });
 
 // ===== ANALYTICS: count CV downloads as an event (works for links added later too) =====

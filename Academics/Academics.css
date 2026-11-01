@@ -367,3 +367,57 @@
         padding-bottom: 0;
     }
 }
+
+/* ===== Phones only ===== */
+@media (max-width: 600px) {
+    .certs {
+        gap: 20px;
+        padding-top: 20px;
+    }
+
+    .cert,
+    .cert-main {
+        padding: 20px 18px;
+        gap: 16px;
+        box-shadow: 5px 5px 0 var(--bg-black);
+    }
+
+    .shelves {
+        gap: 28px;
+        padding: 20px 14px 18px;
+    }
+
+    /* one swipeable row of spines per year, always standing on its plank */
+    .shelf-books {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0 8px;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .shelf-books::-webkit-scrollbar {
+        display: none;
+    }
+
+    .book {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+    }
+
+    .shelf.can-scroll .shelf-label::after {
+        content: 'Swipe \2192';
+        margin-left: auto;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        opacity: 0.6;
+    }
+
+    .shelf-legend li {
+        min-height: 32px;
+    }
+}

@@ -281,3 +281,34 @@
     gap: 15px;
     margin-top: 6px;
 }
+
+/* ===== Phones only ===== */
+@media (max-width: 600px) {
+    .skill-groups {
+        gap: 20px;
+    }
+
+    .skill-group {
+        padding: 18px 14px;
+        border-radius: 20px;
+    }
+
+    .skill-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .core-tile {
+        min-height: 40px;
+    }
+
+    .skill-usage {
+        min-height: 0;
+        padding: 14px;
+        scroll-margin-bottom: 16px;
+    }
+
+    .skill-link {
+        min-height: 38px;
+    }
+}

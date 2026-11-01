@@ -139,168 +139,6 @@ body.loaded {
     100% { transform: rotate(360deg); }
 }
 
-/* Mobile Restriction Overlay */
-#mobile-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #facc15; /* Force yellow background */
-    background-image: url("bg-pattern.svg");
-    z-index: 10001;
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    color: #000000;
-    font-family: 'Inter', sans-serif;
-}
-
-.mobile-profile-pic {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #000000;
-    margin-bottom: -40px; /* Overlap with the box */
-    z-index: 10004;
-    background: white;
-}
-
-.mobile-profile-pic img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.mobile-overlay-box {
-    background: #facc15;
-    border: 4px solid #000000;
-    border-radius: 32px;
-    padding: 60px 30px 30px 30px;
-    z-index: 10003;
-    max-width: 90%;
-    position: relative;
-}
-
-.mobile-overlay-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-.mobile-overlay-content i {
-    font-size: 3rem;
-    margin-bottom: 5px;
-    color: #000000;
-    animation: pulse 2s infinite;
-}
-
-.mobile-overlay-content h1 {
-    font-size: 2rem;
-    font-weight: 900;
-    letter-spacing: 2px;
-    line-height: 1;
-    color: #000000;
-}
-
-.mobile-overlay-content p {
-    font-size: 1rem;
-    font-weight: 700;
-    opacity: 0.9;
-    line-height: 1.4;
-    color: #000000;
-}
-
-.warning-stripes {
-    width: 100%;
-    height: 15px;
-    background: repeating-linear-gradient(
-        45deg,
-        #000000,
-        #000000 10px,
-        #facc15 10px,
-        #facc15 20px
-    );
-    background-size: 28.28px 28.28px; /* Perfect diagonal repeat for 20px stripe width */
-    animation: stripe-slide 0.6s linear infinite;
-    margin-top: 10px;
-    border-radius: 10px;
-}
-
-@keyframes stripe-slide {
-    from { background-position: 0 0; }
-    to { background-position: 28.28px 0; }
-}
-
-.mobile-blog-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 5px;
-    padding: 12px 24px;
-    background: #000000;
-    color: #facc15;
-    border: 2px solid #000000;
-    border-radius: 12px;
-    font-weight: 900;
-    text-transform: uppercase;
-    text-decoration: none;
-    letter-spacing: 1px;
-}
-
-.mobile-blog-btn i {
-    font-size: 1rem !important;
-    margin: 0 !important;
-    color: #facc15 !important;
-    animation: none !important;
-}
-
-/* Pages with body.allow-mobile (the blog) stay readable on phones */
-@media screen and (max-width: 600px) {
-    body:not(.allow-mobile) #mobile-overlay {
-        display: flex;
-    }
-    body:not(.allow-mobile) {
-        overflow: hidden !important;
-    }
-    body:not(.allow-mobile) #preloader,
-    body:not(.allow-mobile) header,
-    body:not(.allow-mobile) .container,
-    body:not(.allow-mobile) footer {
-        display: none !important;
-    }
-
-    body.allow-mobile {
-        padding: 10px;
-    }
-    body.allow-mobile header {
-        padding: 12px 18px;
-        border-radius: var(--radius-card);
-    }
-    body.allow-mobile .logo a {
-        font-size: 1.1rem;
-    }
-    body.allow-mobile .container {
-        padding: 18px;
-        border-radius: 20px;
-    }
-}
-
-/* The main nav is hidden below 768px; blog pages keep just the Blog link */
-@media screen and (max-width: 768px) {
-    body.allow-mobile .nav-links {
-        display: flex !important;
-    }
-    body.allow-mobile .nav-links li:not(.nav-blog) {
-        display: none;
-    }
-}
-
 /* Floating Code Snippets */
 .floating-code {
     position: absolute;
@@ -1385,7 +1223,12 @@ header.is-scrolled::before {
     }
 }
 
-/* phones (only the blog is open there): just the brand, and the bar scrolls away with the page */
+/* menu button: only shown on phones and small tablets (script.js adds it to every bar) */
+.nav-toggle {
+    display: none;
+}
+
+/* phones: brand + a Menu button that opens the links as a dropdown; the bar scrolls away with the page */
 @media (max-width: 768px) {
     header {
         position: relative;
@@ -1415,8 +1258,68 @@ header.is-scrolled::before {
         height: 40px;
     }
 
-    body.allow-mobile header .nav-links {
+    .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: auto;
+        min-height: 42px;
+        padding: 0 14px;
+        background: white;
+        color: var(--text-black);
+        border: 2px solid var(--bg-black);
+        border-radius: 10px;
+        box-shadow: 2px 2px 0 var(--bg-black);
+        font-family: 'Space Mono', monospace;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .nav-toggle i {
+        width: 1em;
+        font-size: 0.95rem;
+    }
+
+    header.menu-open .nav-toggle {
+        background: var(--bg-black);
+        color: var(--bg-yellow);
+    }
+
+    header .nav-links {
         display: none !important;
+    }
+
+    header.menu-open .nav-links {
+        display: flex !important;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: -3px;
+        right: -3px;
+        z-index: 50;
+        flex-direction: column;
+        gap: 4px;
+        margin: 0;
+        padding: 10px;
+        background: white;
+        border: 3px solid var(--bg-black);
+        border-radius: var(--radius-card);
+        box-shadow: 6px 6px 0 var(--bg-black);
+    }
+
+    header.menu-open .nav-links li a {
+        display: flex;
+        width: 100%;
+        min-height: 46px;
+        padding: 10px 14px;
+        font-size: 1rem;
+    }
+
+    header.menu-open .nav-links li a i {
+        display: inline-block;
+        font-size: 0.95rem;
     }
 
     /* the bar is not pinned here, so the yellow band is not needed */
@@ -1450,4 +1353,235 @@ pre code {
     border: none;
     color: inherit;
     padding: 0;
+}
+
+/* Phones: every page is open on small screens */
+@media screen and (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    header {
+        padding: 12px 18px;
+        border-radius: var(--radius-card);
+    }
+    .logo a {
+        font-size: 1.1rem;
+    }
+    .container {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    /* contact block (Experience, Academics, Skills, Projects, Certifications) */
+    .contact-wrapper {
+        padding: 26px 18px;
+        border-radius: 20px;
+    }
+    .quote-text {
+        font-size: 1.3rem;
+        text-align: center;
+    }
+    .quote-author {
+        text-align: center;
+        font-size: 0.95rem;
+    }
+    .contact-form {
+        max-width: none;
+        padding: 0;
+    }
+    .contact-form h2 {
+        font-size: 2rem;
+        line-height: 1.05;
+        margin-bottom: 22px;
+    }
+    .contact-form form {
+        gap: 18px;
+    }
+    .form-group label {
+        margin-bottom: 0;
+    }
+    .form-group input,
+    .form-group textarea {
+        padding: 14px;
+        font-size: 1rem;   /* 16px or more stops iPhone zooming in on focus */
+    }
+    .contact-form .btn.primary-btn {
+        width: 100%;
+        min-height: 52px;
+        margin-top: 6px;
+    }
+
+    footer {
+        margin: 26px auto 10px;
+        padding: 18px 10px;
+    }
+    .footer-right .icon-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* Small phones (iPhone SE and similar): tighter bar so the Menu button keeps its margin */
+@media screen and (max-width: 380px) {
+    header {
+        padding: 10px 12px;
+    }
+    .brand-avatar {
+        width: 36px;
+        height: 36px;
+    }
+    .brand-text strong {
+        font-size: 0.92rem;
+    }
+    .nav-toggle {
+        padding: 0 10px;
+    }
+}
+
+/* ===== Mobile switch OFF (MOBILE_SITE = false in script.js): the previous behaviour =====
+   Phones see a DESKTOP ONLY screen on every page except the blog (body.allow-mobile).
+   script.js adds html.mobile-off and the #mobile-overlay markup. */
+#mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #facc15; /* Force yellow background */
+    background-image: url("bg-pattern.svg");
+    z-index: 10001;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+}
+
+.mobile-profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #000000;
+    margin-bottom: -40px; /* Overlap with the box */
+    z-index: 10004;
+    background: white;
+}
+
+.mobile-profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-overlay-box {
+    background: #facc15;
+    border: 4px solid #000000;
+    border-radius: 32px;
+    padding: 60px 30px 30px 30px;
+    z-index: 10003;
+    max-width: 90%;
+    position: relative;
+}
+
+.mobile-overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.mobile-overlay-content i {
+    font-size: 3rem;
+    margin-bottom: 5px;
+    color: #000000;
+    animation: pulse 2s infinite;
+}
+
+.mobile-overlay-content h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: #000000;
+}
+
+.mobile-overlay-content p {
+    font-size: 1rem;
+    font-weight: 700;
+    opacity: 0.9;
+    line-height: 1.4;
+    color: #000000;
+}
+
+.warning-stripes {
+    width: 100%;
+    height: 15px;
+    background: repeating-linear-gradient(
+        45deg,
+        #000000,
+        #000000 10px,
+        #facc15 10px,
+        #facc15 20px
+    );
+    background-size: 28.28px 28.28px; /* Perfect diagonal repeat for 20px stripe width */
+    animation: stripe-slide 0.6s linear infinite;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+@keyframes stripe-slide {
+    from { background-position: 0 0; }
+    to { background-position: 28.28px 0; }
+}
+
+.mobile-blog-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    padding: 12px 24px;
+    background: #000000;
+    color: #facc15;
+    border: 2px solid #000000;
+    border-radius: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.mobile-blog-btn i {
+    font-size: 1rem !important;
+    margin: 0 !important;
+    color: #facc15 !important;
+    animation: none !important;
+}
+
+@media screen and (max-width: 600px) {
+    html.mobile-off body:not(.allow-mobile) #mobile-overlay {
+        display: flex;
+    }
+    html.mobile-off body:not(.allow-mobile) {
+        overflow: hidden !important;
+    }
+    html.mobile-off body:not(.allow-mobile) #preloader,
+    html.mobile-off body:not(.allow-mobile) header,
+    html.mobile-off body:not(.allow-mobile) .container,
+    html.mobile-off body:not(.allow-mobile) footer {
+        display: none !important;
+    }
+}
+
+/* no Menu button either: phones and small tablets get the brand only, as before */
+@media screen and (max-width: 768px) {
+    html.mobile-off .nav-toggle {
+        display: none !important;
+    }
 }
