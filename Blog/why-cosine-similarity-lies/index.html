@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Cosine Similarity Lies: The Geometry of Embeddings | Ruchith Balam</title>
+  <meta name="description" content="Why a cosine score of 0.8 can mean near-duplicate in one embedding model and unrelated in another: anisotropy, the narrow cone, hubness, what they do to semantic search and RAG, and the fixes that work.">
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../post.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script defer blocking="render" src="../../script.js"></script>
+  <script defer blocking="render" src="../post.js"></script>
+  <script defer src="script.js"></script>
+  <!-- visitor counts: goatcounter.com (no cookies) -->
+  <script data-goatcounter="https://ruchith.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="alternate" type="application/rss+xml" title="Ruchith Balam: Blog" href="../feed.xml">
+</head>
+
+<body class="allow-mobile">
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="logo"><a href="../../index.html" class="brand" aria-label="Ruchith Balam, home"><img class="brand-avatar" src="../../Profile_Pic.jpeg" alt="" width="46" height="46"><span class="brand-text"><strong>Ruchith Balam</strong><small>Data Scientist</small></span></a></div>
+      <ul class="nav-links">
+        <li><a href="../../index.html"><i class="fas fa-house"></i>Home</a></li>
+        <li><a href="../../Experience/experience.html"><i class="fas fa-briefcase"></i>Experience</a></li>
+        <li><a href="../../Academics/Academics.html"><i class="fas fa-graduation-cap"></i>Academics</a></li>
+        <li><a href="../../Skills/skills.html"><i class="fas fa-layer-group"></i>Skills</a></li>
+        <li><a href="../../Projects/projects.html"><i class="fas fa-folder-open"></i>Projects</a></li>
+        <li><a href="../../Certifications/certifications.html"><i class="fas fa-award"></i>Certifications</a></li>
+        <li class="nav-blog"><a href="../../Blog/index.html" class="is-current" aria-current="page"><i class="fas fa-pen-nib"></i>Blog</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="post-layout">
+    <main class="container post-container">
+      <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> All Posts</a>
+
+      <div class="post-header">
+        <h1 class="post-title">Why Cosine Similarity Lies: The Geometry of Embeddings</h1>
+        <p class="post-dek">A score of 0.8 can mean "near-duplicate" in one embedding model and "unrelated" in another. The geometry behind that, what it does to semantic search and RAG, and the fixes that work.</p>
+        <div class="post-meta">
+          <time datetime="2026-11-01">01 Nov 2026</time>
+          <span>10 min read</span>
+          <span id="read-count" hidden></span>
+        </div>
+        <div class="post-tags">
+          <a href="../index.html?tag=embeddings">Embeddings</a>
+          <a href="../index.html?tag=rag">RAG</a>
+          <a href="../index.html?tag=nlp">NLP</a>
+          <a href="../index.html?tag=deep%20learning">Deep Learning</a>
+        </div>
+      </div>
+
+      <figure class="post-cover">
+        <img src="images/cover.jpg" alt="Cover in yellow, black and off-white. On the left, Ruchith Balam and the title Why Cosine Similarity Lies, with the line The geometry of embeddings. On the right, on a black panel, two unit circles: in the first, points spread around the whole circle and two unrelated texts A and B score cos 0.00; in the second, all points crowd into a narrow yellow cone and the same unrelated pair scores cos 0.86.">
+      </figure>
+
+      <article class="post-body">
+        <p class="lede">Compare the word "dog" with 1,000 common English words. With OpenAI's <code>text-embedding-ada-002</code>, every score lands between <strong>0.75 and 0.88</strong>, including words that have nothing to do with dogs. With <code>text-embedding-3-small</code>, most of the same scores fall between <strong>0.2 and 0.4</strong>, and the best match peaks at 0.68. Same words, same metric, very different numbers. Older models are stranger still: in GPT-2's last layer, two randomly chosen words have, in one researcher's words, "almost perfect cosine similarity".</p>
+        <p>Cosine similarity is not broken. It measures exactly what it promises: the angle between two vectors. The trouble is an assumption that comes with it, that directions in the embedding space are spread out evenly, so a small angle means shared meaning. Many embedding spaces break that assumption. Their vectors crowd into a narrow cone, and a few points become <em>hubs</em> that look similar to everything. This article explains both effects, shows what they do to semantic search and retrieval-augmented generation (RAG), and covers the fixes, from free per-model calibration to whitening and hubness-aware scoring.</p>
+
+        <aside class="tldr">
+          <h2>Key takeaways</h2>
+          <ul>
+            <li><strong>A cosine score only means something relative to its model.</strong> One model scores unrelated words at 0.75 or more; another rarely scores them above 0.4.</li>
+            <li><strong>Transformer embeddings tend to fill a narrow cone</strong> (anisotropy), a side effect of language-model training and, recent work argues, of self-attention itself.</li>
+            <li><strong>A shared direction inflates every score.</strong> If the part all texts share is twice as long as the part that carries meaning, two unrelated texts score 0.80.</li>
+            <li><strong>It costs quality.</strong> Raw averaged BERT embeddings scored below 2014's GloVe word vectors on seven similarity benchmarks; fixing the geometry recovered about 10 points, contrastive training about 20.</li>
+            <li><strong>High dimensions add hubness:</strong> a few points become everyone's nearest neighbour. In retrieval that is also an attack surface: one crafted hub was the top result for over 21,000 of 25,000 test queries.</li>
+            <li><strong>Fixes, cheapest first:</strong> calibrate thresholds per model, centre, remove dominant directions or whiten, re-rank with hubness-aware scoring, and monitor how often each chunk is retrieved.</li>
+          </ul>
+        </aside>
+
+        <h2>What cosine similarity measures</h2>
+        <p>Cosine similarity divides the dot product of two vectors by their lengths, so it ignores length and keeps only direction:</p>
+        <p class="formula">cos(<i>a</i>, <i>b</i>) = <i>a</i>·<i>b</i> / (‖<i>a</i>‖ ‖<i>b</i>‖)</p>
+        <p>A score of 1 means the same direction, 0 means perpendicular and −1 means opposite. Most embedding APIs return unit-length vectors, and then cosine similarity, the dot product and Euclidean distance all rank results identically, because ‖<i>a</i> − <i>b</i>‖² = 2 − 2 cos(<i>a</i>, <i>b</i>). Switching metrics in a vector database does not escape the problem below.</p>
+        <p>The quiet assumption is <strong>isotropy</strong>: no direction in the space is special. In high dimensions, random directions are almost perpendicular. Two random unit vectors in 768 dimensions have a cosine near 0, with a standard deviation of about 1/√768 ≈ 0.036. In an isotropic space, unrelated texts would score close to zero, and anything clearly above zero would signal shared meaning. Real embedding spaces often look different.</p>
+        <figure>
+          <picture>
+            <source media="(max-width: 600px)" srcset="images/cone-m.svg">
+            <img src="images/cone.svg" alt="Two circles. Left, isotropic: 26 points spread around the whole circle; two unrelated texts A and B are 90 degrees apart, cosine 0.00, so unrelated texts land far apart. Right, anisotropic: every point is packed into a narrow yellow wedge around the mean direction; the same kind of unrelated pair is 31 degrees apart, cosine 0.86, so unrelated texts still score high.">
+          </picture>
+          <figcaption>Figure 1: The same two unrelated texts in an isotropic space (left) and in a narrow cone (right). Cosine similarity reads the angle correctly in both; only on the left does the angle mean what we assume.</figcaption>
+        </figure>
+
+        <h2>The narrow cone</h2>
+        <p>Researchers measured this cone from several directions.</p>
+        <ul>
+          <li><strong>Word embeddings in language models.</strong> Gao and colleagues (ICLR 2019) found that when language models are trained by maximising likelihood with tied input and output embeddings, "most of the learnt word embeddings tend to degenerate and be distributed into a narrow cone". They named it the representation degeneration problem.</li>
+          <li><strong>Contextual embeddings.</strong> Ethayarajh (EMNLP 2019) showed that representations from ELMo, BERT and GPT-2 "are not isotropic in any layer". In GPT-2, two random words had an average cosine of about 0.6 in layers 2 to 8, rising to almost 1 in the last layer. Higher layers were generally more anisotropic than lower ones.</li>
+          <li><strong>Not only language.</strong> Godey, de la Clergerie and Sagot (EACL 2024) found the same effect in models trained with objectives that should not cause it, and in Transformers trained on other modalities, and concluded that "anisotropy is actually inherent to Transformers-based models".</li>
+          <li><strong>Even static vectors.</strong> Mu and Viswanath (ICLR 2018) showed that word2vec and GloVe vectors share a large common mean and a few dominant directions, and that those directions "encode the frequency of the word to a significant degree".</li>
+        </ul>
+
+        <h2>Why a shared direction inflates every score</h2>
+        <p>Picture each embedding as two parts: a component <i>c</i> that all texts share, and a part <i>s</i> that carries the text's own meaning. For two unrelated texts the meaning parts are perpendicular, but both vectors still contain <i>c</i>.</p>
+        <figure>
+          <picture>
+            <source media="(max-width: 600px)" srcset="images/shared-m.svg">
+            <img src="images/shared.svg" alt="Vector sketch. A long black arrow c, the shared part, points right. From its tip, a short meaning vector s_A points up and another, s_B, points into the page, at a right angle to each other. The full embeddings A equals c plus s_A and B equals c plus s_B are drawn in blue and point in similar directions. Beside it, the formula: cos of A and B equals the squared length of c plus s_A dot s_B, over the squared length of c plus the squared length of s. With the length of c 2, the length of s 1, and the parts perpendicular, cos equals 4 over 5, 0.80. The score measures c, not meaning.">
+          </picture>
+          <figcaption>Figure 2: Two unrelated texts whose meaning parts are perpendicular still score 0.80 when the shared part is twice as long as the meaning part.</figcaption>
+        </figure>
+        <p>When the meaning parts are perpendicular to <i>c</i> and equally long, the cosine works out to (‖<i>c</i>‖² + <i>s</i><sub>A</sub>·<i>s</i><sub>B</sub>) / (‖<i>c</i>‖² + ‖<i>s</i>‖²). For unrelated texts the dot product of the meaning parts is zero, which leaves a floor of <i>r</i>² / (<i>r</i>² + 1), where <i>r</i> is the length of the shared part relative to the meaning part. At <i>r</i> = 1 the floor is 0.5, at <i>r</i> = 2 it is 0.8, at <i>r</i> = 3 it is 0.9. Identical texts still score 1, so all of the useful variation is squeezed into the thin band between the floor and 1.</p>
+        <p>Two practical problems follow.</p>
+        <ul>
+          <li><strong>Absolute thresholds do not travel.</strong> "Keep chunks above 0.8" is strict for one model and lets almost everything through for another, and it silently changes meaning when you upgrade models.</li>
+          <li><strong>The shared part is not constant.</strong> If its strength varies from text to text, as the frequency-linked directions in real models do, that variation is noise, and noise can reorder results.</li>
+        </ul>
+        <p>The simulation below shows both. Each text is a 128-dimensional vector: a meaning part plus a shared direction whose strength varies by about 30% from text to text. Related pairs share 70% of their meaning; unrelated pairs share none. The dashed line is a fixed 0.8 threshold.</p>
+
+        <div class="demo" id="cone-demo">
+          <noscript><p>This interactive simulation needs JavaScript.</p></noscript>
+        </div>
+
+        <p>Turn the shared direction up and the scores of unrelated pairs climb towards the threshold, so a fixed 0.8 cut-off stops separating anything. Subtracting the mean puts unrelated pairs back near zero, but ranking accuracy, how often a related pair outscores an unrelated one, stays down: the varying strength is still there. Removing the top direction takes it out, and both the scale and the ranking recover. That is the difference between centring and the next step in the fixes below.</p>
+
+        <h2>What the cone costs</h2>
+        <p>Sentence-similarity benchmarks measure the damage directly. They ask how well the cosine between two sentence embeddings agrees with human similarity ratings. SimCSE, a widely used 2021 method, reports a set of models on the same seven benchmarks, which makes for a clean comparison.</p>
+
+        <figure class="chart-figure">
+          <div class="chart" id="chart-sts" role="img" aria-label="Bar chart of average Spearman correlation with human ratings across seven sentence-similarity benchmarks: GloVe average 61.32, raw BERT-base 56.70, BERT with flow 66.55, BERT with whitening 66.28, unsupervised SimCSE 76.25, supervised SimCSE 81.57."></div>
+          <figcaption>Figure 3: Agreement with human similarity ratings (Spearman correlation × 100, average of STS12 to STS16, STS-B and SICK-R). Raw BERT embeddings score below 2014 word vectors; fixing the geometry after training recovers about 10 points, and contrastive training about 20. Source: Gao, Yao and Chen, <em>SimCSE</em> (EMNLP 2021), Table 5.</figcaption>
+          <details class="chart-table"><summary>Show the data</summary>
+            <table>
+              <thead><tr><th>Model</th><th>What changed</th><th>Avg. Spearman × 100</th></tr></thead>
+              <tbody>
+                <tr><td>GloVe embeddings (averaged)</td><td>2014 static word vectors</td><td>61.32</td></tr>
+                <tr><td>BERT-base (first-last average)</td><td>Raw contextual embeddings</td><td>56.70</td></tr>
+                <tr><td>BERT-base + flow</td><td>Mapped to an isotropic Gaussian after training</td><td>66.55</td></tr>
+                <tr><td>BERT-base + whitening</td><td>Centred, decorrelated and rescaled after training</td><td>66.28</td></tr>
+                <tr><td>Unsupervised SimCSE (BERT-base)</td><td>Contrastive training, no labels</td><td>76.25</td></tr>
+                <tr><td>Supervised SimCSE (BERT-base)</td><td>Contrastive training on labelled pairs</td><td>81.57</td></tr>
+              </tbody>
+            </table>
+          </details>
+        </figure>
+
+        <p>Raw BERT embeddings did worse than averaged GloVe vectors from 2014. The Sentence-BERT authors had already noticed this with plain averaged BERT embeddings (54.81 against GloVe's 61.32) and the BERT <code>[CLS]</code> vector (29.19). Two fixes applied after training, without new data, each recovered about 10 points: BERT-flow, which maps embeddings to an isotropic Gaussian, and whitening, covered below.</p>
+        <p>Contrastive training did best. It pulls matching pairs together and pushes everything else apart. Wang and Isola (ICML 2020) showed that this objective optimises two properties: <em>alignment</em>, matching pairs land close together, and <em>uniformity</em>, all embeddings spread evenly over the sphere. The SimCSE authors showed that their objective makes the anisotropic space "more uniform". Most modern embedding models are trained contrastively, which is consistent with the wider spread of <code>text-embedding-3-small</code> in the opening example, though none is perfectly isotropic.</p>
+        <p>One caution: <strong>more isotropy is not always better.</strong> Rudman and Eickhoff (ICLR 2024) found that <em>decreasing</em> isotropy during fine-tuning improved performance on most tasks and models they tested, and argued that average cosine similarity is a flawed way to measure isotropy. Tsukagoshi and Sasano (ACL Findings 2025) found that embeddings produced for classification and clustering are less isotropic than those for retrieval and similarity. Steck, Ekanadham and Kallus at Netflix (WWW 2024) went further and showed that in regularised linear models cosine similarity "can yield arbitrary and therefore meaningless" results, depending on training choices. Within one model, ranking by cosine often works. It breaks when you trust absolute values, compare across models, or when dominant directions carry information that has nothing to do with meaning. Measure on your own data rather than assuming.</p>
+
+        <h2>Hubness: when some points are close to everything</h2>
+        <p>The second effect is about neighbours rather than scores. Count, for each point, how many other points list it among their <i>k</i> nearest neighbours. On average the count is exactly <i>k</i>. Radovanović, Nanopoulos and Ivanović (JMLR 2010) showed that as dimensionality grows, this count becomes skewed: a few <em>hubs</em> appear in many neighbour lists, and many <em>anti-hubs</em> appear in none. They also found that "points closer to the mean tend to become hubs". In a cone, the centre of the cone is the mean, so texts that sit close to the average become everyone's neighbour.</p>
+
+        <div class="demo" id="hub-demo">
+          <noscript><p>This interactive simulation needs JavaScript.</p></noscript>
+        </div>
+
+        <p>In the simulation, 300 random points stand in for a document collection, and each point lists its 10 nearest neighbours. On an evenly spread sphere, the biggest hub stays at about twice the average even at 300 dimensions. In a lopsided cloud, with a mean offset and a few dominant directions, it grows from under twice the average at 3 dimensions to five times the average at 100, and a few points become nobody's neighbour. Subtracting the mean barely helps, because the dominant directions remain. Re-ranking with CSLS, a hubness-aware score described below, cuts the biggest hub by roughly 40%.</p>
+        <p>In a RAG system, generic text is the natural hub: headers, disclaimers and boilerplate FAQ answers sit near the centre of the cloud and ride along with unrelated questions, using up context and diluting the answer.</p>
+        <figure>
+          <picture>
+            <source media="(max-width: 600px)" srcset="images/rag-hub-m.svg">
+            <img src="images/rag-hub.svg" alt="Diagram. Six unrelated questions on the left, about EU refunds, two-factor login, Q3 revenue, API rate limits, parental leave and file formats, each connect with a grey arrow to the right chunk. Every question also connects with a red arrow to one generic chunk, General FAQ: contact support, terms, account help, labelled HUB: in the top 3 for all six questions, because it sits near the centre of the embedding cloud.">
+          </picture>
+          <figcaption>Figure 4: A natural hub in retrieval. Every question finds its own chunk, but one generic chunk also makes the top three for all of them.</figcaption>
+        </figure>
+        <p>Hubs can also be planted. In work accepted at IEEE S&amp;P 2026, Zhang and colleagues built an adversarial hub for a text-to-image retrieval system using only 100 random queries. It was the top result for more than 21,000 of 25,000 test queries; the most common natural hub topped only 102. Existing defences against natural hubness did not stop hubs aimed at specific concepts. Defences are arriving. <em>hubscan</em> (Habler and colleagues, 2026) flags hubs with 90% recall at an alert budget of 0.2% and works with FAISS, Pinecone, Qdrant and Weaviate. An admission-time gate (Pathak and Sharma, June 2026) scores every new document against sentinel queries before it enters the index, catching at least 92% of hubs across its tested range with 1% false positives and about 3% extra ingestion time. Notably, a per-topic version of the gate gave "no reliable benefit", which the authors attribute to anisotropy.</p>
+
+        <h2>Fixes, cheapest first</h2>
+        <ol class="fix-list">
+          <li><strong>Calibrate per model.</strong> Embed a few thousand random pairs from your own corpus and record the score distribution for pairs you know are unrelated. Set thresholds as percentiles or z-scores of that baseline, not as raw numbers, and redo it whenever you change models.</li>
+          <li><strong>Centre and remove dominant directions.</strong> Subtract the corpus mean from every vector, then remove the projection onto the top few principal directions. Mu and Viswanath suggest about <i>d</i>/100 directions, so 3 for 300-dimensional vectors. Apply the same transform to queries.</li>
+          <li><strong>Whiten.</strong> Su and colleagues (2021) estimate the mean μ and covariance Σ = UΛUᵀ on the corpus and transform each vector as (<i>x</i> − μ) UΛ<sup>−1/2</sup>. This decorrelates the dimensions and gives them equal variance. Keeping only the first <i>k</i> columns also shrinks the index; about a third of the original size was near optimal, 256 for BERT-base. Fit on enough data, because whitening also amplifies low-variance noise, and check the result on your own evaluation queries.</li>
+          <li><strong>Re-rank with a hubness-aware score.</strong> Conneau and colleagues (ICLR 2018) introduced CSLS: 2 cos(<i>q</i>, <i>d</i>) − <i>r</i><sub>D</sub>(<i>q</i>) − <i>r</i><sub>Q</sub>(<i>d</i>), where <i>r</i> is a point's mean cosine to its <i>K</i> nearest neighbours on the other side. Documents that are close to everything get penalised. Precompute <i>r</i> for documents offline and apply it to the top 100 or so candidates.</li>
+          <li><strong>Monitor retrieval counts.</strong> Log how often each chunk appears in the top <i>k</i>. A chunk retrieved for many unrelated questions is a hub: rewrite it, split it or demote it, and screen new documents at ingestion.</li>
+          <li><strong>Prefer contrastively trained embedding models,</strong> and evaluate them on your own queries. Benchmark scores do not tell you what 0.8 means in your corpus.</li>
+        </ol>
+        <p>The first four fixes fit in a few lines of NumPy:</p>
+<pre><code>import numpy as np
+
+def unit(X):
+    return X / np.linalg.norm(X, axis=1, keepdims=True)
+
+# 1. Baseline: what does "unrelated" score in this model, on this corpus?
+def unrelated_baseline(E, n=5000, seed=0):
+    rng = np.random.default_rng(seed)
+    i, j = rng.integers(0, len(E), (2, n))
+    s = np.sum(unit(E[i]) * unit(E[j]), axis=1)
+    return s.mean(), s.std()          # threshold = mean + z * std
+
+# 2-3. Fit once on the corpus; apply the same transform to queries.
+def fit_whitening(E, k=None):
+    mu = E.mean(axis=0)
+    U, lam, _ = np.linalg.svd(np.cov((E - mu).T))
+    W = U / np.sqrt(lam + 1e-8)       # U @ diag(lam ** -0.5)
+    return mu, (W[:, :k] if k else W)
+
+def whiten(X, mu, W):
+    return unit((X - mu) @ W)
+
+# 4. CSLS re-ranking of the candidates for one query.
+def csls(q, D, r_docs, K=10):
+    sims = D @ q                      # all unit vectors
+    r_q = np.sort(sims)[-K:].mean()   # query's mean similarity to its K nearest docs
+    return 2 * sims - r_q - r_docs    # r_docs precomputed per doc against sample queries</code></pre>
+
+        <h2>The angle is honest; the reading is ours</h2>
+        <p>Cosine similarity reports the angle between two vectors, and that angle is real. What misleads is the reading we bring to it: that 0.8 means "similar" in every model, that the space is evenly used, and that neighbours are equally likely to be anyone's. Transformers pack their embeddings into a cone, high dimensions turn a few central points into hubs, and both effects travel straight into semantic search and RAG.</p>
+        <p>The fixes are well understood and mostly cheap: know each model's baseline, remove what every vector shares, re-rank with an eye on hubs, and watch which chunks keep showing up. Contrastive training has made modern embedding models far better behaved than raw BERT, but a score still has to be read against the model and the corpus that produced it.</p>
+
+        <h2>Sources (current to October 2026)</h2>
+        <ul>
+          <li>Pamela Fox, <a href="https://blog.pamelafox.org/2025/05/a-visual-exploration-of-vector.html" target="_blank" rel="noopener">A visual exploration of vector embeddings</a> (May 2025): the "dog" comparison against 1,000 common words for <code>text-embedding-ada-002</code> and <code>text-embedding-3-small</code>.</li>
+          <li>Ethayarajh, <a href="https://arxiv.org/abs/1909.00512" target="_blank" rel="noopener">How Contextual are Contextualized Word Representations?</a> (EMNLP 2019): anisotropy across layers of ELMo, BERT and GPT-2.</li>
+          <li>Gao et al., <a href="https://arxiv.org/abs/1907.12009" target="_blank" rel="noopener">Representation Degeneration Problem in Training Natural Language Generation Models</a> (ICLR 2019): the narrow cone.</li>
+          <li>Godey, de la Clergerie and Sagot, <a href="https://arxiv.org/abs/2401.12143" target="_blank" rel="noopener">Anisotropy Is Inherent to Self-Attention in Transformers</a> (EACL 2024).</li>
+          <li>Mu, Bhat and Viswanath, <a href="https://arxiv.org/abs/1702.01417" target="_blank" rel="noopener">All-but-the-Top: Simple and Effective Postprocessing for Word Representations</a> (ICLR 2018): common mean, dominant directions and word frequency.</li>
+          <li>Gao, Yao and Chen, <a href="https://arxiv.org/abs/2104.08821" target="_blank" rel="noopener">SimCSE: Simple Contrastive Learning of Sentence Embeddings</a> (EMNLP 2021): source of Figure 3 (Table 5).</li>
+          <li>Reimers and Gurevych, <a href="https://arxiv.org/abs/1908.10084" target="_blank" rel="noopener">Sentence-BERT</a> (EMNLP 2019): averaged BERT and <code>[CLS]</code> embeddings against GloVe.</li>
+          <li>Li et al., <a href="https://arxiv.org/abs/2011.05864" target="_blank" rel="noopener">On the Sentence Embeddings from Pre-trained Language Models</a> (EMNLP 2020): BERT-flow.</li>
+          <li>Su et al., <a href="https://arxiv.org/abs/2103.15316" target="_blank" rel="noopener">Whitening Sentence Representations for Better Semantics and Faster Retrieval</a> (2021).</li>
+          <li>Wang and Isola, <a href="https://arxiv.org/abs/2005.10242" target="_blank" rel="noopener">Understanding Contrastive Representation Learning through Alignment and Uniformity on the Hypersphere</a> (ICML 2020).</li>
+          <li>Rudman and Eickhoff, <a href="https://arxiv.org/abs/2305.19358" target="_blank" rel="noopener">Stable Anisotropic Regularization</a> (ICLR 2024).</li>
+          <li>Tsukagoshi and Sasano, <a href="https://arxiv.org/abs/2506.01435" target="_blank" rel="noopener">Redundancy, Isotropy, and Intrinsic Dimensionality of Prompt-based Text Embeddings</a> (ACL Findings 2025).</li>
+          <li>Steck, Ekanadham and Kallus, <a href="https://arxiv.org/abs/2403.05440" target="_blank" rel="noopener">Is Cosine-Similarity of Embeddings Really About Similarity?</a> (WWW 2024 Companion).</li>
+          <li>Radovanović, Nanopoulos and Ivanović, <a href="https://www.jmlr.org/papers/v11/radovanovic10a.html" target="_blank" rel="noopener">Hubs in Space: Popular Nearest Neighbors in High-Dimensional Data</a> (JMLR 2010).</li>
+          <li>Conneau et al., <a href="https://arxiv.org/abs/1710.04087" target="_blank" rel="noopener">Word Translation Without Parallel Data</a> (ICLR 2018): CSLS.</li>
+          <li>Zhang et al., <a href="https://arxiv.org/abs/2412.14113" target="_blank" rel="noopener">Adversarial Hubness in Multi-Modal Retrieval</a> (IEEE S&amp;P 2026).</li>
+          <li>Habler et al., <a href="https://arxiv.org/abs/2602.22427" target="_blank" rel="noopener">Adversarial Hubness Detector: Detecting Hubness Poisoning in Retrieval-Augmented Generation Systems</a> (February 2026).</li>
+          <li>Pathak and Sharma, <a href="https://arxiv.org/abs/2606.19692" target="_blank" rel="noopener">When Global Gating Is Enough: Admission-Time Hubness Control in Anisotropic Vector Retrieval Systems</a> (June 2026).</li>
+        </ul>
+        <p class="post-note">Figure 3 re-plots numbers published in SimCSE's Table 5. The two interactive figures are simulations on synthetic random vectors that illustrate the mechanisms; they are not measurements of any real embedding model. The 2026 papers are preprints except where a venue is named; their figures are as reported in their abstracts.</p>
+      </article>
+
+      <div class="post-end">
+        <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> All Posts</a>
+      </div>
+    </main>
+
+    <aside class="container post-sidebar" aria-labelledby="related-heading">
+      <h2 id="related-heading">Related Posts</h2>
+      <!-- Filled by ../post.js from the tiles in ../index.html -->
+      <div id="related-list" class="related-list"></div>
+      <a href="../index.html" class="back-link">View All Posts <i class="fas fa-arrow-right"></i></a>
+    </aside>
+  </div>
+
+  <div class="chart-tip" id="chart-tip" role="status" hidden></div>
+
+  <!-- Minimal Footer -->
+  <footer>
+    <div class="footer-left">
+      <p>© 2026 Ruchith Balam • Data Scientist</p>
+    </div>
+    <div class="footer-right">
+      <a href="mailto:bl.ruchith@gmail.com" class="icon-link"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/ruchith-balaji-b-035210328/" class="icon-link" target="_blank"><i
+          class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Ruchith1018" class="icon-link" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/ruchith1018j/" class="icon-link" target="_blank"><i
+          class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+
+</body>
+</html>

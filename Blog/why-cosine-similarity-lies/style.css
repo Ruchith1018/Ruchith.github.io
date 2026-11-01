@@ -1,0 +1,155 @@
+/* Styles for this post only. Shared post styling lives in ../post.css */
+
+.post-dek {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #52514e;
+    margin: 6px 0 14px;
+    max-width: 46em;
+}
+
+.post-body > p.lede {
+    font-size: 1.12rem;
+    line-height: 1.7;
+}
+
+/* Key takeaways box */
+.tldr {
+    background: #f4f7fd;
+    border: 2px solid #0b0b0b;
+    border-radius: 14px;
+    padding: 18px 22px 8px;
+    margin: 26px 0 30px;
+}
+.tldr h2 {
+    margin-top: 0 !important;
+    font-size: 1.05rem !important;
+    letter-spacing: 0.04em;
+}
+.tldr ul { margin-bottom: 8px; }
+
+/* A displayed formula */
+.post-body p.formula {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.02rem;
+    text-align: center;
+    background: #fcfcfb;
+    border: 1px solid #e1e0d9;
+    border-radius: 10px;
+    padding: 12px 14px;
+    overflow-x: auto;
+}
+
+/* Diagrams: <picture> swaps in the stacked phone layout */
+.post-body figure picture img { display: block; width: 100%; height: auto; }
+
+/* Charts */
+.chart-figure .chart {
+    background: #fcfcfb;
+    border: 1px solid #e1e0d9;
+    border-radius: 12px;
+    padding: 14px 16px 6px;
+}
+.chart svg, .demo-plot svg { display: block; overflow: visible; font-family: inherit; max-width: 100%; }
+.chart .hit { cursor: default; outline: none; }
+.chart .hit:hover path, .chart .hit:focus path { filter: brightness(0.92); }
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 0.85rem;
+    color: #0b0b0b;
+    margin: 2px 0 10px;
+}
+.chart-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.chart-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.chart-table { margin-top: 8px; font-size: 0.88rem; }
+.chart-table summary { cursor: pointer; color: #52514e; font-weight: 600; }
+.chart-table table { margin-top: 8px; }
+
+.chart-tip {
+    position: fixed;
+    z-index: 50;
+    pointer-events: none;
+    background: #0b0b0b;
+    color: #f9f9f7;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    padding: 8px 11px;
+    border-radius: 8px;
+    max-width: 280px;
+}
+
+/* Interactive simulations */
+.demo {
+    border: 2px solid #0b0b0b;
+    border-radius: 14px;
+    padding: 18px 20px 14px;
+    margin: 20px 0 26px;
+    background: #fffdf5;
+}
+.demo-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+.demo-controls { display: grid; gap: 12px; margin-bottom: 12px; }
+.demo-slider { display: grid; gap: 6px; font-size: 0.92rem; font-weight: 600; }
+.demo-slider b { font-family: 'Space Mono', monospace; }
+.demo-slider input[type="range"] { width: 100%; accent-color: #0b0b0b; height: 28px; }
+.demo-seg { display: grid; gap: 6px; }
+.demo-seg-label { font-size: 0.85rem; font-weight: 600; color: #52514e; }
+.demo-seg-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.demo-seg-opts button {
+    font: inherit;
+    font-size: 0.88rem;
+    min-height: 36px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    border: 1.5px solid #0b0b0b;
+    background: #fff;
+    color: #0b0b0b;
+    cursor: pointer;
+}
+.demo-seg-opts button[aria-pressed="true"] { background: #0b0b0b; color: #fff; }
+.demo-plot {
+    background: #fff;
+    border: 1px solid #e1e0d9;
+    border-radius: 10px;
+    padding: 10px 12px 4px;
+}
+.demo-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+.demo-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid #e1e0d9;
+    border-radius: 8px;
+}
+.demo-stats span { font-size: 0.78rem; color: #52514e; line-height: 1.3; }
+.demo-stats strong { font-size: 1.15rem; font-family: 'Space Mono', monospace; }
+.demo-stats small { font-size: 0.75rem; color: #52514e; }
+
+/* Numbered fixes */
+.fix-list { padding-left: 1.3em; }
+.fix-list li { margin-bottom: 10px; line-height: 1.65; }
+
+.post-note { font-size: 0.85rem; color: #52514e; }
+
+@media (max-width: 640px) {
+    .demo { padding: 14px 12px 12px; }
+    .demo-plot { padding: 8px 6px 2px; }
+    .chart-figure .chart { padding: 10px 8px 4px; }
+    .demo-stats { grid-template-columns: 1fr 1fr; }
+    .post-body p.formula { font-size: 0.9rem; }
+}
