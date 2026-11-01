@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 720" width="420" height="720">
+  <defs><marker id="aInk" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0b0b0b"/></marker><marker id="aBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2a78d6"/></marker><marker id="aRed" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e34948"/></marker><marker id="aMuted" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52514e"/></marker><marker id="aYel" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b98a00"/></marker></defs>
+  <rect width="420" height="720" fill="#ffffff"/>
+  <text x="20.0" y="34.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0b0b0b" font-weight="700" text-anchor="start">Six unrelated questions</text>
+  <rect x="20.0" y="50.0" width="380" height="38" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="32.0" y="73.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#0b0b0b" font-weight="500" text-anchor="start">Refund window for EU orders?</text>
+  <rect x="20.0" y="100.0" width="380" height="38" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="32.0" y="123.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#0b0b0b" font-weight="500" text-anchor="start">How do I reset two-factor login?</text>
+  <rect x="20.0" y="150.0" width="380" height="38" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="32.0" y="173.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#0b0b0b" font-weight="500" text-anchor="start">Q3 revenue by region</text>
+  <rect x="20.0" y="200.0" width="380" height="38" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="32.0" y="223.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#0b0b0b" font-weight="500" text-anchor="start">Is the API rate-limited?</text>
+  <rect x="20.0" y="250.0" width="380" height="38" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="32.0" y="273.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#0b0b0b" font-weight="500" text-anchor="start">Parental leave policy</text>
+  <rect x="20.0" y="300.0" width="380" height="38" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="32.0" y="323.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#0b0b0b" font-weight="500" text-anchor="start">Which file formats are supported?</text>
+  <line x1="40.0" y1="364.0" x2="185.0" y2="460.0" stroke="#e34948" stroke-width="2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="108.0" y1="364.0" x2="195.0" y2="460.0" stroke="#e34948" stroke-width="2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="176.0" y1="364.0" x2="205.0" y2="460.0" stroke="#e34948" stroke-width="2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="244.0" y1="364.0" x2="215.0" y2="460.0" stroke="#e34948" stroke-width="2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="312.0" y1="364.0" x2="225.0" y2="460.0" stroke="#e34948" stroke-width="2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="380.0" y1="364.0" x2="235.0" y2="460.0" stroke="#e34948" stroke-width="2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <rect x="20.0" y="464.0" width="380" height="54" rx="9" fill="#fdeeee" stroke="#e34948" stroke-width="2.5"/>
+  <text x="32.0" y="495.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#7f1d1d" font-weight="700" text-anchor="start">General FAQ: contact support, terms…</text>
+  <text x="210.0" y="546.0" font-family="Space Mono, Consolas, Menlo, monospace" font-size="13" fill="#e34948" font-weight="700" text-anchor="middle">HUB: in the top 3 for all six</text>
+  <text x="210.0" y="588.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="middle">Each question also retrieves its own</text>
+  <text x="210.0" y="608.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="middle">correct chunk, but the generic chunk</text>
+  <text x="210.0" y="628.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="middle">rides along every time: it sits near</text>
+  <text x="210.0" y="648.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="middle">the centre of the embedding cloud.</text>
+</svg>

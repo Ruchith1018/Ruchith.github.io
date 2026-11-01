@@ -6,7 +6,18 @@
     <atom:link href="https://www.ruchith.space/Blog/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Notes on LLM pipelines, AI evaluation and ML engineering.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Oct 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Why Cosine Similarity Lies: The Geometry of Embeddings</title>
+      <link>https://www.ruchith.space/Blog/why-cosine-similarity-lies/index.html</link>
+      <guid isPermaLink="true">https://www.ruchith.space/Blog/why-cosine-similarity-lies/index.html</guid>
+      <pubDate>Sun, 01 Nov 2026 00:00:00 +0000</pubDate>
+      <description>Why a score of 0.8 can mean near-duplicate in one embedding model and unrelated in another: the narrow cone, hubness, what they do to semantic search and RAG, and the fixes that work.</description>
+      <category>Embeddings</category>
+      <category>RAG</category>
+      <category>NLP</category>
+      <category>Deep Learning</category>
+    </item>
     <item>
       <title>Subagents Are Function Calls, Not Teammates</title>
       <link>https://www.ruchith.space/Blog/how-subagents-should-work/index.html</link>

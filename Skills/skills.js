@@ -7,6 +7,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const groupsWrap = document.getElementById('skill-groups');
   if (!groupsWrap || typeof SKILL_GROUPS === 'undefined') return;
 
+  // On phones the where-used panel can sit several rows below the tapped card, so bring it into view
+  const PHONE = window.matchMedia('(max-width: 600px)');
+  function revealPanel(panel) {
+    if (!PHONE.matches) return;
+    const r = panel.getBoundingClientRect();
+    if (r.top < 0 || r.bottom > window.innerHeight) panel.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
+
   const projectTitles = new Map(
     (typeof PROJECTS !== 'undefined' ? PROJECTS : []).map(p => [p.id, p.title]));
 
@@ -73,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         card.classList.add('active');
         showUsage(panel, skill, uses);
+        revealPanel(panel);
       });
 
       grid.appendChild(card);
@@ -109,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function () {
     tile.appendChild(el('span', null, skill.name));
     tile.addEventListener('click', () => {
       if (!card.classList.contains('active')) card.click();
-      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (PHONE.matches) card.closest('.skill-group').querySelector('.skill-usage').scrollIntoView({ behavior: 'smooth', block: 'end' });
+      else card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       card.focus({ preventScroll: true });
     });
     coreWrap.appendChild(tile);

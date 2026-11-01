@@ -819,3 +819,191 @@
         transition: none;
     }
 }
+
+/* ===== Phones: the career chart becomes a stacked list (desktop keeps the chart) ===== */
+.track-list {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .career-track {
+        padding: 16px;
+        box-shadow: 5px 5px 0 var(--bg-black);
+    }
+
+    .track-head {
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 6px;
+    }
+
+    .track-hint {
+        display: none;
+    }
+
+    .track {
+        display: block;
+    }
+
+    .track-labels,
+    .track-chart {
+        display: none;
+    }
+
+    .track-list {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .track-list li + li {
+        border-top: 2px dashed rgba(0, 0, 0, 0.18);
+    }
+
+    .track-item {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        column-gap: 12px;
+        row-gap: 6px;
+        align-items: center;
+        padding: 14px 0;
+        color: var(--text-black);
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .track-item img {
+        grid-row: span 2;
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+        padding: 3px;
+        background: white;
+        border: 2px solid var(--bg-black);
+        border-radius: 10px;
+    }
+
+    .track-item-text {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        line-height: 1.2;
+    }
+
+    .track-item-text strong {
+        font-size: 1rem;
+        font-weight: 800;
+    }
+
+    .track-item-text span {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.68rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        opacity: 0.65;
+    }
+
+    .track-item em {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.74rem;
+        font-style: normal;
+        font-weight: 700;
+    }
+
+    .track-item-rail {
+        grid-column: 1 / -1;
+        position: relative;
+        height: 10px;
+        background: #fff6c7;
+        border: 2px solid var(--bg-black);
+        border-radius: 999px;
+        overflow: hidden;
+    }
+
+    .track-item-rail i {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        background: var(--bg-black);
+    }
+
+    .track-item-rail i.company-1 {
+        background: var(--bg-yellow);
+        border-left: 2px solid var(--bg-black);
+        border-right: 2px solid var(--bg-black);
+    }
+
+    .track-item-rail i.is-current {
+        background: repeating-linear-gradient(45deg, var(--bg-black) 0 4px, var(--bg-yellow) 4px 8px);
+    }
+}
+
+/* ===== Phones: role cards ===== */
+@media (max-width: 600px) {
+    .pass-list {
+        gap: 24px;
+    }
+
+    .pass {
+        box-shadow: 5px 5px 0 var(--bg-black);
+    }
+
+    .pass-main {
+        padding: 18px 16px;
+        gap: 16px;
+    }
+
+    /* the stamp gets its own row so the card's overflow does not clip it */
+    .pass-head {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        align-items: center;
+        gap: 12px 14px;
+        padding-bottom: 14px;
+    }
+
+    .stamp {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        justify-self: start;
+        padding: 3px 10px;
+        font-size: 0.7rem;
+        transform: rotate(-3deg);
+        box-shadow: 2px 2px 0 var(--bg-black);
+    }
+
+    .pass-logo {
+        width: 52px;
+        height: 52px;
+    }
+
+    .pass-title h2 {
+        font-size: 1.45rem;
+        overflow-wrap: anywhere;
+    }
+
+    .pass-points {
+        padding-left: 1.1em;
+    }
+
+    .proj-card {
+        padding: 12px 14px 14px;
+    }
+
+    /* long status tags wrap instead of running off the card */
+    .proj-tag {
+        white-space: normal;
+        border-radius: 10px;
+        line-height: 1.35;
+    }
+
+    .proj-tag::before {
+        flex-shrink: 0;
+    }
+
+    .pass-stub {
+        padding: 18px 16px;
+    }
+}

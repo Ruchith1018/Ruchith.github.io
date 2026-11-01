@@ -91,4 +91,12 @@ document.addEventListener('DOMContentLoaded', function () {
     shelf.append(label, books);
     shelvesWrap.appendChild(shelf);
   });
+
+  // Phones show each shelf as one swipeable row; flag the rows that actually scroll so they get a hint
+  const markScrollable = () => shelvesWrap.querySelectorAll('.shelf').forEach(shelf => {
+    const books = shelf.querySelector('.shelf-books');
+    shelf.classList.toggle('can-scroll', books.scrollWidth > books.clientWidth + 1);
+  });
+  markScrollable();
+  window.addEventListener('resize', markScrollable);
 });

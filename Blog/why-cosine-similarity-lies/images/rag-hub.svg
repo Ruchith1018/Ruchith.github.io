@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520">
+  <defs><marker id="aInk" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0b0b0b"/></marker><marker id="aBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2a78d6"/></marker><marker id="aRed" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e34948"/></marker><marker id="aMuted" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52514e"/></marker><marker id="aYel" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b98a00"/></marker></defs>
+  <rect width="900" height="520" fill="#ffffff"/>
+  <text x="40.0" y="40.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0b0b0b" font-weight="700" text-anchor="start">Queries</text>
+  <text x="860.0" y="40.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" fill="#0b0b0b" font-weight="700" text-anchor="end">Chunks in the vector store</text>
+  <line x1="290.0" y1="82.0" x2="560.0" y2="82.0" stroke="#9a9890" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aMuted)"/>
+  <line x1="290.0" y1="82.0" x2="560.0" y2="428.0" stroke="#e34948" stroke-width="2.2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="290.0" y1="138.0" x2="560.0" y2="138.0" stroke="#9a9890" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aMuted)"/>
+  <line x1="290.0" y1="138.0" x2="560.0" y2="431.0" stroke="#e34948" stroke-width="2.2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="290.0" y1="194.0" x2="560.0" y2="194.0" stroke="#9a9890" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aMuted)"/>
+  <line x1="290.0" y1="194.0" x2="560.0" y2="434.0" stroke="#e34948" stroke-width="2.2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="290.0" y1="250.0" x2="560.0" y2="250.0" stroke="#9a9890" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aMuted)"/>
+  <line x1="290.0" y1="250.0" x2="560.0" y2="437.0" stroke="#e34948" stroke-width="2.2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="290.0" y1="306.0" x2="560.0" y2="306.0" stroke="#9a9890" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aMuted)"/>
+  <line x1="290.0" y1="306.0" x2="560.0" y2="440.0" stroke="#e34948" stroke-width="2.2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <line x1="290.0" y1="362.0" x2="560.0" y2="362.0" stroke="#9a9890" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aMuted)"/>
+  <line x1="290.0" y1="362.0" x2="560.0" y2="443.0" stroke="#e34948" stroke-width="2.2" stroke-linecap="round" marker-end="url(#aRed)"/>
+  <rect x="40.0" y="62.0" width="250" height="40" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="52.0" y="86.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#0b0b0b" font-weight="500" text-anchor="start">Refund window for EU orders?</text>
+  <rect x="560.0" y="62.0" width="300" height="40" rx="9" fill="#ffffff" stroke="#9a9890" stroke-width="1.5"/>
+  <text x="572.0" y="86.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#0b0b0b" font-weight="500" text-anchor="start">Refunds: 30 days in the EU…</text>
+  <rect x="40.0" y="118.0" width="250" height="40" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="52.0" y="142.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#0b0b0b" font-weight="500" text-anchor="start">How do I reset two-factor login?</text>
+  <rect x="560.0" y="118.0" width="300" height="40" rx="9" fill="#ffffff" stroke="#9a9890" stroke-width="1.5"/>
+  <text x="572.0" y="142.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#0b0b0b" font-weight="500" text-anchor="start">Two-factor reset: open Settings…</text>
+  <rect x="40.0" y="174.0" width="250" height="40" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="52.0" y="198.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#0b0b0b" font-weight="500" text-anchor="start">Q3 revenue by region</text>
+  <rect x="560.0" y="174.0" width="300" height="40" rx="9" fill="#ffffff" stroke="#9a9890" stroke-width="1.5"/>
+  <text x="572.0" y="198.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#0b0b0b" font-weight="500" text-anchor="start">Revenue by region, Q3 table…</text>
+  <rect x="40.0" y="230.0" width="250" height="40" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="52.0" y="254.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#0b0b0b" font-weight="500" text-anchor="start">Is the API rate-limited?</text>
+  <rect x="560.0" y="230.0" width="300" height="40" rx="9" fill="#ffffff" stroke="#9a9890" stroke-width="1.5"/>
+  <text x="572.0" y="254.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#0b0b0b" font-weight="500" text-anchor="start">Rate limits: 600 requests/min…</text>
+  <rect x="40.0" y="286.0" width="250" height="40" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="52.0" y="310.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#0b0b0b" font-weight="500" text-anchor="start">Parental leave policy</text>
+  <rect x="560.0" y="286.0" width="300" height="40" rx="9" fill="#ffffff" stroke="#9a9890" stroke-width="1.5"/>
+  <text x="572.0" y="310.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#0b0b0b" font-weight="500" text-anchor="start">Leave: 26 weeks for parents…</text>
+  <rect x="40.0" y="342.0" width="250" height="40" rx="9" fill="#ffffff" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="52.0" y="366.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#0b0b0b" font-weight="500" text-anchor="start">Which file formats are supported?</text>
+  <rect x="560.0" y="342.0" width="300" height="40" rx="9" fill="#ffffff" stroke="#9a9890" stroke-width="1.5"/>
+  <text x="572.0" y="366.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#0b0b0b" font-weight="500" text-anchor="start">Uploads: PDF, DOCX, CSV…</text>
+  <rect x="530.0" y="410.0" width="330" height="52" rx="9" fill="#fdeeee" stroke="#e34948" stroke-width="2.5"/>
+  <text x="542.0" y="440.5" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12.5" fill="#7f1d1d" font-weight="700" text-anchor="start">General FAQ: contact support, terms, account help…</text>
+  <text x="530.0" y="486.0" font-family="Space Mono, Consolas, Menlo, monospace" font-size="12.5" fill="#e34948" font-weight="700" text-anchor="start">HUB: in the top 3 for all six questions</text>
+  <text x="40.0" y="434.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#52514e" font-weight="400" text-anchor="start">Grey: the right chunk for each question.</text>
+  <text x="40.0" y="454.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#e34948" font-weight="600" text-anchor="start">Red: one generic chunk that is close to</text>
+  <text x="40.0" y="472.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#e34948" font-weight="600" text-anchor="start">everything, because it sits near the centre</text>
+  <text x="40.0" y="490.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#e34948" font-weight="600" text-anchor="start">of the embedding cloud.</text>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="900" height="380">
+  <defs><marker id="aInk" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0b0b0b"/></marker><marker id="aBlue" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2a78d6"/></marker><marker id="aRed" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e34948"/></marker><marker id="aMuted" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#52514e"/></marker><marker id="aYel" viewBox="0 0 10 10" refX="8.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b98a00"/></marker></defs>
+  <rect width="900" height="380" fill="#ffffff"/>
+  <line x1="70.0" y1="250.0" x2="382.0" y2="250.0" stroke="#e1e0d9" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 5"/>
+  <line x1="70.0" y1="250.0" x2="70.0" y2="88.0" stroke="#e1e0d9" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 5"/>
+  <line x1="70.0" y1="250.0" x2="-26.6" y2="305.8" stroke="#e1e0d9" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 5"/>
+  <line x1="70.0" y1="250.0" x2="310.0" y2="250.0" stroke="#0b0b0b" stroke-width="4" stroke-linecap="round" marker-end="url(#aInk)"/>
+  <line x1="310.0" y1="250.0" x2="310.0" y2="130.0" stroke="#b98a00" stroke-width="3" stroke-linecap="round" marker-end="url(#aYel)"/>
+  <line x1="310.0" y1="250.0" x2="245.6" y2="287.2" stroke="#b98a00" stroke-width="3" stroke-linecap="round" marker-end="url(#aYel)"/>
+  <line x1="70.0" y1="250.0" x2="310.0" y2="130.0" stroke="#2a78d6" stroke-width="3" stroke-linecap="round" marker-end="url(#aBlue)"/>
+  <line x1="70.0" y1="250.0" x2="245.6" y2="287.2" stroke="#2a78d6" stroke-width="3" stroke-linecap="round" marker-end="url(#aBlue)"/>
+  <path d="M310.0,230.8 L299.7,236.8 L299.7,256.0" fill="none" stroke="#b98a00" stroke-width="1.5"/>
+  <text x="322.0" y="255.0" font-family="Space Mono, Consolas, Menlo, monospace" font-size="13.5" fill="#0b0b0b" font-weight="700" text-anchor="start">c = shared part</text>
+  <text x="320.0" y="126.0" font-family="Space Mono, Consolas, Menlo, monospace" font-size="14" fill="#8a6400" font-weight="700" text-anchor="start">s_A</text>
+  <text x="233.6" y="305.2" font-family="Space Mono, Consolas, Menlo, monospace" font-size="14" fill="#8a6400" font-weight="700" text-anchor="end">s_B</text>
+  <text x="196.0" y="175.6" font-family="Space Mono, Consolas, Menlo, monospace" font-size="14" fill="#2a78d6" font-weight="700" text-anchor="end">A = c + s_A</text>
+  <text x="179.6" y="309.2" font-family="Space Mono, Consolas, Menlo, monospace" font-size="14" fill="#2a78d6" font-weight="700" text-anchor="end">B = c + s_B</text>
+  <circle cx="70" cy="250" r="4" fill="#52514e"/>
+  <text x="520.0" y="64.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="17" fill="#0b0b0b" font-weight="700" text-anchor="start">Two unrelated texts</text>
+  <text x="520.0" y="90.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">Their own meanings s_A and s_B point in</text>
+  <text x="520.0" y="110.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">unrelated (perpendicular) directions.</text>
+  <text x="520.0" y="130.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">Both also carry the shared component c.</text>
+  <rect x="520" y="150" width="340" height="78" rx="10" fill="#fcfcfb" stroke="#d9d8d0"/>
+  <text x="536.0" y="195.0" font-family="Space Mono, Consolas, Menlo, monospace" font-size="15" fill="#0b0b0b" font-weight="700" text-anchor="start">cos(A, B) =</text>
+  <text x="752.0" y="178.0" font-family="Space Mono, Consolas, Menlo, monospace" font-size="15" fill="#0b0b0b" font-weight="700" text-anchor="middle">‖c‖² + s_A·s_B</text>
+  <line x1="660.0" y1="189.0" x2="844.0" y2="189.0" stroke="#0b0b0b" stroke-width="1.5" stroke-linecap="butt"/>
+  <text x="752.0" y="211.0" font-family="Space Mono, Consolas, Menlo, monospace" font-size="15" fill="#0b0b0b" font-weight="700" text-anchor="middle">‖c‖² + ‖s‖²</text>
+  <text x="520.0" y="260.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#52514e" font-weight="400" text-anchor="start">With ‖c‖ = 2, ‖s‖ = 1 and s_A ⟂ s_B ⟂ c:</text>
+  <text x="520.0" y="290.0" font-family="Space Mono, Consolas, Menlo, monospace" font-size="19" fill="#e34948" font-weight="700" text-anchor="start">cos = 4 / (4 + 1) = 0.80</text>
+  <text x="520.0" y="316.0" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b0b0b" font-weight="600" text-anchor="start">The score measures c, not meaning.</text>
+</svg>

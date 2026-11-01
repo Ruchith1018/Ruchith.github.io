@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
     today.appendChild(el("span", null, "Today"));
     chart.appendChild(today);
 
+    const phoneRows = [];
     ordered.forEach((role) => {
       const card = role.item;
       const months = role.end - role.start + 1;
@@ -121,9 +122,36 @@ document.addEventListener("DOMContentLoaded", function () {
       bar.appendChild(el("span", null, durationText(months)));
       lane.appendChild(bar);
       chart.appendChild(lane);
+
+      // Phone row: the same role as a stacked list item with a mini timeline rail
+      const li = el("li");
+      const item = el("a", "track-item");
+      item.href = "#" + card.id;
+      if (logo) {
+        const img = el("img");
+        img.src = logo.getAttribute("src");
+        img.alt = "";
+        item.appendChild(img);
+      }
+      const itemText = el("div", "track-item-text");
+      itemText.appendChild(el("strong", null, card.dataset.role));
+      itemText.appendChild(el("span", null, card.dataset.label));
+      item.appendChild(itemText);
+      item.appendChild(el("em", null, `${range} · ${durationText(months)}`));
+      const rail = el("div", "track-item-rail");
+      const fill = el("i", `company-${companies.indexOf(card.dataset.label)}` + (role.current ? " is-current" : ""));
+      fill.style.left = bar.style.left;
+      fill.style.width = bar.style.width;
+      rail.appendChild(fill);
+      item.appendChild(rail);
+      li.appendChild(item);
+      phoneRows.unshift(li);
     });
 
-    track.append(labels, chart);
+    // phones: the chart is too narrow to read, so a stacked list (newest first) replaces it
+    const list = el("ol", "track-list");
+    phoneRows.forEach((row) => list.appendChild(row));
+    track.append(labels, chart, list);
   }
 
   // ----- Highlight a role opened via #exp-... -----

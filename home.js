@@ -210,7 +210,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const ghChart = document.getElementById('gh-chart');
   if (ghBlock && ghChart) {
     ghData
-      .then(({ days, total }) => { drawGithub(days, total); ghBlock.hidden = false; })
+      .then(({ days, total }) => {
+        drawGithub(days, total);
+        ghBlock.hidden = false;
+        // phones show only part of the year: start the scroll at the latest weeks
+        const ghScroll = ghChart.closest('.gh-scroll');
+        if (ghScroll && ghScroll.scrollWidth > ghScroll.clientWidth) ghScroll.scrollLeft = ghScroll.scrollWidth;
+      })
       .catch(() => { ghBlock.hidden = true; });
   }
 
@@ -316,6 +322,30 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // one row of the phone career list: logo, role, company, dates, and a mini timeline rail
+  function trackRow(href, logo, role, company, range, duration, left, width, companyIndex, current) {
+    const li = el('li');
+    const a = el('a', 'track-item');
+    a.href = href;
+    if (logo) {
+      const img = el('img');
+      img.src = logo;
+      img.alt = '';
+      a.appendChild(img);
+    }
+    const text = el('div', 'track-item-text');
+    text.append(el('strong', null, role), el('span', null, company));
+    const when = el('em', null, `${range} · ${duration}`);
+    const rail = el('div', 'track-item-rail');
+    const fill = el('i', `company-${companyIndex}` + (current ? ' is-current' : ''));
+    fill.style.left = left + '%';
+    fill.style.width = width + '%';
+    rail.appendChild(fill);
+    a.append(text, when, rail);
+    li.appendChild(a);
+    return li;
+  }
+
   // ----- Career track (same look as the Experience page) -----
   const ROLES = [
     { id: 'exp-chegg', role: 'Subject Matter Expert', company: 'Chegg', logo: 'Experience/chegg.jpg', start: '2023-11', end: '2025-09' },
@@ -370,6 +400,7 @@ document.addEventListener('DOMContentLoaded', function () {
     today.appendChild(el('span', null, 'Today'));
     chart.appendChild(today);
 
+    const phoneRows = [];
     roles.forEach(r => {
       const href = `Experience/experience.html#${r.id}`;
       const label = el('a', 'track-label');
@@ -394,8 +425,13 @@ document.addEventListener('DOMContentLoaded', function () {
       bar.append(el('strong', null, range), el('span', null, durationText(r.e - r.s + 1)));
       lane.appendChild(bar);
       chart.appendChild(lane);
+      phoneRows.unshift(trackRow(href, r.logo, r.role, r.company, range, durationText(r.e - r.s + 1),
+        pct(r.s), pct(r.e + 1) - pct(r.s), companies.indexOf(r.company), r.current));
     });
-    track.append(labels, chart);
+    // phones: the chart is too narrow to read, so a stacked list (newest first) replaces it
+    const list = el('ol', 'track-list');
+    phoneRows.forEach(row => list.appendChild(row));
+    track.append(labels, chart, list);
   }
 
   function drawGithub(days, totalFromApi) {
